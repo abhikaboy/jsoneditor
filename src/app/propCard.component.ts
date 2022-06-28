@@ -22,7 +22,6 @@ import { schema } from './jsonfiles/schema';
 
                     </div>
                 </div>
-                <input nbInput/>
                 <input nbInput  placeholder="String Field"/>
             </div>
         </div>
