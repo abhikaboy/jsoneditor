@@ -5,8 +5,11 @@ import { schema } from './jsonfiles/schema';
 @Component({
   selector: 'ref',
   template:`
-    <h5 class = "spacing">{{definitionName}}</h5>
+    <h5 class = "spacing" id= "inline">{{definitionName}}</h5>
       <div *ngIf='isOneOf'>
+        <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline">
+          <nb-radio *ngFor="let oneOf of def.oneOf | keyvalue" [value]="oneOf.key" id="inline">{{oneOf.key}}</nb-radio>
+        </nb-radio-group>
           <prop [props]=getOneOf()>
           </prop>
       </div>
@@ -21,18 +24,23 @@ export class RefComponent implements OnInit{
     definitionName: string | undefined;
     isOneOf: boolean = false;
     oneOfType: number = 0;
+    def : any;
     constructor(){
       this.definitionName = '';
     }
+    getOneOfProps(){
+      console.log()
+    }
     getOneOf(){
       const ret: any[] = [];
-      const def = schema.definitions[this.definitionName as keyof typeof schema.definitions];
       // console.log(def);
-      if(!def.hasOwnProperty('oneOf')) return {};
-      // console.log(this.oneOfType);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      if(!this.def.hasOwnProperty('oneOf')) return {};
+      // @ts-ignore
+      // if(def.oneOf)
+      console.log(this.def.oneOf);
+
         // @ts-ignore
-        const props = def.oneOf[this.oneOfType].properties;
+        const props = this.def.oneOf[this.oneOfType].properties;
         for (const prop in props){
           ret.push({...props[prop], name: prop});
         }
@@ -45,16 +53,16 @@ export class RefComponent implements OnInit{
     ngOnInit(): void {
         const path:string[] = this.ref.split("/");
         this.definitionName = path.pop();
-        const def = schema.definitions[this.definitionName as keyof typeof schema.definitions];
+        this.def = schema.definitions[this.definitionName as keyof typeof schema.definitions];
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        for(const prop in def.properties){
+        for(const prop in this.def.properties){
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            this.propKeys.push({...def.properties[prop], name: prop})
+            this.propKeys.push({...this.def.properties[prop], name: prop})
         }
         // console.log(this.propKeys);
-        this.isOneOf = def.hasOwnProperty("oneOf");
+        this.isOneOf = this.def.hasOwnProperty("oneOf");
         // console.log(`${this.isOneOf} ${this.definitionName}`); 
     }
     title = 'jsonTalkSoft';

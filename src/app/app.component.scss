@@ -12,12 +12,16 @@
 #save{
     width: 100%;
     text-align: center;
+    margin-top: 1vh;
 }
 .indent{
     margin-left: 5vw;
 }
 #inline{
     display: inline;
+}
+.smallIndent{
+    margin-left: 1vw;
 }
 .spacing{
     padding:1vh;

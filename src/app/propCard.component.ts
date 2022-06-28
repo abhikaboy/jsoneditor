@@ -62,7 +62,6 @@ export class PropComponent implements OnInit{
     }
     ngOnInit(): void {
         this.populateOptions();
-        console.log(this.options);
         // console.log(this.props);
         for(const prop in this.props){
             this.propKeys.push(prop);
