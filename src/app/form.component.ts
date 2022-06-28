@@ -7,7 +7,7 @@ import { schema } from './jsonfiles/schema';
   template:`
         <ul style="list-style-type:none;">
             <li *ngFor="let item of data">
-                <nb-card >
+                <nb-card status="success">
                     <nb-card-header style="text-align:center;font-size:1.2em">
                         {{item.name}}
                     </nb-card-header>
