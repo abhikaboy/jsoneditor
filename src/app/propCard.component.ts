@@ -8,12 +8,11 @@ import { schema } from './jsonfiles/schema';
   selector: 'prop',
   template:`
     <div *ngFor="let prop of propKeys" class="indent">
-    <p>{{getPropertyName(prop, props)}} </p>
-        <div [ngSwitch]='getPropertyType(prop, props)'>
+        <p id="inline">{{getPropertyName(prop, props)}} </p>
+        <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
-                <!-- hi im an array -->
-                {{getPropertyName(prop, props)}} is array
-                <div ngif='hasItems(prop,props)'>
+                <!-- {{getPropertyName(prop, props)}} is array -->
+                <div *ngIf='hasItems(prop,props)'>
                     <ref [ref]='getRef(prop,props)'></ref>
                 </div>
             </div>
@@ -24,6 +23,7 @@ import { schema } from './jsonfiles/schema';
                     </div>
                 </div>
                 <input nbInput/>
+                <input nbInput  placeholder="String Field"/>
             </div>
         </div>
 </div>
