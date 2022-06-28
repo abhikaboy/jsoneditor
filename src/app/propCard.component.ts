@@ -6,18 +6,16 @@ import { schema } from './jsonfiles/schema';
   selector: 'prop',
   template:`
     <div *ngFor="let prop of propKeys" class="indent">
-    <p>{{getPropertyName(prop, props)}} </p>
-        <div [ngSwitch]='getPropertyType(prop, props)'>
+        <p id="inline">{{getPropertyName(prop, props)}} </p>
+        <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
-                <!-- hi im an array -->
-                {{getPropertyName(prop, props)}} is array
-                <div ngif='hasItems(prop,props)'>
+                <!-- {{getPropertyName(prop, props)}} is array -->
+                <div *ngIf='hasItems(prop,props)'>
                     <ref [ref]='getRef(prop,props)'></ref>
                 </div>
-
             </div>
             <div *ngSwitchCase="'string'" style="display:inline">
-                <input nbInput/>
+                <input nbInput  placeholder="String Field"/>
             </div>
             
         </div>
@@ -47,7 +45,7 @@ export class PropComponent implements OnInit{
         return object[prop as keyof typeof object].items.$ref;
     }
     ngOnInit(): void {
-        // console.log(this.props);
+        console.log(this.props);
         for(const prop in this.props){
             this.propKeys.push(prop);
         }

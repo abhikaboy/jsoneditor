@@ -3,6 +3,9 @@
     margin-top: 5%;
     font-family: "Inter";
 }
+.body{
+    text-align: center;
+}
 .button{
         text-align: center;
 }
@@ -12,6 +15,14 @@
 }
 .indent{
     margin-left: 5vw;
+}
+#inline{
+    display: inline;
+}
+.spacing{
+    padding:1vh;
+    padding-top: 1vh;
+    margin:auto;
 }
 @font-face {
     font-family: Inter;

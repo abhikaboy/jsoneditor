@@ -13,7 +13,6 @@ import { schema } from './jsonfiles/schema';
                     </nb-card-header>
                     <nb-card-body>
                         <div *ngIf="item.hasOwnProperty('items')">
-                            Has Item Property
                             <ref ref ={{item.items.$ref}}> </ref>
                         </div>
                         <div *ngIf="item.hasOwnProperty('properties')">
