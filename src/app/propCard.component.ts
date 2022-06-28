@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 
+import { ConvertPropertyBindingResult } from '@angular/compiler/src/compiler_util/expression_converter';
 import { Component, Directive, Input, OnInit } from '@angular/core';
+import { NbChatOptions } from '@nebular/theme';
 import { schema } from './jsonfiles/schema';
 @Component({
   selector: 'prop',
@@ -19,9 +21,13 @@ import { schema } from './jsonfiles/schema';
                 </nb-list>
             </div>
             <div *ngSwitchCase="'string'" style="display:inline">
+                <div [ngSwitch]="getPropertyName(prop, props)">
+                    <div *ngSwitchCase="'actionType'">
+
+                    </div>
+                </div>
                 <input nbInput  placeholder="String Field"/>
             </div>
-            
         </div>
 </div>
 `,
@@ -30,8 +36,14 @@ import { schema } from './jsonfiles/schema';
 export class PropComponent implements OnInit{
     @Input() props!: Object; 
     propKeys : string[] = [];
+    options: string[] = [];
     constructor(){
     
+    }
+    populateOptions(): void{
+        for(const opt in schema.definitions.prompt.oneOf){
+            //
+        }
     }
     getPropertyType(prop: string, object: any): string{
         // console.log(object[prop as keyof typeof object]);
@@ -49,7 +61,9 @@ export class PropComponent implements OnInit{
         return object[prop as keyof typeof object].items.$ref;
     }
     ngOnInit(): void {
-        console.log(this.props);
+        this.populateOptions();
+        console.log(this.options);
+        // console.log(this.props);
         for(const prop in this.props){
             this.propKeys.push(prop);
         }
