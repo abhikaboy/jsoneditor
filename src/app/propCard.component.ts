@@ -5,18 +5,23 @@ import { schema } from './jsonfiles/schema';
 @Component({
   selector: 'prop',
   template:`
-    <ul *ngFor="let prop of propKeys">
-    {{prop}}
-        <div ngSwitch="props[prop as keyof typeof props].type">
-            <li *ngSwitchCase="'array'">
-                hi im an array
-            </li>
-            <li *ngSwitchCase="'string'">
-                hi im string
-            </li>
+    <div *ngFor="let prop of propKeys" class="indent">
+    <p>{{getPropertyName(prop, props)}} </p>
+        <div [ngSwitch]='getPropertyType(prop, props)'>
+            <div *ngSwitchCase="'array'">
+                <!-- hi im an array -->
+                {{getPropertyName(prop, props)}} is array
+                <div ngif='hasItems(prop,props)'>
+                    <ref [ref]='getRef(prop,props)'></ref>
+                </div>
+
+            </div>
+            <div *ngSwitchCase="'string'" style="display:inline">
+                <input nbInput/>
+            </div>
             
         </div>
-    </ul>
+</div>
 `,
   styleUrls: ['./app.component.scss']
 })
@@ -24,9 +29,25 @@ export class PropComponent implements OnInit{
     @Input() props!: Object; 
     propKeys : string[] = [];
     constructor(){
+    
+    }
+    getPropertyType(prop: string, object: any): string{
+        // console.log(object[prop as keyof typeof object]);
+        return object[prop as keyof typeof object].type;
+    }
+    getPropertyName(prop: string, object: any): string{
+        // console.log(object[prop as keyof typeof object]);
+        return object[prop as keyof typeof object].name;
+    }
+    hasItems(prop: string, object: any): boolean{
+        // console.log(object[prop as keyof typeof object]);
+        return object[prop as keyof typeof object].hasOwnProperty('items');
+    }
+    getRef(prop: string, object: any): string{
+        return object[prop as keyof typeof object].items.$ref;
     }
     ngOnInit(): void {
-        console.log(this.props);
+        // console.log(this.props);
         for(const prop in this.props){
             this.propKeys.push(prop);
         }

@@ -33,7 +33,7 @@ export class FormComponent implements OnInit{
         // console.log(schema);
         // console.log(schema.properties);
         for(const property in schema.properties){
-            console.log(property);
+            // console.log(property);
             this.data.push({...schema.properties[property as keyof typeof schema.properties], name: property});
         }
     }
