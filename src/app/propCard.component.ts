@@ -12,10 +12,14 @@ import { DropdownComponent } from './dropdown.component';
         <p id="inline">{{getPropertyName(prop, props)}} </p>
         <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
-                <!-- {{getPropertyName(prop, props)}} is array -->
-                <div *ngIf='hasItems(prop,props)'>
-                    <ref [ref]='getRef(prop,props)'></ref>
-                </div>
+                <nb-list>
+                    <!-- {{getPropertyName(prop, props)}} is array -->
+                    <nb-list-item>
+                        <div *ngIf='hasItems(prop,props)'>
+                            <ref [ref]='getRef(prop,props)'></ref>
+                        </div>
+                    </nb-list-item>
+                </nb-list>
             </div>
             <div *ngSwitchCase="'string'" style="display:inline">
                 <div [ngSwitch]="getPropertyName(prop, props)">
