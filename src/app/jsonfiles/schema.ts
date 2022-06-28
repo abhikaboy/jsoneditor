@@ -16,7 +16,6 @@ export const schema = {
       "type": "array",
       "minItems": 1,
       "items": {
-        "$ref": "#/definitions/prompt"
       }
     },
     "appointmentStep": {

@@ -3,7 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbButtonModule, NbCardModule, NbInputModule, NbListModule, NbListItemComponent, NbRadioComponent, NbRadioModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbButtonModule,
+   NbCardModule, NbInputModule, NbListModule, 
+   NbListItemComponent, NbRadioComponent, NbRadioModule,NbSelectModule,
+  NbToggleModule, 
+  NbCheckboxModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppRoutingModule } from './app-routing.module';
 import { FormComponent } from './form.component';
@@ -32,7 +36,10 @@ import { RefCardModule } from './refCard.module';
     NbListModule,
     NbRadioModule,
     FormsModule,
-    RefCardModule
+    RefCardModule,
+    NbSelectModule,
+    NbToggleModule,
+    NbCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

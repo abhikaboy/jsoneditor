@@ -4,11 +4,12 @@ import { ConvertPropertyBindingResult } from '@angular/compiler/src/compiler_uti
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { NbChatOptions } from '@nebular/theme';
 import { schema } from './jsonfiles/schema';
+import { DropdownComponent } from './dropdown.component';
 @Component({
-  selector: 'prop',
-  template:`
+    selector: 'prop',
+    template: `
     <div *ngFor="let prop of propKeys" class="indent">
-        <p id="inline">{{getPropertyName(prop, props)}} </p>
+        <p id="inline">{{getPropertyName(prop, props)}}: </p>
         <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
                 <nb-list>
@@ -21,49 +22,64 @@ import { schema } from './jsonfiles/schema';
                 </nb-list>
             </div>
             <div *ngSwitchCase="'string'" style="display:inline">
-                <div [ngSwitch]="getPropertyName(prop, props)">
+                <!-- <div [ngSwitch]="getPropertyName(prop, props)">
                     <div *ngSwitchCase="'actionType'">
-
+                        <dropdown [props] = options>
+                        </dropdown>
                     </div>
-                </div>
+                </div> -->
                 <input nbInput  placeholder="String Field"/>
+            </div>
+            <div *ngSwitchCase="'boolean'" style="display:inline"> 
+                <nb-checkbox (checkedChange)="toggle($event)">
+                </nb-checkbox>
             </div>
         </div>
 </div>
 `,
-  styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss']
 })
-export class PropComponent implements OnInit{
-    @Input() props!: Object; 
-    propKeys : string[] = [];
-    options: string[] = [];
-    constructor(){
-    
+export class PropComponent implements OnInit {
+    @Input() props!: Object;
+    propKeys: string[] = [];
+    oneOf: {} = {};
+    options: string[] = [];  
+    checked = false;
+    toggle(checked: boolean) {
+      this.checked = checked;
     }
-    populateOptions(): void{
-        for(const opt in schema.definitions.prompt.oneOf){
-            //
+
+    constructor() {
+    }
+
+    populateOptions(): void {
+        for(let i = 0; i < 2; i++){
+            let length = schema.definitions.prompt.oneOf[i].properties.promptType.enum.length;
+            for(let j = 0; j < length; j++){
+                this.options.push(schema.definitions.prompt.oneOf[i].properties.promptType.enum[j]);
+            }
+            // console.log(this.options)
         }
     }
-    getPropertyType(prop: string, object: any): string{
+    getPropertyType(prop: string, object: any): string {
         // console.log(object[prop as keyof typeof object]);
         return object[prop as keyof typeof object].type;
     }
-    getPropertyName(prop: string, object: any): string{
+    getPropertyName(prop: string, object: any): string {
         // console.log(object[prop as keyof typeof object]);
         return object[prop as keyof typeof object].name;
     }
-    hasItems(prop: string, object: any): boolean{
+    hasItems(prop: string, object: any): boolean {
         // console.log(object[prop as keyof typeof object]);
         return object[prop as keyof typeof object].hasOwnProperty('items');
     }
-    getRef(prop: string, object: any): string{
+    getRef(prop: string, object: any): string {
         return object[prop as keyof typeof object].items.$ref;
     }
     ngOnInit(): void {
         this.populateOptions();
         // console.log(this.props);
-        for(const prop in this.props){
+        for (const prop in this.props) {
             this.propKeys.push(prop);
         }
         // console.log(definitionName)

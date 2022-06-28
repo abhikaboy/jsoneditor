@@ -6,7 +6,7 @@ import { schema } from './jsonfiles/schema';
   selector: 'ref',
   template:`
     <h5 class = "spacing" id= "inline">{{definitionName}}</h5>
-      <div *ngIf='isOneOf'>
+      <div *ngIf='isOneOf' id= "inline">
         <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline">
           <nb-radio *ngFor="let oneOf of def.oneOf | keyvalue" [value]="oneOf.key" id="inline">{{oneOf.key}}</nb-radio>
         </nb-radio-group>
