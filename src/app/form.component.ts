@@ -14,19 +14,15 @@ import { PropertyComponent } from './property.component';
 `,
     styleUrls: ['./app.component.scss']
 })
-export class FormComponent implements OnInit {
-    data: any[] = [];
-    // definitions any[] = [];
-    definitions: any[] = [];
-    constructor() {
-        for (const subDef in schema.definitions) {
-            console.log(subDef);
-            this.definitions.push({ ...schema.definitions[subDef as keyof typeof schema.definitions], name: subDef })
-        }
-
-        for (const property in schema.properties) {
-            console.log(property);
-            this.data.push({ ...schema.properties[property as keyof typeof schema.properties], name: property });
+export class FormComponent implements OnInit{
+    data : any[] = [];
+    definitions: {} = {};
+    constructor(){
+        // console.log(schema);
+        // console.log(schema.properties);
+        for(const property in schema.properties){
+            // console.log(property);
+            this.data.push({...schema.properties[property as keyof typeof schema.properties], name: property});
         }
     }
     ngOnInit(): void {
