@@ -2,43 +2,36 @@
 
 import { Component, Directive, OnInit } from '@angular/core';
 import { schema } from './jsonfiles/schema';
+import { PropertyComponent } from './property.component';
 @Component({
-  selector: 'form',
-  template:`
+    selector: 'form',
+    template: `
         <ul style="list-style-type:none;">
             <li *ngFor="let item of data">
-                <nb-card >
-                    <nb-card-header style="text-align:center;font-size:1.2em">
-                        {{item.name}}
-                    </nb-card-header>
-                    <nb-card-body>
-                        <div *ngIf="item.hasOwnProperty('items')">
-                            Has Item Property
-                            <ref ref ={{item.items.$ref}}> </ref>
-                        </div>
-                        <div *ngIf="item.hasOwnProperty('properties')">
-                            <prop [props]=item.properties> </prop>
-                        </div>
-                    </nb-card-body>
-                </nb-card>
+                <property-card [props] = item ></property-card>
             </li>
         <ul>
 `,
-  styleUrls: ['./app.component.scss']
+    styleUrls: ['./app.component.scss']
 })
-export class FormComponent implements OnInit{
-    data : any[] = [];
-    definitions: {} = {};
-    constructor(){
-        // console.log(schema);
-        // console.log(schema.properties);
-        for(const property in schema.properties){
+export class FormComponent implements OnInit {
+    data: any[] = [];
+    // definitions any[] = [];
+    definitions: any[] = [];
+    constructor() {
+        for (const subDef in schema.definitions) {
+            console.log(subDef);
+            this.definitions.push({ ...schema.definitions[subDef as keyof typeof schema.definitions], name: subDef })
+        }
+
+        for (const property in schema.properties) {
             console.log(property);
-            this.data.push({...schema.properties[property as keyof typeof schema.properties], name: property});
+            this.data.push({ ...schema.properties[property as keyof typeof schema.properties], name: property });
         }
     }
     ngOnInit(): void {
         console.log(this.data);
+        console.log(this.definitions);
     }
     title = 'jsonTalkSoft';
 }

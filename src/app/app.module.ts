@@ -8,12 +8,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { FormComponent } from './form.component';
 import { RefComponent } from './refCard.component';
 import { PropComponent } from './propCard.component';
+import { PropertyComponent } from './property.component';
 @NgModule({
   declarations: [
     AppComponent,
     FormComponent,
     RefComponent,
     PropComponent,
+    PropertyComponent
   ],
   imports: [
     BrowserModule,

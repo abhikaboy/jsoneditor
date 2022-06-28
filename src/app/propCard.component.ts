@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { schema } from './jsonfiles/schema';
 @Component({
   selector: 'prop',
   template:`
@@ -14,7 +13,6 @@ import { schema } from './jsonfiles/schema';
             <li *ngSwitchCase="'string'">
                 hi im string
             </li>
-            
         </div>
     </ul>
 `,
@@ -30,8 +28,6 @@ export class PropComponent implements OnInit{
         for(const prop in this.props){
             this.propKeys.push(prop);
         }
-        // console.log(definitionName)
-        // console.log(def);
     }
     title = 'jsonTalkSoft';
 }
