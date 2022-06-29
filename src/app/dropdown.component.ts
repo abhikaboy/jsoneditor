@@ -4,18 +4,12 @@ import { Component, Directive, OnInit, Input } from '@angular/core';
 @Component({
     selector: 'dropdown',
     template: `
-        <nb-card size="small">
-            <nb-card-body>
-                <nb-select placeholder="Custom label" [(selected)]="selectedItem">
+            <nb-select placeholder="Custom label" [(selected)]="selectedItem">
                 <nb-select-label>
-                    Selected: {{ selectedItem }}
+                    {{ selectedItem }}
                 </nb-select-label>
-
-                  <nb-option *ngFor="let prop of this.props; let ind = index" value={{prop}}>{{prop}}</nb-option>
-
-                </nb-select>
-            </nb-card-body>
-        </nb-card>
+                <nb-option *ngFor="let prop of this.props; let ind = index" value={{prop}}>{{prop}}</nb-option>
+            </nb-select>
 `,
     styleUrls: ['./app.component.scss']
 })

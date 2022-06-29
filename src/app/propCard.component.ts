@@ -44,13 +44,12 @@ export class PropComponent implements OnInit {
     constructor() {
     }
 
-    populateOptions(): void {
+    populateOptions(prop: string): void {
         for(let i = 0; i < 2; i++){
             let length = schema.definitions.prompt.oneOf[i].properties.promptType.enum.length;
             for(let j = 0; j < length; j++){
                 this.options.push(schema.definitions.prompt.oneOf[i].properties.promptType.enum[j]);
             }
-            // console.log(this.options)
         }
     }
     getPropertyType(prop: string, object: any): string {
@@ -69,7 +68,7 @@ export class PropComponent implements OnInit {
         return object[prop as keyof typeof object].items.$ref;
     }
     ngOnInit(): void {
-        this.populateOptions();
+        this.populateOptions("fillin");
         // console.log(this.props);
         for (const prop in this.props) {
             this.propKeys.push(prop);
