@@ -21,14 +21,14 @@ import { DropdownComponent } from './dropdown.component';
                     </nb-list-item>
                 </nb-list>
             </div>
-            <div *ngSwitchCase="'string'" style="display:inline">
-                <!-- <div [ngSwitch]="getPropertyName(prop, props)">
-                    <div *ngSwitchCase="'actionType'">
-                        <dropdown [props] = options>
-                        </dropdown>
+            <div *ngSwitchCase="'string'" [ngSwitch]="getPropertyName(prop, props)" style="display:inline">
+                    <div *ngSwitchCase="'promptType'" style="display:inline">
+                        <dropdown [props] = options></dropdown>
                     </div>
-                </div> -->
-                <input nbInput  placeholder="String Field"/>
+                    <div *ngSwitchCase="'resourceType'" style="display:inline">
+                        <dropdown [props] = options></dropdown>
+                    </div>
+                    <!-- plenty more, action enum, action type, etc.  -->
             </div>
             <div *ngSwitchCase="'boolean'" style="display:inline"> 
                 <nb-checkbox (checkedChange)="toggle($event)">
@@ -52,13 +52,14 @@ export class PropComponent implements OnInit {
     constructor() {
     }
 
-    populateOptions(prop: string): void {
+    populateOptions(prop: string): string[] {
         for(let i = 0; i < 2; i++){
             let length = schema.definitions.prompt.oneOf[i].properties.promptType.enum.length;
             for(let j = 0; j < length; j++){
                 this.options.push(schema.definitions.prompt.oneOf[i].properties.promptType.enum[j]);
             }
         }
+        return this.options;
     }
     getPropertyType(prop: string, object: any): string {
         // console.log(object[prop as keyof typeof object]);
