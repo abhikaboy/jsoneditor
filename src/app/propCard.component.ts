@@ -9,7 +9,7 @@ import { DropdownComponent } from './dropdown.component';
     selector: 'prop',
     template: `
     <div *ngFor="let prop of propKeys" class="indent">
-        <p id="inline">{{getPropertyName(prop, props)}} </p>
+        <p id="inline">{{getPropertyName(prop, props)}}: </p>
         <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
                 <nb-list>
@@ -22,13 +22,17 @@ import { DropdownComponent } from './dropdown.component';
                 </nb-list>
             </div>
             <div *ngSwitchCase="'string'" style="display:inline">
-                <div [ngSwitch]="getPropertyName(prop, props)">
+                <!-- <div [ngSwitch]="getPropertyName(prop, props)">
                     <div *ngSwitchCase="'actionType'">
                         <dropdown [props] = options>
                         </dropdown>
                     </div>
-                </div>
+                </div> -->
                 <input nbInput  placeholder="String Field"/>
+            </div>
+            <div *ngSwitchCase="'boolean'" style="display:inline"> 
+                <nb-checkbox (checkedChange)="toggle($event)">
+                </nb-checkbox>
             </div>
         </div>
 </div>
@@ -39,7 +43,11 @@ export class PropComponent implements OnInit {
     @Input() props!: Object;
     propKeys: string[] = [];
     oneOf: {} = {};
-    options: string[] = [];
+    options: string[] = [];  
+    checked = false;
+    toggle(checked: boolean) {
+      this.checked = checked;
+    }
 
     constructor() {
     }
