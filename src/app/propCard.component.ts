@@ -23,12 +23,29 @@ import { DropdownComponent } from './dropdown.component';
             </div>
             <div *ngSwitchCase="'string'" [ngSwitch]="getPropertyName(prop, props)" style="display:inline">
                     <div *ngSwitchCase="'promptType'" style="display:inline">
+                        <dropdown [props] = this.optionKeys.prompt.promptType></dropdown>
+                    </div>
+                    <div *ngSwitchCase="'resource'" style="display:inline">
+                        <dropdown [props] = this.optionKeys.prompt.resource></dropdown>
+                    </div>
+                    <div *ngSwitchCase="'conditionType'" style="display:inline">
                         <dropdown [props] = options></dropdown>
                     </div>
-                    <div *ngSwitchCase="'resourceType'" style="display:inline">
+                    <div *ngSwitchCase="'value'" style="display:inline">
                         <dropdown [props] = options></dropdown>
                     </div>
-                    <!-- plenty more, action enum, action type, etc.  -->
+                    <div *ngSwitchCase="'actionType'" style="display:inline">
+                        <dropdown [props] = options></dropdown>
+                    </div>
+                    <div *ngSwitchCase="'actionEnum'" style="display:inline">
+                        <dropdown [props] = options></dropdown>
+                    </div>
+                    <div *ngSwitchCase="'selectionType'" style="display:inline">
+                        <dropdown [props] = options></dropdown>
+                    </div>
+                    <div *ngSwitchCase="'selectionValue'" style="display:inline">
+                        <dropdown [props] = options></dropdown>
+                    </div>
             </div>
             <div *ngSwitchCase="'boolean'" style="display:inline"> 
                 <nb-checkbox (checkedChange)="toggle($event)">
@@ -43,23 +60,41 @@ export class PropComponent implements OnInit {
     @Input() props!: Object;
     propKeys: string[] = [];
     oneOf: {} = {};
-    options: string[] = [];  
+    options: string[] = [];
+    optionKeys = {
+        prompt: {
+            promptType: ["Select"], //select is needed to set type as string 
+            resource: ["0"]
+        },
+        action: {
+            actionType: [],
+            actionEnum:[],
+            selectionType:[],
+            selectionValue:[]
+        },
+        condition: {
+            conditionType:[],
+            value:[]
+        }
+    }
     checked = false;
     toggle(checked: boolean) {
-      this.checked = checked;
+        this.checked = checked;
     }
 
     constructor() {
     }
 
-    populateOptions(prop: string): string[] {
-        for(let i = 0; i < 2; i++){
-            let length = schema.definitions.prompt.oneOf[i].properties.promptType.enum.length;
-            for(let j = 0; j < length; j++){
-                this.options.push(schema.definitions.prompt.oneOf[i].properties.promptType.enum[j]);
+    populateOptions(): void { //this needs to be streamlined - maybe store the arrays in a data structure or something idk
+        for (let i = 0; i < schema.definitions.prompt.oneOf.length; i++) {
+            //prompt type 
+            for (let j = 0; j < schema.definitions.prompt.oneOf[i].properties.promptType.enum.length; j++) {
+                this.optionKeys.prompt.promptType.push(schema.definitions.prompt.oneOf[i].properties.promptType.enum[j]);
             }
+            //resource
+            this.optionKeys.prompt.resource = this.optionKeys.prompt.resource.concat(schema.definitions.prompt.oneOf[i].properties.resource.pattern.split("|"));
         }
-        return this.options;
+        
     }
     getPropertyType(prop: string, object: any): string {
         // console.log(object[prop as keyof typeof object]);
@@ -77,13 +112,12 @@ export class PropComponent implements OnInit {
         return object[prop as keyof typeof object].items.$ref;
     }
     ngOnInit(): void {
-        this.populateOptions("fillin");
+        console.log(schema.definitions.prompt.oneOf[1].properties.resource.pattern.split("|"));
+        this.populateOptions();
         // console.log(this.props);
         for (const prop in this.props) {
             this.propKeys.push(prop);
         }
-        // console.log(definitionName)
-        // console.log(def);
     }
     title = 'jsonTalkSoft';
 }
