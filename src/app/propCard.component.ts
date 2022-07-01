@@ -14,7 +14,7 @@ import { DropdownComponent } from './dropdown.component';
             <div *ngSwitchCase="'array'">
                 <nb-list>
                     <!-- {{getPropertyName(prop, props)}} is array -->
-                    <nb-list-item>
+                    <nb-list-item *ngFor='let i of [0,1]'>
                         <div *ngIf='hasItems(prop,props)'>
                             <ref [ref]='getRef(prop,props)'></ref>
                         </div>
