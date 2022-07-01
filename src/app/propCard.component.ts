@@ -13,7 +13,6 @@ import { DropdownComponent } from './dropdown.component';
         <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
                 <nb-list>
-                    <!-- {{getPropertyName(prop, props)}} is array -->
                     <nb-list-item>
                         <div *ngIf='hasItems(prop,props)'>
                             <ref [ref]='getRef(prop,props)'></ref>
@@ -29,22 +28,22 @@ import { DropdownComponent } from './dropdown.component';
                         <dropdown [props] = this.optionKeys.prompt.resource></dropdown>
                     </div>
                     <div *ngSwitchCase="'conditionType'" style="display:inline">
-                        <dropdown [props] = options></dropdown>
+                        <dropdown [props] = this.optionKeys.condition.conditionType></dropdown>
                     </div>
                     <div *ngSwitchCase="'value'" style="display:inline">
-                        <dropdown [props] = options></dropdown>
+                        <dropdown [props] = this.optionKeys.condition.value></dropdown>
                     </div>
                     <div *ngSwitchCase="'actionType'" style="display:inline">
-                        <dropdown [props] = options></dropdown>
+                        <dropdown [props] = this.optionKeys.action.actionType></dropdown>
                     </div>
                     <div *ngSwitchCase="'actionEnum'" style="display:inline">
-                        <dropdown [props] = options></dropdown>
+                        <dropdown [props] = this.optionKeys.action.actionEnum></dropdown>
                     </div>
                     <div *ngSwitchCase="'selectionType'" style="display:inline">
-                        <dropdown [props] = options></dropdown>
+                        <dropdown [props] = this.optionKeys.action.selectionType></dropdown>
                     </div>
                     <div *ngSwitchCase="'selectionValue'" style="display:inline">
-                        <dropdown [props] = options></dropdown>
+                        <dropdown [props] = this.optionKeys.action.selectionValue></dropdown>
                     </div>
             </div>
             <div *ngSwitchCase="'boolean'" style="display:inline"> 
@@ -63,18 +62,18 @@ export class PropComponent implements OnInit {
     options: string[] = [];
     optionKeys = {
         prompt: {
-            promptType: ["Select"], //select is needed to set type as string 
-            resource: ["0"]
+            promptType: [""], //select is needed to set type as string 
+            resource: [""]
         },
         action: {
-            actionType: [],
-            actionEnum:[],
-            selectionType:[],
-            selectionValue:[]
+            actionType: [""],
+            actionEnum:[""],
+            selectionType:[""],
+            selectionValue:[""]
         },
         condition: {
-            conditionType:[],
-            value:[]
+            conditionType:[""],
+            value:[""]
         }
     }
     checked = false;
@@ -86,14 +85,39 @@ export class PropComponent implements OnInit {
     }
 
     populateOptions(): void { //this needs to be streamlined - maybe store the arrays in a data structure or something idk
-        for (let i = 0; i < schema.definitions.prompt.oneOf.length; i++) {
+        //prompts
+        for (var i = 0; i < schema.definitions.prompt.oneOf.length; i++) {
             //prompt type 
-            for (let j = 0; j < schema.definitions.prompt.oneOf[i].properties.promptType.enum.length; j++) {
+            for (var j = 0; j < schema.definitions.prompt.oneOf[i].properties.promptType.enum.length; j++) {
                 this.optionKeys.prompt.promptType.push(schema.definitions.prompt.oneOf[i].properties.promptType.enum[j]);
             }
-            //resource
+            //resource - string isn't completely processed
             this.optionKeys.prompt.resource = this.optionKeys.prompt.resource.concat(schema.definitions.prompt.oneOf[i].properties.resource.pattern.split("|"));
         }
+        //make below code reactive to radio buttons
+        for (var j = 0; j < schema.definitions.condition.oneOf[1].properties.conditionType.enum.length; j++) {
+            if(this.checked){
+                this.optionKeys.condition.value.push(schema.definitions.condition.oneOf[1].properties.conditionType.enum[j]);
+            }
+            else{
+                this.optionKeys.condition.value.push("true");
+                this.optionKeys.condition.value.push("false");
+            }
+        }
+        //actiontype
+        for(var x = 0; x < schema.definitions.action.properties.actionType.enum.length; x++){
+            this.optionKeys.action.actionType.push(schema.definitions.action.properties.actionType.enum[x]);
+        }
+        //actionEnum
+        for(var x = 0; x < schema.definitions.action.properties.actionEnum.enum.length; x++){
+            this.optionKeys.action.actionEnum.push(schema.definitions.action.properties.actionEnum.enum[x]);
+        }
+        //selectionType
+        for(var x = 0; x < schema.definitions.action.properties.selectionType.enum.length; x++){
+            this.optionKeys.action.selectionType.push(schema.definitions.action.properties.selectionType.enum[x]);
+        }
+        //selectionEnum
+        this.optionKeys.action.selectionValue = this.optionKeys.action.selectionValue.concat(schema.definitions.action.properties.selectionValue.pattern.split("|"));
         
     }
     getPropertyType(prop: string, object: any): string {
