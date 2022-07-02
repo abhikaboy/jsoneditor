@@ -8,58 +8,95 @@ import { DropdownComponent } from './dropdown.component';
 @Component({
     selector: 'prop',
     template: `
-    <div *ngFor="let prop of propKeys" class="indent">
+    <div *ngIf="propKeys.length == 0">
+        <!-- This is a reference array -->
+            <div *ngIf='isArray()'>
+            <arrayInput [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
+            </arrayInput>
+        </div>
+    </div>
+    <div *ngFor="let prop of propKeys" class="indent" >
+        <div *ngIf='hasParents()'>
         <p id="inline">{{getPropertyName(prop, props)}}: </p>
         <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
-                <nb-list>
-                    <!-- {{getPropertyName(prop, props)}} is array -->
-                    <nb-list-item *ngFor='let i of [0,1]'>
-                        <div *ngIf='hasItems(prop,props)'>
-                            <ref [ref]='getRef(prop,props)'></ref>
-                        </div>
-                    </nb-list-item>
-                </nb-list>
+                    <arrayInput route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
+                    </arrayInput>
             </div>
             <div *ngSwitchCase="'string'" style="display:inline">
-                <!-- <div [ngSwitch]="getPropertyName(prop, props)">
-                    <div *ngSwitchCase="'actionType'">
-                        <dropdown [props] = options>
-                        </dropdown>
-                    </div>
-                </div> -->
-                <input nbInput  placeholder="String Field"/>
+                    <stringInput route={{getPath(prop)}}>
+                    </stringInput>
             </div>
             <div *ngSwitchCase="'boolean'" style="display:inline"> 
-                <nb-checkbox (checkedChange)="toggle($event)">
-                </nb-checkbox>
+                    <boolInput route={{getPath(prop)}}>
+                    </boolInput>
             </div>
-        </div>
 </div>
+        </div>
+    </div>
 `,
     styleUrls: ['./app.component.scss']
 })
+/* 
+  Needs to know position in array
+  Needs to know object position in tree
+*/ 
 export class PropComponent implements OnInit {
     @Input() props!: Object;
+    @Input() parents!: String;
+    @Input() index: number | undefined | string;
+    @Input() ref: string | undefined;
+    @Input() type: string | undefined;
     propKeys: string[] = [];
     oneOf: {} = {};
-    options: string[] = [];  
-    checked = false;
-    toggle(checked: boolean) {
-      this.checked = checked;
+    options: string[] = [];
+    optionKeys = {
+        prompt: {
+            promptType: [""], //select is needed to set type as string 
+            resource: [""]
+        },
+        action: {
+            actionType: [""],
+            actionEnum:[""],
+            selectionType:[""],
+            selectionValue:[""]
+        },
+        condition: {
+            conditionType:[""],
+            value:[""]
+        }
+    }
+
+    getPathArray(){
+        return this.parents;
+    }
+    getPath(prop : any) {
+        // console.log(this.getPropertyType(prop,this.props));
+        let propName =  this.getPropertyName(prop, this.props);
+        if(propName == undefined){
+            propName='';
+        } else {
+            propName = "." +propName
+        }
+        if(this.getPropertyType(prop,this.props) == 'array') return this.parents + propName+`[${this.index}]`;
+        else return this.parents + propName;
+    }
+    hasParents():boolean{
+    //   console.log("from parents: " + this.parents);
+      return this.parents != undefined;
+    }
+    isArray():boolean{
+        if(this.type == undefined) return false;
+        return this.type == "array" || this.hasParents();
     }
 
     constructor() {
+        this.index = 0;
+        // console.log(this.parents);
+        // console.log(this.parents);
     }
-
-    populateOptions(): void {
-        for(let i = 0; i < 2; i++){
-            let length = schema.definitions.prompt.oneOf[i].properties.promptType.enum.length;
-            for(let j = 0; j < length; j++){
-                this.options.push(schema.definitions.prompt.oneOf[i].properties.promptType.enum[j]);
-            }
-            // console.log(this.options)
-        }
+    toNum(input : string): number{
+        return parseFloat(input);
     }
     getPropertyType(prop: string, object: any): string {
         // console.log(object[prop as keyof typeof object]);
@@ -67,23 +104,25 @@ export class PropComponent implements OnInit {
     }
     getPropertyName(prop: string, object: any): string {
         // console.log(object[prop as keyof typeof object]);
-        return object[prop as keyof typeof object].name;
+        if(object[prop as keyof typeof object].hasOwnProperty("name")) return object[prop as keyof typeof object].name;
+        else {
+            return prop;
+        };
+    }
+    getPropertyLength(prop: string, object: any){
+
     }
     hasItems(prop: string, object: any): boolean {
-        // console.log(object[prop as keyof typeof object]);
+        // console.log(object[prop as keyof typeof object].hasOwnProperty('items'));
         return object[prop as keyof typeof object].hasOwnProperty('items');
     }
     getRef(prop: string, object: any): string {
         return object[prop as keyof typeof object].items.$ref;
     }
     ngOnInit(): void {
-        this.populateOptions();
-        // console.log(this.props);
         for (const prop in this.props) {
             this.propKeys.push(prop);
         }
-        // console.log(definitionName)
-        // console.log(def);
     }
     title = 'jsonTalkSoft';
 }

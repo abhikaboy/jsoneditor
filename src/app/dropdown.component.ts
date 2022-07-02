@@ -4,21 +4,17 @@ import { Component, Directive, OnInit, Input } from '@angular/core';
 @Component({
     selector: 'dropdown',
     template: `
-        <nb-card>
-            <nb-card-body>
-                <nb-select placeholder="Custom label" [(selected)]="selectedItem">
-                <nb-select-label>
-                    Selected: {{ selectedItem }}
-                </nb-select-label>
-                  <nb-option *ngFor="let prop of this.props; let ind = index" value={{prop}}>{{prop}}</nb-option>
-                </nb-select>
-            </nb-card-body>
-        </nb-card>
+        <div style="display:inline">
+            <nb-select  placeholder="Select" [(selected)]="selectedItem">
+                <nb-select-label>{{ selectedItem }}</nb-select-label>
+                    <nb-option *ngFor="let prop of this.props; let ind = index" value={{prop}}>{{prop}}</nb-option>
+            </nb-select>
+        </div>
 `,
     styleUrls: ['./app.component.scss']
 })
 export class DropdownComponent implements OnInit {
-    @Input() props!: any[];
+    @Input() props!: string[];
 
     selectedItem: string = "";
 

@@ -6,20 +6,30 @@ import { schema } from './jsonfiles/schema';
   selector: 'ref',
   template:`
     <h5 class = "spacing" id= "inline">{{definitionName}}</h5>
-      <div *ngIf='isOneOf' id= "inline">
-        <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline">
-          <nb-radio *ngFor="let oneOf of def.oneOf | keyvalue" [value]="oneOf.key" id="inline">{{oneOf.key}}</nb-radio>
-        </nb-radio-group>
-          <prop [props]=getOneOf()>
-          </prop>
+      <div *ngIf='hasParents()'>
+        <div *ngIf='isOneOf' id= "inline">
+              <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline">
+                <nb-radio *ngFor="let oneOf of def.oneOf | keyvalue" [value]="oneOf.key" id="inline">{{oneOf.key}}</nb-radio>
+              </nb-radio-group>
+              <prop [props]=getOneOf() index={{this.index}}  parents={{getPath()}}>
+              </prop>
+        </div>
       </div>
-      <prop [props]=propKeys #normalProp> 
-      </prop> 
+      <div *ngIf='hasParents()'>
+          <prop [props]=propKeys #normalProp  index={{this.index}} parents={{getPath()}}> 
+            </prop> 
+      </div>
   `,
   styleUrls: ['./app.component.scss']
 })
+/* 
+  Needs to know position in array
+  Needs to know object position in tree
+*/ 
 export class RefComponent implements OnInit{
-    @Input() ref!: string; 
+    @Input() ref!: string | undefined; 
+    @Input() parents!: string; 
+    @Input() index: number | undefined | string;
     propKeys : string[] = [];
     definitionName: string | undefined;
     isOneOf: boolean = false;
@@ -27,9 +37,19 @@ export class RefComponent implements OnInit{
     def : any;
     constructor(){
       this.definitionName = '';
+      // this.index = 0;
+      // console.log(this.parents)
+    }
+    hasParents():boolean{
+      // console.log("from parents: " + this.parents);
+      return this.parents != undefined;
+    }
+    getPath() {
+      if(this.index != undefined) return this.parents + `[${this.index}]`;
+      return this.parents;
     }
     getOneOfProps(){
-      console.log()
+      // console.log()
     }
     getOneOf(){
       const ret: any[] = [];
@@ -37,7 +57,7 @@ export class RefComponent implements OnInit{
       if(!this.def.hasOwnProperty('oneOf')) return {};
       // @ts-ignore
       // if(def.oneOf)
-      console.log(this.def.oneOf);
+      // console.log(this.def.oneOf);
 
         // @ts-ignore
         const props = this.def.oneOf[this.oneOfType].properties;
@@ -51,6 +71,9 @@ export class RefComponent implements OnInit{
       return propKeys[prop as  keyof typeof propKeys];
     }
     ngOnInit(): void {
+        console.log(this.ref)
+        console.log(this.parents)
+        // @ts-ignore
         const path:string[] = this.ref.split("/");
         this.definitionName = path.pop();
         this.def = schema.definitions[this.definitionName as keyof typeof schema.definitions];
