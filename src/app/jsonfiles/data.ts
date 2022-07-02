@@ -1,4 +1,4 @@
-{
+export const data = {
     "greetingStep": [{
             "promptType": "playMulti",
             "resource": "159,112",

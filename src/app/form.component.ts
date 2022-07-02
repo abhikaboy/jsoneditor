@@ -13,10 +13,12 @@ import { schema } from './jsonfiles/schema';
                     </nb-card-header>
                     <nb-card-body>
                             <div *ngIf="item.hasOwnProperty('items')">
-                                <ref ref ={{item.items.$ref}}> </ref>
+                                <!-- <ref ref ={{item.items.$ref}} parents="schema.properties.{{item.name}}"> </ref> -->
+                                <prop  ref ={{item.items.$ref}} [props]=item.properties parents="{{item.name}}" type={{item.type}}> </prop>
+
                             </div>
                             <div *ngIf="item.hasOwnProperty('properties')">
-                                <prop [props]=item.properties> </prop>
+                                <prop [props]=item.properties parents="{{item.name}}"> </prop>
                             </div>
                     </nb-card-body>
                 </nb-card>
@@ -37,7 +39,7 @@ export class FormComponent implements OnInit {
         }
     }
     ngOnInit(): void {
-        console.log(this.data);
+        // console.log(this.data);
     }
     title = 'jsonTalkSoft';
 }

@@ -15,6 +15,9 @@ import { RefComponent } from './refCard.component';
 import { PropComponent } from './propCard.component';
 import { DropdownComponent } from './dropdown.component';
 import { RefCardModule } from './refCard.module';
+import { StringInputComponent } from './stringInput.component';
+import { BooleanInputComponent } from './booleanInput.component';
+import { ArrayInputComponent } from './arrayInput.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,6 +25,9 @@ import { RefCardModule } from './refCard.module';
     RefComponent,
     PropComponent,
     DropdownComponent,
+    StringInputComponent,
+    BooleanInputComponent,
+    ArrayInputComponent,
   ],
   imports: [
     BrowserModule,

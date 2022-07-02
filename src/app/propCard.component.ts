@@ -8,55 +8,45 @@ import { DropdownComponent } from './dropdown.component';
 @Component({
     selector: 'prop',
     template: `
-    <div *ngFor="let prop of propKeys" class="indent">
+    <div *ngIf="propKeys.length == 0">
+        <!-- This is a reference array -->
+            <div *ngIf='isArray()'>
+            <arrayInput [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
+            </arrayInput>
+        </div>
+    </div>
+    <div *ngFor="let prop of propKeys" class="indent" >
+        <div *ngIf='hasParents()'>
         <p id="inline">{{getPropertyName(prop, props)}}: </p>
         <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
-                <nb-list>
-                    <nb-list-item>
-                        <div *ngIf='hasItems(prop,props)'>
-                            <ref [ref]='getRef(prop,props)'></ref>
-                        </div>
-                    </nb-list-item>
-                </nb-list>
+                    <arrayInput route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
+                    </arrayInput>
             </div>
-            <div *ngSwitchCase="'string'" [ngSwitch]="getPropertyName(prop, props)" style="display:inline">
-                    <div *ngSwitchCase="'promptType'" style="display:inline">
-                        <dropdown [props] = this.optionKeys.prompt.promptType></dropdown>
-                    </div>
-                    <div *ngSwitchCase="'resource'" style="display:inline">
-                        <dropdown [props] = this.optionKeys.prompt.resource></dropdown>
-                    </div>
-                    <div *ngSwitchCase="'conditionType'" style="display:inline">
-                        <dropdown [props] = this.optionKeys.condition.conditionType></dropdown>
-                    </div>
-                    <div *ngSwitchCase="'value'" style="display:inline">
-                        <dropdown [props] = this.optionKeys.condition.value></dropdown>
-                    </div>
-                    <div *ngSwitchCase="'actionType'" style="display:inline">
-                        <dropdown [props] = this.optionKeys.action.actionType></dropdown>
-                    </div>
-                    <div *ngSwitchCase="'actionEnum'" style="display:inline">
-                        <dropdown [props] = this.optionKeys.action.actionEnum></dropdown>
-                    </div>
-                    <div *ngSwitchCase="'selectionType'" style="display:inline">
-                        <dropdown [props] = this.optionKeys.action.selectionType></dropdown>
-                    </div>
-                    <div *ngSwitchCase="'selectionValue'" style="display:inline">
-                        <dropdown [props] = this.optionKeys.action.selectionValue></dropdown>
-                    </div>
+            <div *ngSwitchCase="'string'" style="display:inline">
+                    <stringInput route={{getPath(prop)}}>
+                    </stringInput>
             </div>
             <div *ngSwitchCase="'boolean'" style="display:inline"> 
-                <nb-checkbox (checkedChange)="toggle($event)">
-                </nb-checkbox>
+                    <boolInput route={{getPath(prop)}}>
+                    </boolInput>
             </div>
-        </div>
 </div>
+        </div>
+    </div>
 `,
     styleUrls: ['./app.component.scss']
 })
+/* 
+  Needs to know position in array
+  Needs to know object position in tree
+*/ 
 export class PropComponent implements OnInit {
     @Input() props!: Object;
+    @Input() parents!: String;
+    @Input() index: number | undefined | string;
+    @Input() ref: string | undefined;
+    @Input() type: string | undefined;
     propKeys: string[] = [];
     oneOf: {} = {};
     options: string[] = [];
@@ -76,49 +66,37 @@ export class PropComponent implements OnInit {
             value:[""]
         }
     }
-    checked = false;
-    toggle(checked: boolean) {
-        this.checked = checked;
+
+    getPathArray(){
+        return this.parents;
+    }
+    getPath(prop : any) {
+        // console.log(this.getPropertyType(prop,this.props));
+        let propName =  this.getPropertyName(prop, this.props);
+        if(propName == undefined){
+            propName='';
+        } else {
+            propName = "." +propName
+        }
+        if(this.getPropertyType(prop,this.props) == 'array') return this.parents + propName+`[${this.index}]`;
+        else return this.parents + propName;
+    }
+    hasParents():boolean{
+    //   console.log("from parents: " + this.parents);
+      return this.parents != undefined;
+    }
+    isArray():boolean{
+        if(this.type == undefined) return false;
+        return this.type == "array" || this.hasParents();
     }
 
     constructor() {
+        this.index = 0;
+        // console.log(this.parents);
+        // console.log(this.parents);
     }
-
-    populateOptions(): void { //this needs to be streamlined - maybe store the arrays in a data structure or something idk
-        //prompts
-        for (var i = 0; i < schema.definitions.prompt.oneOf.length; i++) {
-            //prompt type 
-            for (var j = 0; j < schema.definitions.prompt.oneOf[i].properties.promptType.enum.length; j++) {
-                this.optionKeys.prompt.promptType.push(schema.definitions.prompt.oneOf[i].properties.promptType.enum[j]);
-            }
-            //resource - string isn't completely processed
-            this.optionKeys.prompt.resource = this.optionKeys.prompt.resource.concat(schema.definitions.prompt.oneOf[i].properties.resource.pattern.split("|"));
-        }
-        //make below code reactive to radio buttons
-        for (var j = 0; j < schema.definitions.condition.oneOf[1].properties.conditionType.enum.length; j++) {
-            if(this.checked){
-                this.optionKeys.condition.value.push(schema.definitions.condition.oneOf[1].properties.conditionType.enum[j]);
-            }
-            else{
-                this.optionKeys.condition.value.push("true");
-                this.optionKeys.condition.value.push("false");
-            }
-        }
-        //actiontype
-        for(var x = 0; x < schema.definitions.action.properties.actionType.enum.length; x++){
-            this.optionKeys.action.actionType.push(schema.definitions.action.properties.actionType.enum[x]);
-        }
-        //actionEnum
-        for(var x = 0; x < schema.definitions.action.properties.actionEnum.enum.length; x++){
-            this.optionKeys.action.actionEnum.push(schema.definitions.action.properties.actionEnum.enum[x]);
-        }
-        //selectionType
-        for(var x = 0; x < schema.definitions.action.properties.selectionType.enum.length; x++){
-            this.optionKeys.action.selectionType.push(schema.definitions.action.properties.selectionType.enum[x]);
-        }
-        //selectionEnum
-        this.optionKeys.action.selectionValue = this.optionKeys.action.selectionValue.concat(schema.definitions.action.properties.selectionValue.pattern.split("|"));
-        
+    toNum(input : string): number{
+        return parseFloat(input);
     }
     getPropertyType(prop: string, object: any): string {
         // console.log(object[prop as keyof typeof object]);
@@ -126,19 +104,22 @@ export class PropComponent implements OnInit {
     }
     getPropertyName(prop: string, object: any): string {
         // console.log(object[prop as keyof typeof object]);
-        return object[prop as keyof typeof object].name;
+        if(object[prop as keyof typeof object].hasOwnProperty("name")) return object[prop as keyof typeof object].name;
+        else {
+            return prop;
+        };
+    }
+    getPropertyLength(prop: string, object: any){
+
     }
     hasItems(prop: string, object: any): boolean {
-        // console.log(object[prop as keyof typeof object]);
+        // console.log(object[prop as keyof typeof object].hasOwnProperty('items'));
         return object[prop as keyof typeof object].hasOwnProperty('items');
     }
     getRef(prop: string, object: any): string {
         return object[prop as keyof typeof object].items.$ref;
     }
     ngOnInit(): void {
-        console.log(schema.definitions.prompt.oneOf[1].properties.resource.pattern.split("|"));
-        this.populateOptions();
-        // console.log(this.props);
         for (const prop in this.props) {
             this.propKeys.push(prop);
         }
