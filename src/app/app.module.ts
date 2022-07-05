@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbButtonModule,
-   NbCardModule, NbInputModule, NbListModule, 
+   NbCardModule, NbInputModule, NbListModule, NbStepperModule,
    NbListItemComponent, NbRadioComponent, NbRadioModule,NbSelectModule,
   NbToggleModule, 
   NbCheckboxModule,
   NbAccordionComponent,
-  NbAccordionModule} from '@nebular/theme';
+  NbAccordionModule,
+  NbStepperComponent} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppRoutingModule } from './app-routing.module';
 import { FormComponent } from './form.component';
@@ -49,6 +50,7 @@ import { ArrayInputComponent } from './arrayInput.component';
     NbToggleModule,
     NbCheckboxModule,
     NbAccordionModule,
+    NbStepperModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
