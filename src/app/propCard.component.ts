@@ -11,7 +11,7 @@ import { DropdownComponent } from './dropdown.component';
     <div *ngIf="propKeys.length == 0">
         <!-- This is a reference array -->
             <div *ngIf='isArray()'>
-            <arrayInput name="beans" [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
+            <arrayInput name="list" [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
             </arrayInput>
         </div>
     </div>

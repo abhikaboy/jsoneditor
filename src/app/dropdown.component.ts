@@ -14,25 +14,13 @@ import { Component, Directive, OnInit, Input } from '@angular/core';
     styleUrls: ['./app.component.scss']
 })
 export class DropdownComponent implements OnInit {
-<<<<<<< HEAD
     @Input() options!: string[];
     @Input() selectedItem!: any;
-=======
-    @Input() props!: string[];
-
-    options: string[] = [];
-
-    selectedItem: string = "";
->>>>>>> 3abb5047166662c50fe58a565d0d863be3579507
 
     constructor() {
     }
     ngOnInit(): void {
-<<<<<<< HEAD
         console.log(this.options);
-=======
-        this.options = this.props.slice(1, this.props.length);
->>>>>>> 3abb5047166662c50fe58a565d0d863be3579507
     }
     title = 'jsonTalkSoft';
 }
