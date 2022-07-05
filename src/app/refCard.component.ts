@@ -6,7 +6,7 @@ import { schema } from './jsonfiles/schema';
 @Component({
   selector: 'ref',
   template:`
-    <h5 class = "spacing" id= "inline">{{definitionName}}</h5>
+    <h5 class = "spacing" id= "inline">{{definitionName + " " +indexLabel}}</h5>
       <div *ngIf='hasParents()'>
         <div *ngIf='isOneOf' id= "inline">
               <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline"> 
@@ -31,6 +31,7 @@ export class RefComponent implements OnInit{
     @Input() ref!: string | undefined; 
     @Input() parents!: string; 
     @Input() index: number | undefined | string;
+    @Input() indexLabel: string | number;
     propKeys : string[] = [];
     definitionName: string | undefined;
     isOneOf: boolean = false;
@@ -39,6 +40,7 @@ export class RefComponent implements OnInit{
     keys: string[] = []; 
     constructor(){
       this.definitionName = '';
+      this.indexLabel = ''
       // this.index = 0;
     }
     hasParents():boolean{
@@ -86,13 +88,13 @@ export class RefComponent implements OnInit{
             this.propKeys.push({...this.def.properties[prop], name: prop})
         }
         this.isOneOf = this.def.hasOwnProperty("oneOf");
-
-        this.keys = Object.keys(this.def.oneOf);
+        if(this.isOneOf) {this.keys = Object.keys(this.def.oneOf)
 
         for(let oneOf in Object.keys(this.def.oneOf)){
           console.log(oneOf);
           console.log(this.def.oneOf[oneOf]);
         }
+      }
         // console.log(`${this.isOneOf} ${this.definitionName}`); 
     }
     title = 'jsonTalkSoft';
