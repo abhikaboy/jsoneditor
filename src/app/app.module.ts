@@ -7,7 +7,9 @@ import { NbThemeModule, NbLayoutModule, NbButtonModule,
    NbCardModule, NbInputModule, NbListModule, 
    NbListItemComponent, NbRadioComponent, NbRadioModule,NbSelectModule,
   NbToggleModule, 
-  NbCheckboxModule} from '@nebular/theme';
+  NbCheckboxModule,
+  NbAccordionComponent,
+  NbAccordionModule} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppRoutingModule } from './app-routing.module';
 import { FormComponent } from './form.component';
@@ -45,7 +47,8 @@ import { ArrayInputComponent } from './arrayInput.component';
     RefCardModule,
     NbSelectModule,
     NbToggleModule,
-    NbCheckboxModule
+    NbCheckboxModule,
+    NbAccordionModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

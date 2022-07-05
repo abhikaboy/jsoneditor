@@ -8,32 +8,30 @@ import { schema } from './jsonfiles/schema';
     selector: 'arrayInput',
     template: `
                 <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
-                
-                    <div *ngIf='hasNoRef()'>
-                        <nb-list>  
-                        <nb-list-item  *ngFor='let i of getData(); let index = index'>
-                            <div *ngIf='hasItems(prop,props)'>
-                                <ref [ref]='getRef(prop,props)' [indexLabel] = 'index+1' parents={{getPath(prop)}}>
-                                    </ref>
-                                </div>
-                            </nb-list-item>
-                            <nb-list-item>
-                                <div *ngIf='isEmpty()'>
-                                    <p>none</p>
-                                </div>
-                            </nb-list-item>
-                </nb-list>
-                    </div >
-                    <div *ngIf='hasRef()'>
-                <nb-list>
-                        <nb-list-item *ngFor='let item of getDataRef(); let i = index'>
+                <nb-accordion *ngIf='hasNoRef()'>
+                            <nb-accordion-item  *ngFor='let i of getData(); let index = index'>
+                                <nb-accordion-item-header>{{getItemTitle(prop,props) + (index + 1)}}</nb-accordion-item-header>
+                                <nb-accordion-item-body>
+                                    <div *ngIf='hasItems(prop,props)'>
+                                        <ref [ref]='getRef(prop,props)' parents={{getPath(prop)}}>
+                                        </ref>
+                                    </div>
+                                </nb-accordion-item-body>
+                            </nb-accordion-item  >
+                                <nb-accordion-item *ngIf='isEmpty()' >
+                                    <nb-accordion-item-header>empty</nb-accordion-item-header>
+                            </nb-accordion-item>
+                    </nb-accordion>
+                    <nb-accordion *ngIf='hasRef()'>
+                        <nb-accordion-item *ngFor='let item of getDataRef(); let i = index'>
+                            <nb-accordion-item-header>{{this.getRefTitle()+ " " + (i+1)}}</nb-accordion-item-header>
+                                <nb-accordion-item-body>
                             <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
                             </ref>
-                        </nb-list-item>    
-                </nb-list>
-</div>
-                    
-`,
+                                </nb-accordion-item-body>
+                        </nb-accordion-item>    
+                    </nb-accordion >
+                    `,
     styleUrls: ['./app.component.scss']
 })
 
@@ -55,6 +53,15 @@ export class ArrayInputComponent implements OnInit {
     }
     hasNoRef() : boolean{
         return (this.ref == undefined);
+    }
+    getItemTitle(prop: string,object:any) : string{
+        const ret = this.getRef(prop,object).split("/").pop();
+        if(ret == undefined) return "Item";
+        return `${ret} `;
+    }
+    getRefTitle() : string{
+        if(this.ref == undefined) return "item";
+        return this.ref.split("/").pop() || "deafult";
     }
     getPath(prop : any) {
         let propName =  this.getPropertyName(prop, this.props);

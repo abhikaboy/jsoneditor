@@ -6,7 +6,12 @@ import { schema } from './jsonfiles/schema';
 @Component({
   selector: 'ref',
   template:`
-    <h5 class = "spacing" id= "inline">{{definitionName + " " +indexLabel}}</h5>
+    <!-- <nb-accordion>
+ <nb-accordion-item>
+      <nb-accordion-item-header> -->
+        <h5 class = "spacing" id= "inline">{{definitionName + " " +indexLabel}}</h5>
+  <!-- </nb-accordion-item-header>
+  <nb-accordion-item-body> -->
       <div *ngIf='hasParents()'>
         <div *ngIf='isOneOf' id= "inline">
               <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline"> 
@@ -20,6 +25,10 @@ import { schema } from './jsonfiles/schema';
           <prop [props]=propKeys #normalProp  index={{this.index}} parents={{getPath()}}> 
             </prop> 
       </div>
+<!-- </nb-accordion-item-body>
+</nb-accordion-item>
+  </nb-accordion> -->
+
   `,
   styleUrls: ['./app.component.scss']
 })
