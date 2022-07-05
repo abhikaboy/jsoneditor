@@ -7,6 +7,7 @@ import { schema } from './jsonfiles/schema';
 @Component({
     selector: 'arrayInput',
     template: `
+                <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny">+</button>
                 <nb-list>  
                     <nb-list-item  *ngIf='hasNoRef()'>
                         <div *ngFor='let i of getData()'>
@@ -42,6 +43,7 @@ export class ArrayInputComponent implements OnInit {
     @Input() props! : Object;
     @Input() index! : any;
     @Input() ref : string | undefined;
+    @Input() name! : string;
     constructor() {
         this.index = 0;
     }
@@ -104,31 +106,16 @@ export class ArrayInputComponent implements OnInit {
             const routes = currentRoute.split("."); // establishes levels of nesting 
             let currentLocation = data;
             for(const route of routes){ 
-                // ['actionsStep[0][0]', 'actionType']
                 currentLocation = this.dig(route, currentLocation); 
             }
-            // console.log(currentLocation);
-            // console.warn("-----");
             // @ts-ignore
             return currentLocation;
     }
     getDataRef() : Object[]{
-            // let currentRoute = this.route;
-            // const routes = currentRoute.split("."); // establishes levels of nesting 
-            // let currentLocation = data;
-            // for(const route of routes){ 
-            //     // ['actionsStep[0][0]', 'actionType']
-            //     currentLocation = this.dig(route, currentLocation); 
-            // }
-            // console.log(currentLocation);
-            // console.warn("-----");
             // @ts-ignore
             return data[this.route];  
     }
     dig(route : string, input:any){
-        // console.log("route: " + route);
-        // console.log(input);
-        // property
         if(!route.includes("["))
         { 
             try{

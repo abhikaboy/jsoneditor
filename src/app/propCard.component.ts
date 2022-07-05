@@ -11,23 +11,24 @@ import { DropdownComponent } from './dropdown.component';
     <div *ngIf="propKeys.length == 0">
         <!-- This is a reference array -->
             <div *ngIf='isArray()'>
-            <arrayInput [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
+            <arrayInput name="beans" [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
             </arrayInput>
         </div>
     </div>
     <div *ngFor="let prop of propKeys" class="indent" >
         <div *ngIf='hasParents()'>
-        <p id="inline">{{getPropertyName(prop, props)}}: </p>
         <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
             <div *ngSwitchCase="'array'">
-                    <arrayInput route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
+                    <arrayInput [name] ='getPropertyName(prop, props)' route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
                     </arrayInput>
             </div>
             <div *ngSwitchCase="'string'" style="display:inline">
-                    <stringInput route={{getPath(prop)}}>
+                    <p id="inline">{{getPropertyName(prop, props)}}: </p>
+                    <stringInput route={{getPath(prop)}} [prop]='getPropfromKeys(prop,propKeys)' [prop] = 'prop' [props] = 'props'>
                     </stringInput>
             </div>
             <div *ngSwitchCase="'boolean'" style="display:inline"> 
+                    <p id="inline">{{getPropertyName(prop, props)}}: </p>
                     <boolInput route={{getPath(prop)}}>
                     </boolInput>
             </div>
@@ -66,7 +67,9 @@ export class PropComponent implements OnInit {
             value:[""]
         }
     }
-
+    getPropfromKeys(prop:any, props:any){
+        return props[prop];
+    }
     getPathArray(){
         return this.parents;
     }

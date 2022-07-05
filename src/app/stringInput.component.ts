@@ -7,12 +7,21 @@ import { schema } from './jsonfiles/schema';
 @Component({
     selector: 'stringInput',
     template: `
-        <input nbInput [value]="getData()" />
+        <div *ngIf="!hasEnum; else dropdown">    
+            <input nbInput [value]="getData()" />
+        </div>
+        <ng-template #dropdown>
+            <dropdown [options]="options" [selectedItem]="getData()"></dropdown>
+        </ng-template>
 `,
     styleUrls: ['./app.component.scss']
 })
 export class StringInputComponent implements OnInit {
     @Input() route! : String;
+    @Input() prop : any;
+    @Input() props : any;
+    hasEnum = false;
+    options = [];
     constructor() {
     }
     getData() {
@@ -47,6 +56,11 @@ export class StringInputComponent implements OnInit {
         return search;
     }
     ngOnInit(): void {
+        console.log(this.props[this.prop]);
+        this.hasEnum = this.props[this.prop].hasOwnProperty("enum");
+        if(this.hasEnum){
+            this.options = this.props[this.prop].enum;
+        }
     }
     title = 'jsonTalkSoft';
 }
