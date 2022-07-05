@@ -2,14 +2,15 @@
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { schema } from './jsonfiles/schema';
+
 @Component({
   selector: 'ref',
   template:`
     <h5 class = "spacing" id= "inline">{{definitionName}}</h5>
       <div *ngIf='hasParents()'>
         <div *ngIf='isOneOf' id= "inline">
-              <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline">
-                <nb-radio *ngFor="let oneOf of def.oneOf | keyvalue" [value]="oneOf.key" id="inline">{{oneOf.key}}</nb-radio>
+              <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline"> 
+                <nb-radio *ngFor="let key of (this.keys)" [value]="key" id="inline">{{this.def.oneOf[key].properties.label}}</nb-radio>
               </nb-radio-group>
               <prop [props]=getOneOf() index={{this.index}}  parents={{getPath()}}>
               </prop>
@@ -35,10 +36,10 @@ export class RefComponent implements OnInit{
     isOneOf: boolean = false;
     oneOfType: number = 0;
     def : any;
+    keys: string[] = []; 
     constructor(){
       this.definitionName = '';
       // this.index = 0;
-      // console.log(this.parents)
     }
     hasParents():boolean{
       // console.log("from parents: " + this.parents);
@@ -84,8 +85,14 @@ export class RefComponent implements OnInit{
             // @ts-ignore
             this.propKeys.push({...this.def.properties[prop], name: prop})
         }
-        // console.log(this.propKeys);
         this.isOneOf = this.def.hasOwnProperty("oneOf");
+
+        this.keys = Object.keys(this.def.oneOf);
+
+        for(let oneOf in Object.keys(this.def.oneOf)){
+          console.log(oneOf);
+          console.log(this.def.oneOf[oneOf]);
+        }
         // console.log(`${this.isOneOf} ${this.definitionName}`); 
     }
     title = 'jsonTalkSoft';

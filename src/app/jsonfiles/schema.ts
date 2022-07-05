@@ -94,7 +94,8 @@ export const schema = {
               "description": "A reference to a resource or a token. Please note: if the resource property contains a time, ensure that it is of the format HH:mm, h:mm, hh:mm or hh:mma. If resource is a date, ensure that it is of the format yyyy-MM-dd, MM-dd-yyyy",
               "type": "string",
               "pattern": "(^(:PROVIDER|:LOCATION|:APPT_TYPE|:CALLER_ID|:ADDRESS|:CALLBACK_NUM|:TRANSFER_NUM|:CUSTOM1|:CUSTOM2|:CUSTOM3|:RECIP_FNAME|:APPT_DATE_ONLY|:APPT_TIME_ONLY|:BROADCAST|:ARRIVAL_TIME)$|(^\\d+(,\\d+)*$))"
-            }
+            },
+            "label": "schema label 0",
           }
         },
         {
@@ -111,7 +112,8 @@ export const schema = {
               "description": "A reference to a resource or a token",
               "type": "string",
               "pattern": "(^(:CALLER_ID|:CALLBACK_NUM|:TRANSFER_NUM)$|(^[0-9]+$))"
-            }
+            },
+            "label": "schema label 1",
           }
         }
       ],
@@ -144,7 +146,8 @@ export const schema = {
             "value": {
               "type": "boolean",
               "description": "The value of the conditionType variable"
-            }
+            },
+            "label": "schema label 0",
           }
         },
         {
@@ -170,7 +173,8 @@ export const schema = {
                 "OPTIN",
                 "OPTOUT"
               ]
-            }
+            },
+            "label": "schema label 1",
           }
         }
       ]
