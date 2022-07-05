@@ -10,7 +10,7 @@ import { schema } from './jsonfiles/schema';
       <div *ngIf='hasParents()'>
         <div *ngIf='isOneOf' id= "inline">
               <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline"> 
-                <nb-radio *ngFor="let key of (this.keys)" [value]="key" id="inline">{{this.def.oneOf[key].properties.label}}</nb-radio>
+                <nb-radio *ngFor="let key of this.keys" [value]="key" id="inline">{{def.oneOf[key].properties.label}}</nb-radio>
               </nb-radio-group>
               <prop [props]=getOneOf() index={{this.index}}  parents={{getPath()}}>
               </prop>
@@ -68,7 +68,6 @@ export class RefComponent implements OnInit{
       return ret;
     }
     getProperty(propKeys : any, prop:string){
-      // console.log(propKeys)
       return propKeys[prop as  keyof typeof propKeys];
     }
     ngOnInit(): void {
@@ -89,10 +88,6 @@ export class RefComponent implements OnInit{
 
         this.keys = Object.keys(this.def.oneOf);
 
-        for(let oneOf in Object.keys(this.def.oneOf)){
-          console.log(oneOf);
-          console.log(this.def.oneOf[oneOf]);
-        }
         // console.log(`${this.isOneOf} ${this.definitionName}`); 
     }
     title = 'jsonTalkSoft';
