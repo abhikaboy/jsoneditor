@@ -7,29 +7,32 @@ import { schema } from './jsonfiles/schema';
 @Component({
     selector: 'arrayInput',
     template: `
-                <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny">+</button>
-                <nb-list>  
-                    <nb-list-item  *ngIf='hasNoRef()'>
-                        <div *ngFor='let i of getData()'>
+                <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
+                
+                    <div *ngIf='hasNoRef()'>
+                        <nb-list>  
+                        <nb-list-item  *ngFor='let i of getData(); let index = index'>
                             <div *ngIf='hasItems(prop,props)'>
-                                <ref [ref]='getRef(prop,props)'parents={{getPath(prop)}}>
+                                <ref [ref]='getRef(prop,props)' [indexLabel] = 'index+1' parents={{getPath(prop)}}>
                                     </ref>
                                 </div>
-                            </div>
-                            <div>
+                            </nb-list-item>
+                            <nb-list-item>
                                 <div *ngIf='isEmpty()'>
                                     <p>none</p>
                                 </div>
-                            </div>
-                    </nb-list-item >
-                    <nb-list-item *ngIf='hasRef()'>
+                            </nb-list-item>
+                </nb-list>
+                    </div >
+                    <div *ngIf='hasRef()'>
+                <nb-list>
                         <nb-list-item *ngFor='let item of getDataRef(); let i = index'>
                             <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
                             </ref>
                         </nb-list-item>    
-                    </nb-list-item >
-                    
                 </nb-list>
+</div>
+                    
 `,
     styleUrls: ['./app.component.scss']
 })
@@ -48,22 +51,12 @@ export class ArrayInputComponent implements OnInit {
         this.index = 0;
     }
     hasRef() : boolean{
-        if(this.ref != undefined){
-            // console.log("HAS REFEREANCE ");
-        }
         return this.ref != undefined;
     }
     hasNoRef() : boolean{
-        // console.log(this.ref);
-        if(this.ref == undefined){
-            // console.log("HAS NO REFEREANCE ");
-        }
-        // console.log("has no ref");
-        // console.log(this.ref == undefined);
         return (this.ref == undefined);
     }
     getPath(prop : any) {
-        // console.log(this.getPropertyType(prop,this.props));
         let propName =  this.getPropertyName(prop, this.props);
         if(propName == undefined){
             propName='';
@@ -74,7 +67,6 @@ export class ArrayInputComponent implements OnInit {
         else return this.route + propName;
     }
     hasParents():boolean{
-    //   console.log("from parents: " + this.parents);
       return this.route != undefined;
     }
     isEmpty(){
@@ -84,18 +76,15 @@ export class ArrayInputComponent implements OnInit {
         return parseFloat(input);
     }
     getPropertyType(prop: string, object: any): string {
-        // console.log(object[prop as keyof typeof object]);
         return object[prop as keyof typeof object].type;
     }
     getPropertyName(prop: string, object: any): string {
-        // console.log(object[prop as keyof typeof object]);
         if(object[prop as keyof typeof object].hasOwnProperty("name")) return object[prop as keyof typeof object].name;
         else {
             return prop;
         };
     }
     hasItems(prop: string, object: any): boolean {
-        // console.log(object[prop as keyof typeof object].hasOwnProperty('items'));
         return object[prop as keyof typeof object].hasOwnProperty('items');
     }
     getRef(prop: string, object: any): string {
@@ -110,6 +99,34 @@ export class ArrayInputComponent implements OnInit {
             }
             // @ts-ignore
             return currentLocation;
+    }
+    getRefToObject(ref : string) : Object {
+        // @ts-ignore
+        const def = ref.split("/").pop();
+        // @ts-ignore
+        const defy = def.definitions[def]; 
+        console.log(defy);
+        if(defy.hasOwnProperty("oneOf")){
+            const ret = {};
+            for(let property in defy.oneOf[0].properties){
+                // @ts-ignore
+                ret[property] = "";
+            }
+        }
+        return {};
+    }
+    appendRef() : void {
+        if(this.ref == undefined){
+            console.warn("has no ref")
+            console.log(this.getRef(this.prop,this.props));
+            this.getData().push(this.getRef(this.prop,this.props));
+        } else{ 
+            console.log("has ref")
+            console.log(this.ref)
+            console.log(this.getRefToObject(this.ref));
+            // @ts-ignore
+            this.getDataRef().push(this.ref);
+        }
     }
     getDataRef() : Object[]{
             // @ts-ignore
@@ -136,10 +153,6 @@ export class ArrayInputComponent implements OnInit {
         return search;
     }
     ngOnInit(): void {
-        // console.log(this.route);
-        // console.log(this.ref);
-        // console.log(this.hasNoRef());
-        // console.log(this.getPropertyLength());
 
     }
     title = 'jsonTalkSoft';

@@ -5,8 +5,8 @@ import { schema } from './jsonfiles/schema';
 
 @Component({
   selector: 'ref',
-  template:`
-    <h5 class = "spacing" id= "inline">{{definitionName}}</h5>
+  template: `
+    <h5 class = "spacing" id= "inline">{{definitionName + " " +indexLabel}}</h5>
       <div *ngIf='hasParents()'>
         <div *ngIf='isOneOf' id= "inline">
               <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline"> 
@@ -26,69 +26,71 @@ import { schema } from './jsonfiles/schema';
 /* 
   Needs to know position in array
   Needs to know object position in tree
-*/ 
-export class RefComponent implements OnInit{
-    @Input() ref!: string | undefined; 
-    @Input() parents!: string; 
-    @Input() index: number | undefined | string;
-    propKeys : string[] = [];
-    definitionName: string | undefined;
-    isOneOf: boolean = false;
-    oneOfType: number = 0;
-    def : any;
-    keys: string[] = []; 
-    constructor(){
-      this.definitionName = '';
-      // this.index = 0;
+*/
+export class RefComponent implements OnInit {
+  @Input() ref!: string | undefined;
+  @Input() parents!: string;
+  @Input() index: number | undefined | string;
+  @Input() indexLabel: string | number;
+  propKeys: string[] = [];
+  definitionName: string | undefined;
+  isOneOf: boolean = false;
+  oneOfType: number = 0;
+  def: any;
+  keys: string[] = [];
+  constructor() {
+    this.definitionName = '';
+    this.indexLabel = ''
+    // this.index = 0;
+  }
+  hasParents(): boolean {
+    // console.log("from parents: " + this.parents);
+    return this.parents != undefined;
+  }
+  getPath() {
+    if (this.index != undefined) return this.parents + `[${this.index}]`;
+    return this.parents;
+  }
+  getOneOfProps() {
+    // console.log()
+  }
+  getOneOf() {
+    const ret: any[] = [];
+    // console.log(def);
+    if (!this.def.hasOwnProperty('oneOf')) return {};
+    // @ts-ignore
+    // if(def.oneOf)
+    // console.log(this.def.oneOf);
+
+    // @ts-ignore
+    const props = this.def.oneOf[this.oneOfType].properties;
+    for (const prop in props) {
+      ret.push({ ...props[prop], name: prop });
     }
-    hasParents():boolean{
-      // console.log("from parents: " + this.parents);
-      return this.parents != undefined;
-    }
-    getPath() {
-      if(this.index != undefined) return this.parents + `[${this.index}]`;
-      return this.parents;
-    }
-    getOneOfProps(){
-      // console.log()
-    }
-    getOneOf(){
-      const ret: any[] = [];
-      // console.log(def);
-      if(!this.def.hasOwnProperty('oneOf')) return {};
+    return ret;
+  }
+  getProperty(propKeys: any, prop: string) {
+    return propKeys[prop as keyof typeof propKeys];
+  }
+  ngOnInit(): void {
+    console.log(this.ref)
+    console.log(this.parents)
+    // @ts-ignore
+    const path: string[] = this.ref.split("/");
+    this.definitionName = path.pop();
+    this.def = schema.definitions[this.definitionName as keyof typeof schema.definitions];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    for (const prop in this.def.properties) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      // if(def.oneOf)
-      // console.log(this.def.oneOf);
-
-        // @ts-ignore
-        const props = this.def.oneOf[this.oneOfType].properties;
-        for (const prop in props){
-          ret.push({...props[prop], name: prop});
-        }
-      return ret;
+      this.propKeys.push({ ...this.def.properties[prop], name: prop })
     }
-    getProperty(propKeys : any, prop:string){
-      return propKeys[prop as  keyof typeof propKeys];
+    this.isOneOf = this.def.hasOwnProperty("oneOf");
+    if (this.isOneOf) {
+      this.keys = Object.keys(this.def.oneOf)
     }
-    ngOnInit(): void {
-        console.log(this.ref)
-        console.log(this.parents)
-        // @ts-ignore
-        const path:string[] = this.ref.split("/");
-        this.definitionName = path.pop();
-        this.def = schema.definitions[this.definitionName as keyof typeof schema.definitions];
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        for(const prop in this.def.properties){
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            this.propKeys.push({...this.def.properties[prop], name: prop})
-        }
-        this.isOneOf = this.def.hasOwnProperty("oneOf");
-
-        this.keys = Object.keys(this.def.oneOf);
-
-        // console.log(`${this.isOneOf} ${this.definitionName}`); 
-    }
-    title = 'jsonTalkSoft';
+    // console.log(`${this.isOneOf} ${this.definitionName}`); 
+  }
+  title = 'jsonTalkSoft';
 }

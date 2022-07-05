@@ -5,8 +5,8 @@ import { Component, Directive, OnInit, Input } from '@angular/core';
     selector: 'dropdown',
     template: `
         <div style="display:inline">
-            <nb-select  placeholder="Select" [(selected)]="selectedString">
-                <nb-select-label>{{ selectedString }}</nb-select-label>
+            <nb-select  placeholder="Select" [(selected)]="selectedItem">
+                <nb-select-label>{{ selectedItem }}</nb-select-label>
                     <nb-option *ngFor="let option of this.options; let ind = index" value={{option}}>{{option}}</nb-option>
             </nb-select>
         </div>
@@ -16,14 +16,11 @@ import { Component, Directive, OnInit, Input } from '@angular/core';
 export class DropdownComponent implements OnInit {
     @Input() options!: string[];
     @Input() selectedItem!: any;
-    @Input() props!: string[];
-
-    selectedString: string = "";
 
     constructor() {
     }
     ngOnInit(): void {
-        this.options = this.props.slice(1, this.props.length);
+        console.log(this.options);
     }
     title = 'jsonTalkSoft';
 }
