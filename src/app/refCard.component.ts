@@ -5,24 +5,19 @@ import { schema } from './jsonfiles/schema';
 
 @Component({
   selector: 'ref',
-  template:`
+  template: `
         <h5 class = "spacing" id= "inline">{{definitionName + " " +indexLabel}}</h5>
       <div *ngIf='hasParents()'>
         <div *ngIf='isOneOf' id= "inline">
               <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline"> 
                 <nb-radio *ngFor="let key of this.keys" [value]="key" id="inline">{{def.oneOf[key].properties.label}}</nb-radio>
               </nb-radio-group>
-              <prop [props]=getOneOf() index={{this.index}}  parents={{getPath()}}>
-              </prop>
+              <prop [props]=getOneOf() index={{this.index}}  parents={{getPath()}}></prop>
         </div>
       </div>
       <div *ngIf='hasParents()'>
-          <prop [props]=propKeys #normalProp  index={{this.index}} parents={{getPath()}}> 
-            </prop> 
+          <prop [props]=propKeys #normalProp index={{this.index}} parents={{getPath()}}> </prop> 
       </div>
-<!-- </nb-accordion-item-body>
-</nb-accordion-item>
-  </nb-accordion> -->
 
   `,
   styleUrls: ['./app.component.scss']
@@ -48,7 +43,6 @@ export class RefComponent implements OnInit {
     // this.index = 0;
   }
   hasParents(): boolean {
-    // console.log("from parents: " + this.parents);
     return this.parents != undefined;
   }
   getPath() {
@@ -62,9 +56,6 @@ export class RefComponent implements OnInit {
     const ret: any[] = [];
     // console.log(def);
     if (!this.def.hasOwnProperty('oneOf')) return {};
-    // @ts-ignore
-    // if(def.oneOf)
-    // console.log(this.def.oneOf);
 
     // @ts-ignore
     const props = this.def.oneOf[this.oneOfType].properties;
