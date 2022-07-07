@@ -15,14 +15,14 @@ import { DropdownComponent } from './dropdown.component';
             </arrayInput>
         </div>
     </div>
-    <div *ngFor="let prop of propKeys" class="indent" >
+    <div *ngFor="let prop of propKeys">
         <div *ngIf='hasParents()'>
-        <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline">
+        <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline" style="display:inline">
             <div *ngSwitchCase="'array'">
                     <arrayInput [name] ='getPropertyName(prop, props)' route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
                     </arrayInput>
             </div>
-            <div *ngSwitchCase="'string'" style="display:inline">
+            <div *ngSwitchCase="'string'" style="display:inline" id="inline">
                     <p id="inline">{{getPropertyName(prop, props)}}: </p>
                     <stringInput route={{getPath(prop)}} [prop]='getPropfromKeys(prop,propKeys)' [prop] = 'prop' [props] = 'props'>
                     </stringInput>
@@ -49,24 +49,8 @@ export class PropComponent implements OnInit {
     @Input() ref: string | undefined;
     @Input() type: string | undefined;
     propKeys: string[] = [];
-    oneOf: {} = {};
     options: string[] = [];
-    optionKeys = {
-        prompt: {
-            promptType: [""], //select is needed to set type as string 
-            resource: [""]
-        },
-        action: {
-            actionType: [""],
-            actionEnum:[""],
-            selectionType:[""],
-            selectionValue:[""]
-        },
-        condition: {
-            conditionType:[""],
-            value:[""]
-        }
-    }
+    
     getPropfromKeys(prop:any, props:any){
         return props[prop];
     }
@@ -95,8 +79,6 @@ export class PropComponent implements OnInit {
 
     constructor() {
         this.index = 0;
-        // console.log(this.parents);
-        // console.log(this.parents);
     }
     toNum(input : string): number{
         return parseFloat(input);
@@ -126,6 +108,7 @@ export class PropComponent implements OnInit {
         for (const prop in this.props) {
             this.propKeys.push(prop);
         }
+        // console.log(this.props)
     }
     title = 'jsonTalkSoft';
 }
