@@ -56,7 +56,6 @@ export class StringInputComponent implements OnInit {
     }
     ngOnInit(): void {
         // console.log(this.props[this.prop]);
-        console.log(this.route)
         this.hasEnum = this.props[this.prop].hasOwnProperty("enum");
         if(this.hasEnum){
             this.options = this.props[this.prop].enum;
