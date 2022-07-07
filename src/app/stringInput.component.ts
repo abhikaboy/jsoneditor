@@ -8,7 +8,7 @@ import { schema } from './jsonfiles/schema';
     selector: 'stringInput',
     template: `
         <div *ngIf="!hasEnum; else dropdown">    
-            <input nbInput [value]="getData()" />
+            <input nbInput [value]="getData()"  (ngModelChange)="editData($event)" />
         </div>
         <ng-template #dropdown>
             <dropdown [options]="options" [selectedItem]="getData()" route={{this.route}}></dropdown>
@@ -23,6 +23,9 @@ export class StringInputComponent implements OnInit {
     hasEnum = false;
     options = [];
     constructor() {
+    }
+    editData(event : any) {
+        console.log("woof");
     }
     getData() {
             const routes = this.route.split("."); // establishes levels of nesting 

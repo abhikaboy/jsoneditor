@@ -10,24 +10,31 @@ import { schema } from './jsonfiles/schema';
                 <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
                 <nb-accordion *ngIf='hasNoRef()'>
                             <nb-accordion-item  *ngFor='let i of getData(); let index = index'>
-                                <nb-accordion-item-header>{{getItemTitle(prop,props) + (index + 1)}}</nb-accordion-item-header>
+                                <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (index + 1))}}
+                                </nb-accordion-item-header>
                                 <nb-accordion-item-body>
+                                    <button nbButton status="danger" size="small" (click)='removeRef(index)'>Remove</button>
                                     <div *ngIf='hasItems(prop,props)'>
                                         <ref [ref]='getRef(prop,props)' parents={{getPath(prop)}}>
                                         </ref>
                                     </div>
+
                                 </nb-accordion-item-body>
-                            </nb-accordion-item  >
+                            </nb-accordion-item>
                                 <nb-accordion-item *ngIf='isEmpty()' >
-                                    <nb-accordion-item-header>empty</nb-accordion-item-header>
+                                    <nb-accordion-item-header>Empty
+                                    </nb-accordion-item-header>
                             </nb-accordion-item>
                     </nb-accordion>
                     <nb-accordion *ngIf='hasRef()'>
                         <nb-accordion-item *ngFor='let item of getDataRef(); let i = index'>
-                            <nb-accordion-item-header>{{this.getRefTitle()+ " " + (i+1)}}</nb-accordion-item-header>
+                            <nb-accordion-item-header>{{capFirstLetter(this.getRefTitle()+ " " + (i+1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
-                            <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
-                            </ref>
+                                    <button nbButton status="danger" size="small" (click)='removeRef(index)'> Remove </button>
+                                    <div>
+                                        <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
+                                        </ref>
+                                    </div>
                                 </nb-accordion-item-body>
                         </nb-accordion-item>    
                     </nb-accordion >
@@ -95,7 +102,8 @@ export class ArrayInputComponent implements OnInit {
         return object[prop as keyof typeof object].hasOwnProperty('items');
     }
     getRef(prop: string, object: any): string {
-        return object[prop as keyof typeof object].items.$ref;
+        if(object[prop as keyof typeof object].hasOwnProperty('items')) return object[prop as keyof typeof object].items.$ref;
+        else return "";
     }
     getData() : Object[]{
             let currentRoute = this.route + "." + this.getPropertyName(this.prop,this.props);
@@ -110,30 +118,58 @@ export class ArrayInputComponent implements OnInit {
     getRefToObject(ref : string) : Object {
         // @ts-ignore
         const def = ref.split("/").pop();
+        console.log(def);
         // @ts-ignore
-        const defy = def.definitions[def]; 
+        const defy = schema.definitions[def]; 
         console.log(defy);
+        const ret = {};
+        let fill = (propertyTag : object, object: object) => {
+            let property = object[propertyTag as keyof typeof object];
+            // @ts-ignore
+                switch(property.type){
+                    case "array":
+                            console.log("adding array")
+                            // @ts-ignore
+                            ret[propertyTag] = [];
+                        break;
+                        case "string":
+                            console.log("adding string")
+                            // @ts-ignore
+                            ret[propertyTag] = ""
+                        break;
+                }
+                console.log(ret);
+        }
         if(defy.hasOwnProperty("oneOf")){
-            const ret = {};
             for(let property in defy.oneOf[0].properties){
                 // @ts-ignore
-                ret[property] = "";
+                fill(property,defy.oneOf[0].properties);
             }
         }
-        return {};
+            for(let property in defy.properties){
+                // @ts-ignore
+                fill(property, defy.properties);
+            }  
+            console.log(ret);
+        return ret;
+    }
+    capFirstLetter(input : string) :string{ 
+        return input.charAt(0).toUpperCase() + input.slice(1);
     }
     appendRef() : void {
         if(this.ref == undefined){
-            console.warn("has no ref")
-            console.log(this.getRef(this.prop,this.props));
+            // this pulls the ref from "items". If it doesn't have 
+            // items property then just make it an empty string
+            // TO-DO make it so this checks the data type of the property and add default from there
             this.getData().push(this.getRef(this.prop,this.props));
         } else{ 
-            console.log("has ref")
-            console.log(this.ref)
-            console.log(this.getRefToObject(this.ref));
+            // has the reference property lowkey
             // @ts-ignore
-            this.getDataRef().push(this.ref);
+            this.getDataRef().push(this.getRefToObject(this.ref));
         }
+    }
+    removeRef(index : number) : void {
+        this.getData().splice(index,1);
     }
     getDataRef() : Object[]{
             // @ts-ignore
