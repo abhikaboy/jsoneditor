@@ -10,7 +10,7 @@ import { schema } from './jsonfiles/schema';
                 <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
                 <nb-accordion *ngIf='hasNoRef()'>
                             <nb-accordion-item  *ngFor='let i of getData(); let index = index'>
-                                <nb-accordion-item-header>{{getItemTitle(prop,props) + (index + 1)}}</nb-accordion-item-header>
+                                <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (index + 1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <div *ngIf='hasItems(prop,props)'>
                                         <ref [ref]='getRef(prop,props)' parents={{getPath(prop)}}>
@@ -19,12 +19,12 @@ import { schema } from './jsonfiles/schema';
                                 </nb-accordion-item-body>
                             </nb-accordion-item  >
                                 <nb-accordion-item *ngIf='isEmpty()' >
-                                    <nb-accordion-item-header>empty</nb-accordion-item-header>
+                                    <nb-accordion-item-header>Empty</nb-accordion-item-header>
                             </nb-accordion-item>
                     </nb-accordion>
                     <nb-accordion *ngIf='hasRef()'>
                         <nb-accordion-item *ngFor='let item of getDataRef(); let i = index'>
-                            <nb-accordion-item-header>{{this.getRefTitle()+ " " + (i+1)}}</nb-accordion-item-header>
+                            <nb-accordion-item-header>{{capFirstLetter(this.getRefTitle()+ " " + (i+1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
                             <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
                             </ref>
@@ -121,6 +121,9 @@ export class ArrayInputComponent implements OnInit {
             }
         }
         return {};
+    }
+    capFirstLetter(input : string) :string{ 
+        return input.charAt(0).toUpperCase() + input.slice(1);
     }
     appendRef() : void {
         if(this.ref == undefined){
