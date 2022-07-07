@@ -10,8 +10,7 @@ import { schema } from './jsonfiles/schema';
                 <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
                 <nb-accordion *ngIf='hasNoRef()'>
                             <nb-accordion-item  *ngFor='let i of getData(); let index = index'>
-                                <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (index + 1))}}
-                                </nb-accordion-item-header>
+                                <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (index + 1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <button nbButton status="danger" size="small" (click)='removeRef(index)'>Remove</button>
                                     <div *ngIf='hasItems(prop,props)'>
@@ -22,8 +21,7 @@ import { schema } from './jsonfiles/schema';
                                 </nb-accordion-item-body>
                             </nb-accordion-item>
                                 <nb-accordion-item *ngIf='isEmpty()' >
-                                    <nb-accordion-item-header>Empty
-                                    </nb-accordion-item-header>
+                                    <nb-accordion-item-header>Empty</nb-accordion-item-header>
                             </nb-accordion-item>
                     </nb-accordion>
                     <nb-accordion *ngIf='hasRef()'>
