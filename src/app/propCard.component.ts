@@ -49,7 +49,6 @@ export class PropComponent implements OnInit {
     @Input() ref: string | undefined;
     @Input() type: string | undefined;
     propKeys: string[] = [];
-    oneOf: {} = {};
     options: string[] = [];
     
     getPropfromKeys(prop:any, props:any){
@@ -80,8 +79,6 @@ export class PropComponent implements OnInit {
 
     constructor() {
         this.index = 0;
-        // console.log(this.parents);
-        // console.log(this.parents);
     }
     toNum(input : string): number{
         return parseFloat(input);
@@ -111,6 +108,7 @@ export class PropComponent implements OnInit {
         for (const prop in this.props) {
             this.propKeys.push(prop);
         }
+        // console.log(this.props)
     }
     title = 'jsonTalkSoft';
 }

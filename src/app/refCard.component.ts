@@ -10,7 +10,7 @@ import { schema } from './jsonfiles/schema';
       <div *ngIf='hasParents()'>
         <div *ngIf='isOneOf' id= "inline">
               <nb-radio-group [(ngModel)]="this.oneOfType"  class="smallIndent" id= "inline"> 
-                <nb-radio *ngFor="let key of this.keys" [value]="key" id="inline">{{def.oneOf[key].properties.label}}</nb-radio>
+                <nb-radio *ngFor="let key of this.keys" [value]="key" id="inline">{{def.oneOf[key].properties.label.label}}</nb-radio>
               </nb-radio-group>
               <prop [props]=getOneOf() index={{this.index}}  parents={{getPath()}}></prop>
         </div>
@@ -68,8 +68,8 @@ export class RefComponent implements OnInit {
     return propKeys[prop as keyof typeof propKeys];
   }
   ngOnInit(): void {
-    console.log(this.ref)
-    console.log(this.parents)
+    // console.log(this.ref)
+    // console.log(this.parents)
     // @ts-ignore
     const path: string[] = this.ref.split("/");
     this.definitionName = path.pop();

@@ -95,7 +95,9 @@ export const schema = {
               "type": "string",
               "pattern": "(^(:PROVIDER|:LOCATION|:APPT_TYPE|:CALLER_ID|:ADDRESS|:CALLBACK_NUM|:TRANSFER_NUM|:CUSTOM1|:CUSTOM2|:CUSTOM3|:RECIP_FNAME|:APPT_DATE_ONLY|:APPT_TIME_ONLY|:BROADCAST|:ARRIVAL_TIME)$|(^\\d+(,\\d+)*$))"
             },
-            "label": "schema label 0",
+            "label": {
+              "label": "schema label 0"
+            }
           }
         },
         {
@@ -113,7 +115,9 @@ export const schema = {
               "type": "string",
               "pattern": "(^(:CALLER_ID|:CALLBACK_NUM|:TRANSFER_NUM)$|(^[0-9]+$))"
             },
-            "label": "schema label 1",
+            "label":{
+              "label": "schema label 1",
+            }
           }
         }
       ],
@@ -147,7 +151,9 @@ export const schema = {
               "type": "boolean",
               "description": "The value of the conditionType variable"
             },
-            "label": "schema label 0",
+            "label":{
+              "label": "schema label 0",
+            }
           }
         },
         {
@@ -174,7 +180,9 @@ export const schema = {
                 "OPTOUT"
               ]
             },
-            "label": "schema label 1",
+            "label":{
+              "label": "schema label 1",
+            }
           }
         }
       ]
