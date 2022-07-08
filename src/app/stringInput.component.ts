@@ -28,7 +28,6 @@ export class StringInputComponent implements OnInit {
             const routes = this.route.split("."); // establishes levels of nesting 
             let currentLocation = data;
             for(const route of routes){ 
-                // ['actionsStep[0][0]', 'actionType']
                 currentLocation = this.dig(route, currentLocation); 
             }
             return currentLocation;
