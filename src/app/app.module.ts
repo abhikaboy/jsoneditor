@@ -9,6 +9,7 @@ import { NbThemeModule, NbLayoutModule, NbButtonModule,
   NbToggleModule, 
   NbCheckboxModule,
   NbAccordionComponent,
+  NbDialogModule,
   NbAccordionModule,
   NbStepperComponent} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -21,6 +22,9 @@ import { RefCardModule } from './refCard.module';
 import { StringInputComponent } from './stringInput.component';
 import { BooleanInputComponent } from './booleanInput.component';
 import { ArrayInputComponent } from './arrayInput.component';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { ReviewCardComponent } from './reviewCard';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +35,7 @@ import { ArrayInputComponent } from './arrayInput.component';
     StringInputComponent,
     BooleanInputComponent,
     ArrayInputComponent,
+    ReviewCardComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +56,10 @@ import { ArrayInputComponent } from './arrayInput.component';
     NbCheckboxModule,
     NbAccordionModule,
     NbStepperModule,
+NgxJsonViewerModule,    
+NbDialogModule.forRoot(),
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
