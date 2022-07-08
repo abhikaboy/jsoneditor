@@ -24,6 +24,7 @@ import { BooleanInputComponent } from './booleanInput.component';
 import { ArrayInputComponent } from './arrayInput.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReviewCardComponent } from './reviewCard';
+import { MoveCardComponent } from './moveCard.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ReviewCardComponent } from './reviewCard';
     StringInputComponent,
     BooleanInputComponent,
     ArrayInputComponent,
-    ReviewCardComponent
+    ReviewCardComponent,
+    MoveCardComponent
   ],
   imports: [
     BrowserModule,

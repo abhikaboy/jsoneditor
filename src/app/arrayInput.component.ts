@@ -4,6 +4,8 @@
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { data } from './jsonfiles/data';
 import { schema } from './jsonfiles/schema';
+import { NbDialogService } from '@nebular/theme';
+import { MoveCardComponent } from './moveCard.component';
 @Component({
     selector: 'arrayInput',
     template: `
@@ -13,6 +15,7 @@ import { schema } from './jsonfiles/schema';
                                 <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (index + 1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <button nbButton status="danger" size="small" (click)='removeRef(index)'>Remove</button>
+                                    <button nbButton status="info" size="small" (click)='moveRef(index)'>Move</button>
                                     <div *ngIf='hasItems(prop,props)'>
                                         <ref [ref]='getRef(prop,props)' parents={{getPath(prop)}}>
                                         </ref>
@@ -29,6 +32,7 @@ import { schema } from './jsonfiles/schema';
                             <nb-accordion-item-header>{{capFirstLetter(this.getRefTitle()+ " " + (i+1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <button nbButton status="danger" size="small" (click)='removeRef(index)'> Remove </button>
+                                    <button nbButton status="info" size="small" (click)='moveRef(index)'>Move</button>
                                     <div>
                                         <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
                                         </ref>
@@ -50,7 +54,7 @@ export class ArrayInputComponent implements OnInit {
     @Input() index! : any;
     @Input() ref : string | undefined;
     @Input() name! : string;
-    constructor() {
+    constructor(private dialogService: NbDialogService) {
         this.index = 0;
     }
     hasRef() : boolean{
@@ -135,6 +139,11 @@ export class ArrayInputComponent implements OnInit {
                             // @ts-ignore
                             ret[propertyTag] = ""
                         break;
+                        case "boolean":
+                            console.log("adding bool")
+                            // @ts-ignore
+                            ret[propertyTag] = false;
+                        break;
                 }
                 console.log(ret);
         }
@@ -168,6 +177,18 @@ export class ArrayInputComponent implements OnInit {
     }
     removeRef(index : number) : void {
         this.getData().splice(index,1);
+    }
+    open(index) {
+        this.dialogService.open(MoveCardComponent)
+        .onClose.subscribe(position => {
+            position = JSON.parse(position) - 1;
+            if(position > this.getData().length) return;
+            const [copy] =  this.getData().splice(index,1);
+            this.getData().splice(position,0,copy); //insert
+        });
+    }
+    moveRef(index : number) : void {
+        this.open(index);
     }
     getDataRef() : Object[]{
             // @ts-ignore
