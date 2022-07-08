@@ -8,7 +8,7 @@ import { schema } from './jsonfiles/schema';
     selector: 'stringInput',
     template: `
         <div *ngIf="!hasEnum; else dropdown">    
-            <input nbInput [value]="getData()"  (ngModelChange)="editData($event)" />
+            <input nbInput [value]="getData()" (input)="this.writeChange($event)" />
         </div>
         <ng-template #dropdown>
             <dropdown [options]="options" [selectedItem]="getData()" route={{this.route}}></dropdown>
@@ -17,32 +17,67 @@ import { schema } from './jsonfiles/schema';
     styleUrls: ['./app.component.scss']
 })
 export class StringInputComponent implements OnInit {
-    @Input() route! : String;
-    @Input() prop : any;
-    @Input() props : any;
+    @Input() route!: String;
+    @Input() prop: any;
+    @Input() props: any;
+    input = "";
     hasEnum = false;
     options = [];
     constructor() {
     }
-    editData(event : any) {
-        console.log("woof");
+    writeChange(change: any) {
+        if (change.data == null) {
+            this.input = this.input.substring(0, this.input.length - 1);
+        } else {
+            this.input += change.data;
+        }
+        let routes = this.getRouteArray();
+        let temp = data;
+
+        for (let i = 0; i < routes.length - 1; i++) {
+            if (temp.hasOwnProperty(routes[i])) {
+                //@ts-ignore
+                temp = temp[routes[i]];
+            } else {
+                console.log("route does not exist");
+            }
+        }
+        // @ts-ignore
+        temp[routes[routes.length - 1]] = this.input;
+        console.log(data);
+    }
+    getRouteArray() {
+        const preRoutes = this.route.split(".");
+        let routes = [];
+        let indSplit = [];
+        for (let route in preRoutes) {
+            let level = preRoutes[route]
+            if (level.includes('[')) {
+                indSplit = level.split('[');
+                for (let str in indSplit) {
+                    indSplit[str] = indSplit[str].replace(']', '');
+                    routes.push(indSplit[str]);
+                }
+            } else {
+                routes.push(level);
+            }
+        }
+        return routes;
     }
     getData() {
-            const routes = this.route.split("."); // establishes levels of nesting 
-            let currentLocation = data;
-            for(const route of routes){ 
-                // ['actionsStep[0][0]', 'actionType']
-                currentLocation = this.dig(route, currentLocation); 
-            }
-            return currentLocation;
+        const routes = this.route.split("."); // establishes levels of nesting 
+        let currentLocation = data;
+        for (const route of routes) {
+            currentLocation = this.dig(route, currentLocation);
+        }
+        return currentLocation;
     }
-    dig(route : string, input:any){
+    dig(route: string, input: any) {
         // property
-        if(!route.includes("["))
-        { 
-            try{
+        if (!route.includes("[")) {
+            try {
                 return input[route];
-            } catch(e){
+            } catch (e) {
                 return "route does not exist"
             }
         }
@@ -52,7 +87,7 @@ export class StringInputComponent implements OnInit {
         const level2 = level1.slice(1);
         const indicies = level2.map((index) => parseFloat(index.split("]")[0]));
         let search = input[routeRoot];
-        for(const index of indicies){
+        for (const index of indicies) {
             search = search[index];
         }
         return search;
@@ -60,7 +95,7 @@ export class StringInputComponent implements OnInit {
     ngOnInit(): void {
         // console.log(this.props[this.prop]);
         this.hasEnum = this.props[this.prop].hasOwnProperty("enum");
-        if(this.hasEnum){
+        if (this.hasEnum) {
             this.options = this.props[this.prop].enum;
         }
     }

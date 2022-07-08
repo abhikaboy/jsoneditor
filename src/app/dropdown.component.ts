@@ -18,15 +18,44 @@ import { data } from './jsonfiles/data';
 export class DropdownComponent implements OnInit {
     @Input() options!: string[];
     @Input() selectedItem!: any;
-    @Input() route!: string
+    @Input() route!: any
 
     constructor() {
     }
     writeChange(change: any) {
-        console.log("change detected");
+        let routes = this.getRouteArray();
+        let temp = data;
+
+        for (let i = 0; i < routes.length - 1; i++) {
+            if (temp.hasOwnProperty(routes[i])) {
+                //@ts-ignore
+                temp = temp[routes[i]];
+            } else {
+                console.log("route does not exist");
+            }
+        }
+        //@ts-ignore
+        temp[routes[routes.length - 2]] = change;
+    }
+    getRouteArray() {
+        const preRoutes = this.route.split(".");
+        let routes = [];
+        let indSplit = [];
+        for (let route in preRoutes) {
+            let level = preRoutes[route]
+            if (level.includes('[')) {
+                indSplit = level.split('[');
+                for (let str in indSplit) {
+                    indSplit[str] = indSplit[str].replace(']', '');
+                    routes.push(indSplit[str]);
+                }
+            } else {
+                routes.push(level);
+            }
+        }
+        return routes;
     }
     ngOnInit(): void {
-        // console.log(this.route);
     }
     title = 'jsonTalkSoft';
 }
