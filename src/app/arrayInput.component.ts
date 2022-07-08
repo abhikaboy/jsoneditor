@@ -9,7 +9,9 @@ import { MoveCardComponent } from './moveCard.component';
 @Component({
     selector: 'arrayInput',
     template: `
-                <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
+                <div style="width:100%;background-color:rgba(200,255,200,0.5);borderRadius:5px;padding-left:1vw;padding:0.5vw">
+                    <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
+                </div>
                 <nb-accordion *ngIf='hasNoRef()'>
                             <nb-accordion-item  *ngFor='let i of getData(); let index = index'>
                                 <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (index + 1))}}</nb-accordion-item-header>
@@ -20,7 +22,6 @@ import { MoveCardComponent } from './moveCard.component';
                                         <ref [ref]='getRef(prop,props)' parents={{getPath(prop)}}>
                                         </ref>
                                     </div>
-
                                 </nb-accordion-item-body>
                             </nb-accordion-item>
                                 <nb-accordion-item *ngIf='isEmpty()' >
@@ -176,15 +177,17 @@ export class ArrayInputComponent implements OnInit {
         }
     }
     removeRef(index : number) : void {
-        this.getData().splice(index,1);
+        const dataArray = this.ref == undefined ? this.getData():this.getDataRef()
+        dataArray.splice(index,1);
     }
     open(index) {
         this.dialogService.open(MoveCardComponent)
         .onClose.subscribe(position => {
+            const dataArray = this.ref == undefined ? this.getData():this.getDataRef()
             position = JSON.parse(position) - 1;
-            if(position > this.getData().length) return;
-            const [copy] =  this.getData().splice(index,1);
-            this.getData().splice(position,0,copy); //insert
+            if(position > dataArray.length) return;
+            const [copy] =  dataArray.splice(index,1);
+            dataArray.splice(position,0,copy); //insert
         });
     }
     moveRef(index : number) : void {

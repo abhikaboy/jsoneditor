@@ -6,10 +6,10 @@ import { schema } from './jsonfiles/schema';
 @Component({
     selector: 'review',
     template: `
-        <div style="width:50vw;backgroundColor:white;padding:4vw;borderRadius:10px;overflow:scroll;marginTop:10vh;height:80vh">
+        <div style="width:50vw;backgroundColor:white;padding:4vw;borderRadius:10px;overflow:scroll;marginTop:10vh;height:100%">
             <h2 style="textAlign:center">Review Json</h2>
             <ngx-json-viewer style="overflow:scroll;height:100%"[json]="getData()" [expanded]="false"></ngx-json-viewer>
-            <button style="outline:none;backgroundColor:white;color:black;border:none">Save</button>
+            <button class="save" style="outline:none;backgroundColor:black;color:white;border:none;width:100%;padding:2vh;borderRadius:5px">Save</button>
         <div>
 
 `,
