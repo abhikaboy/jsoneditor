@@ -1,5 +1,6 @@
 export const data = {
-    "greetingStep": [{
+    "greetingStep": {
+        "prompts": [{
             "promptType": "playMulti",
             "resource": "159,112",
             "conditions": []
@@ -7,8 +8,8 @@ export const data = {
             "promptType": "playMulti",
             "resource": ":LOCATION",
             "conditions": []
-        }
-    ],
+        }]
+    },
     "appointmentStep": [{
             "promptType": "playMulti",
             "resource": "52",

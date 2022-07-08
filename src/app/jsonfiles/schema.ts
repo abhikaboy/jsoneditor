@@ -13,10 +13,20 @@ export const schema = {
   "properties": {
     "greetingStep": {
       "description": "A list of prompts which are to be played in the specified order",
-      "type": "array",
+      "type": "object",
       "minItems": 1,
-      "items": {
-        "$ref": "#/definitions/prompt"
+      "required": [
+        "prompts"
+      ],
+      "properties": {
+        "prompts": {
+          "description": "A list of prompts which are to be played in the specified order",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/prompt"
+          }
+        }
       }
     },
     "appointmentStep": {
@@ -96,7 +106,7 @@ export const schema = {
               "pattern": "(^(:PROVIDER|:LOCATION|:APPT_TYPE|:CALLER_ID|:ADDRESS|:CALLBACK_NUM|:TRANSFER_NUM|:CUSTOM1|:CUSTOM2|:CUSTOM3|:RECIP_FNAME|:APPT_DATE_ONLY|:APPT_TIME_ONLY|:BROADCAST|:ARRIVAL_TIME)$|(^\\d+(,\\d+)*$))"
             },
             "label": {
-              "label": "schema label 0"
+              "label": "schema label 0",
             }
           }
         },
@@ -152,7 +162,7 @@ export const schema = {
               "description": "The value of the conditionType variable"
             },
             "label":{
-              "label": "schema label 0",
+              "label": "booleanw",
             }
           }
         },
@@ -181,7 +191,7 @@ export const schema = {
               ]
             },
             "label":{
-              "label": "schema label 1",
+              "label": "enumbig",
             }
           }
         }
