@@ -36,7 +36,6 @@ export class DropdownComponent implements OnInit {
         }
         //@ts-ignore
         temp[routes[routes.length - 2]] = change;
-        console.log(data);
     }
     getRouteArray() {
         const preRoutes = this.route.split(".");
