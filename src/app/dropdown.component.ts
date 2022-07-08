@@ -23,32 +23,38 @@ export class DropdownComponent implements OnInit {
     constructor() {
     }
     writeChange(change: any) {
-        const routes = this.route.split(".");
-        let currentLocation = data;
-        for (const route of routes) {
-            currentLocation = this.dig(route, currentLocation);
-        }
-        currentLocation = change;
-        console.log(data);
-    }
-    dig(route: string, input: any) {
-        if (!route.includes("[")) {
-            try {
-                return input[route];
-            } catch (e) {
-                return "route does not exist"
+        let routes = this.getRouteArray();
+        let temp = data;
+
+        for (let i = 0; i < routes.length - 1; i++) {
+            if (temp.hasOwnProperty(routes[i])) {
+                //@ts-ignore
+                temp = temp[routes[i]];
+            } else {
+                console.log("route does not exist");
             }
         }
-        // array digging 
-        const level1 = route.split("[");
-        const routeRoot = level1[0];
-        const level2 = level1.slice(1);
-        const indicies = level2.map((index) => parseFloat(index.split("]")[0]));
-        let search = input[routeRoot];
-        for (const index of indicies) {
-            search = search[index];
+        //@ts-ignore
+        temp[routes[routes.length - 2]] = change;
+        console.log(data);
+    }
+    getRouteArray() {
+        const preRoutes = this.route.split(".");
+        let routes = [];
+        let indSplit = [];
+        for (let route in preRoutes) {
+            let level = preRoutes[route]
+            if (level.includes('[')) {
+                indSplit = level.split('[');
+                for (let str in indSplit) {
+                    indSplit[str] = indSplit[str].replace(']', '');
+                    routes.push(indSplit[str]);
+                }
+            } else {
+                routes.push(level);
+            }
         }
-        return search;
+        return routes;
     }
     ngOnInit(): void {
     }
