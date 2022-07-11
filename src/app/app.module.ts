@@ -3,15 +3,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbButtonModule,
-   NbCardModule, NbInputModule, NbListModule, NbStepperModule,
-   NbListItemComponent, NbRadioComponent, NbRadioModule,NbSelectModule,
-  NbToggleModule, 
+import {
+  NbThemeModule, 
+  NbLayoutModule, 
+  NbButtonModule,
+  NbCardModule, 
+  NbInputModule, 
+  NbListModule, 
+  NbStepperModule,
+  NbListItemComponent, 
+  NbRadioComponent, 
+  NbRadioModule, 
+  NbSelectModule,
+  NbToggleModule,
   NbCheckboxModule,
   NbAccordionComponent,
   NbDialogModule,
   NbAccordionModule,
-  NbStepperComponent} from '@nebular/theme';
+  NbStepperComponent
+} from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppRoutingModule } from './app-routing.module';
 import { FormComponent } from './form.component';
@@ -58,8 +68,8 @@ import { MoveCardComponent } from './moveCard.component';
     NbCheckboxModule,
     NbAccordionModule,
     NbStepperModule,
-NgxJsonViewerModule,    
-NbDialogModule.forRoot(),
+    NgxJsonViewerModule,
+    NbDialogModule.forRoot(),
 
 
   ],
