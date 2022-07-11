@@ -4,20 +4,24 @@
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { data } from './jsonfiles/data';
 import { schema } from './jsonfiles/schema';
+import { NbDialogService } from '@nebular/theme';
+import { MoveCardComponent } from './moveCard.component';
 @Component({
     selector: 'arrayInput',
     template: `
-                <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
+                <div style="width:100%;background-color:rgba(200,255,200,0.5);borderRadius:5px;padding-left:1vw;padding:0.5vw">
+                    <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
+                </div>
                 <nb-accordion *ngIf='hasNoRef()'>
                             <nb-accordion-item  *ngFor='let i of getData(); let index = index'>
                                 <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (index + 1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <button nbButton status="danger" size="small" (click)='removeRef(index)'>Remove</button>
+                                    <button nbButton status="info" size="small" (click)='moveRef(index)'>Move</button>
                                     <div *ngIf='hasItems(prop,props)'>
                                         <ref [ref]='getRef(prop,props)' parents={{getPath(prop)}}>
                                         </ref>
                                     </div>
-
                                 </nb-accordion-item-body>
                             </nb-accordion-item>
                                 <nb-accordion-item *ngIf='isEmpty()' >
@@ -29,6 +33,7 @@ import { schema } from './jsonfiles/schema';
                             <nb-accordion-item-header>{{capFirstLetter(this.getRefTitle()+ " " + (i+1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <button nbButton status="danger" size="small" (click)='removeRef(index)'> Remove </button>
+                                    <button nbButton status="info" size="small" (click)='moveRef(index)'>Move</button>
                                     <div>
                                         <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
                                         </ref>
@@ -50,7 +55,7 @@ export class ArrayInputComponent implements OnInit {
     @Input() index! : any;
     @Input() ref : string | undefined;
     @Input() name! : string;
-    constructor() {
+    constructor(private dialogService: NbDialogService) {
         this.index = 0;
     }
     hasRef() : boolean{
@@ -135,6 +140,11 @@ export class ArrayInputComponent implements OnInit {
                             // @ts-ignore
                             ret[propertyTag] = ""
                         break;
+                        case "boolean":
+                            console.log("adding bool")
+                            // @ts-ignore
+                            ret[propertyTag] = false;
+                        break;
                 }
                 console.log(ret);
         }
@@ -167,7 +177,21 @@ export class ArrayInputComponent implements OnInit {
         }
     }
     removeRef(index : number) : void {
-        this.getData().splice(index,1);
+        const dataArray = this.ref == undefined ? this.getData():this.getDataRef()
+        dataArray.splice(index,1);
+    }
+    open(index) {
+        this.dialogService.open(MoveCardComponent)
+        .onClose.subscribe(position => {
+            const dataArray = this.ref == undefined ? this.getData():this.getDataRef()
+            position = JSON.parse(position) - 1;
+            if(position > dataArray.length) return;
+            const [copy] =  dataArray.splice(index,1);
+            dataArray.splice(position,0,copy); //insert
+        });
+    }
+    moveRef(index : number) : void {
+        this.open(index);
     }
     getDataRef() : Object[]{
             // @ts-ignore
