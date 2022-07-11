@@ -1,0 +1,160 @@
+[
+    {
+      "stepId": "arrived",
+      "stepName": "Arrival Indicator",
+      "modalType": "",
+      "toInitiateFriendlyName": "",
+      "completedFriendlyName": "Arrived",
+      "actorId": "patient",
+      "patientViewable": true
+    },
+    {
+      "stepId": "checkinFormComplete",
+      "stepName": "Checkin Form Completion Indicator",
+      "modalType": "checkinForm",
+      "toInitiateFriendlyName": "",
+      "completedFriendlyName": "Checkin Form Completed",
+      "actorId": "patient",
+      "patientViewable": true,
+      "onComplete": {
+        "eventType": "sms",
+        "parameters": {
+          "to": ":CHECKIN_MOBILE_NUM",
+          "templateName": "700720-checkinAutoResponse"
+        },
+        "skipIf": {
+          "and": [
+            {
+              "==": [
+                {
+                  "var": "checkin.questionResponsesJson.questionId=doYouHaveAppt.answer"
+                },
+                "true"
+              ]
+            },
+            {
+              "!=": [
+                {
+                  "var": "checkin.checkinAppt.apptId"
+                },
+                null
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "stepId": "intakeForm",
+      "stepName": "Forms",
+      "modalType": "intakeFormsStatus",
+      "patientViewbleAction": "URL",
+      "toInitiateFriendlyName": "Update Information",
+      "completedFriendlyName": "Forms completed",
+      "actorId": "patient",
+      "patientViewable": true
+    },
+    {
+      "stepId": "paymentRequestSent",
+      "stepName": "Payment Request Sent Indicator",
+      "modalType": "paymentRequestForm",
+      "toInitiateFriendlyName": "Send Payment Request",
+      "completedFriendlyName": "Payment Request Sent",
+      "actorId": "agent",
+      "setExpectedSeenMinutesFromNow": 0,
+      "templates": [
+        {
+          "templateName": "700720-paymentRequestSent",
+          "templateFriendlyName": "Payment Request Sent Template"
+        }
+      ],
+      "onComplete": {
+        "eventType": "webhook",
+        "parameters": {
+          "templateName": "700720-webhookRequestBody"
+        }
+      },
+      "patientViewable": true,
+      "dataSources": [
+        {
+          "sourceType": "JSON",
+          "sourceAddress": "visitNumber",
+          "target": ":PAYMENT_IDENTIFIER"
+        },
+        {
+          "sourceType": "JSON",
+          "sourceAddress": "copayAmount",
+          "target": ":COPAY_AMOUNT"
+        }
+  
+      ],
+      "stepData": {
+        "paymentIdentifier": ":PAYMENT_IDENTIFIER",
+        "paymentIdentifierLabel": "Visit Number",
+        "copayAmountIdentifierLabel": "Co-pay Amount",
+        "copayAmountIdentifier": ":COPAY_AMOUNT"
+      }
+    },
+    {
+      "stepId": "paymentReceived",
+      "stepName": "Payment Receipt Indicator",
+      "modalType": "",
+      "toInitiateFriendlyName": "",
+      "completedFriendlyName": "Payment Received",
+      "actorId": "patient",
+      "patientViewable": true,
+      "allowDelete": true,
+      "allowManualCompletion": true
+    },
+    {
+      "stepId": "checkingInsurance",
+      "stepName": "Check Insurance Indicator",
+      "modalType": "noop",
+      "toInitiateFriendlyName": "Check Insurance",
+      "completedFriendlyName": "Insurance checked",
+      "actorId": "agent",
+      "patientViewable": true,
+      "allowDelete": true
+    },
+    {
+      "stepId": "doctorRunningLate",
+      "stepName": "Doctor Running late Indicator",
+      "modalType": "onDemandForm",
+      "buttonText": "Send Dr. Running late",
+      "toInitiateFriendlyName": "Doctor Running Late",
+      "completedFriendlyName": "Doctor Running Late",
+      "actorId": "agent",
+      "templates": [
+        {
+          "templateName": "700720-covidTestReady",
+          "templateFriendlyName": "Doctor test template"
+        },
+        {
+          "templateName": "700720-doctorReadySent",
+          "templateFriendlyName": "Indoor visit template"
+        }
+      ],
+      "patientViewable": true
+    },
+    {
+      "stepId": "doctorReadySent",
+      "stepName": "Doctor Ready Message Sent Indicator",
+      "modalType": "onDemandForm",
+      "buttonText": "Send Provider Ready Sms",
+      "toInitiateFriendlyName": "Doctor Ready",
+      "completedFriendlyName": "Dr Ready Sent",
+      "actorId": "agent",
+      "setExpectedSeenMinutesFromNow": 0,
+      "templates": [
+        {
+          "templateName": "700720-covidTestReady",
+          "templateFriendlyName": "Covid test template"
+        },
+        {
+          "templateName": "700720-doctorReadySent",
+          "templateFriendlyName": "Indoor visit template"
+        }
+      ],
+      "patientViewable": true
+    }
+  ]
