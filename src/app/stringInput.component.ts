@@ -4,6 +4,7 @@
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { data } from './jsonfiles/data';
 import { schema } from './jsonfiles/schema';
+
 @Component({
     selector: 'stringInput',
     template: `

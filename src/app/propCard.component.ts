@@ -29,7 +29,7 @@ import { DropdownComponent } from './dropdown.component';
             </div>
             <div *ngSwitchCase="'boolean'" style="display:inline"> 
                     <p id="inline">{{getPropertyName(prop, props)}}: </p>
-                    <boolInput route={{getPath(prop)}}>
+                    <boolInput route={{getPath(prop)}} [props] = 'props'>
                     </boolInput>
             </div>
 </div>
@@ -58,7 +58,6 @@ export class PropComponent implements OnInit {
         return this.parents;
     }
     getPath(prop : any) {
-        // console.log(this.getPropertyType(prop,this.props));
         let propName =  this.getPropertyName(prop, this.props);
         if(propName == undefined){
             propName='';
@@ -69,7 +68,6 @@ export class PropComponent implements OnInit {
         else return this.parents + propName;
     }
     hasParents():boolean{
-    //   console.log("from parents: " + this.parents);
       return this.parents != undefined;
     }
     isArray():boolean{
@@ -84,11 +82,9 @@ export class PropComponent implements OnInit {
         return parseFloat(input);
     }
     getPropertyType(prop: string, object: any): string {
-        // console.log(object[prop as keyof typeof object]);
         return object[prop as keyof typeof object].type;
     }
     getPropertyName(prop: string, object: any): string {
-        // console.log(object[prop as keyof typeof object]);
         if(object[prop as keyof typeof object].hasOwnProperty("name")) return object[prop as keyof typeof object].name;
         else {
             return prop;
@@ -98,7 +94,6 @@ export class PropComponent implements OnInit {
 
     }
     hasItems(prop: string, object: any): boolean {
-        // console.log(object[prop as keyof typeof object].hasOwnProperty('items'));
         return object[prop as keyof typeof object].hasOwnProperty('items');
     }
     getRef(prop: string, object: any): string {
@@ -108,7 +103,6 @@ export class PropComponent implements OnInit {
         for (const prop in this.props) {
             this.propKeys.push(prop);
         }
-        // console.log(this.props)
     }
     title = 'jsonTalkSoft';
 }

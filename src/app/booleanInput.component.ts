@@ -12,28 +12,60 @@ import { schema } from './jsonfiles/schema';
     styleUrls: ['./app.component.scss']
 })
 export class BooleanInputComponent implements OnInit {
-    @Input() route! : String;
+    @Input() route!: String;
+    @Input() props!: Object;
+
     checked = false;
     toggle(checked: boolean) {
         this.checked = checked;
+        let routes = this.getRouteArray();
+        let temp = data;
+
+        for (let i = 0; i < routes.length - 1; i++) {
+            if (temp.hasOwnProperty(routes[i])) {
+                //@ts-ignore
+                temp = temp[routes[i]];
+            } else {
+                console.log("route does not exist");
+            }
+        }
+        // @ts-ignore
+        temp[routes[routes.length - 1]] = this.checked;
+        console.log(data);
+    }
+    getRouteArray() {
+        const preRoutes = this.route.split(".");
+        let routes = [];
+        let indSplit = [];
+        for (let route in preRoutes) {
+            let level = preRoutes[route]
+            if (level.includes('[')) {
+                indSplit = level.split('[');
+                for (let str in indSplit) {
+                    indSplit[str] = indSplit[str].replace(']', '');
+                    routes.push(indSplit[str]);
+                }
+            } else {
+                routes.push(level);
+            }
+        }
+        return routes;
     }
     getData() {
-            const routes = this.route.split("."); // establishes levels of nesting 
-            let currentLocation = data;
-            for(const route of routes){ 
-                // ['actionsStep[0][0]', 'actionType']
-                currentLocation = this.dig(route, currentLocation); 
-            }
-            return currentLocation;
+        const routes = this.route.split("."); // establishes levels of nesting 
+        let currentLocation = data;
+        for (const route of routes) {
+            currentLocation = this.dig(route, currentLocation);
+        }
+        return currentLocation;
     }
-    dig(route : string, input:any){
+    dig(route: string, input: any) {
 
         // property
-        if(!route.includes("["))
-        { 
-            try{
+        if (!route.includes("[")) {
+            try {
                 return input[route];
-            } catch(e){
+            } catch (e) {
                 return "route does not exist"
             }
         }
@@ -43,7 +75,7 @@ export class BooleanInputComponent implements OnInit {
         const level2 = level1.slice(1);
         const indicies = level2.map((index) => parseFloat(index.split("]")[0]));
         let search = input[routeRoot];
-        for(const index of indicies){
+        for (const index of indicies) {
             search = search[index];
         }
         return search;
@@ -54,7 +86,6 @@ export class BooleanInputComponent implements OnInit {
     ngOnInit(): void {
         // @ts-ignore   
         this.checked = this.getData();
-        // console.log(this.route);
     }
     title = 'jsonTalkSoft';
 }
