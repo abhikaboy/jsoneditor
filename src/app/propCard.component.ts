@@ -17,22 +17,22 @@ import { DropdownComponent } from './dropdown.component';
     </div>
     <div *ngFor="let prop of propKeys">
         <div *ngIf='hasParents()'>
-        <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline" style="display:inline">
-            <div *ngSwitchCase="'array'">
-                    <arrayInput [name] ='getPropertyName(prop, props)' route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
-                    </arrayInput>
+            <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline" style="display:inline">
+                <div *ngSwitchCase="'array'">
+                        <arrayInput [name] ='getPropertyName(prop, props)' route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
+                        </arrayInput>
+                </div>
+                <div *ngSwitchCase="'string'" style="display:inline" id="inline">
+                        <p id="inline">{{getPropertyName(prop, props)}}: </p>
+                        <stringInput route={{getPath(prop)}} [prop]='getPropfromKeys(prop,propKeys)' [prop] = 'prop' [props] = 'props'>
+                        </stringInput>
+                </div>
+                <div *ngSwitchCase="'boolean'" style="display:inline"> 
+                        <p id="inline">{{getPropertyName(prop, props)}}: </p>
+                        <boolInput route={{getPath(prop)}} [props] = 'props'>
+                        </boolInput>
+                </div>
             </div>
-            <div *ngSwitchCase="'string'" style="display:inline" id="inline">
-                    <p id="inline">{{getPropertyName(prop, props)}}: </p>
-                    <stringInput route={{getPath(prop)}} [prop]='getPropfromKeys(prop,propKeys)' [prop] = 'prop' [props] = 'props'>
-                    </stringInput>
-            </div>
-            <div *ngSwitchCase="'boolean'" style="display:inline"> 
-                    <p id="inline">{{getPropertyName(prop, props)}}: </p>
-                    <boolInput route={{getPath(prop)}}>
-                    </boolInput>
-            </div>
-</div>
         </div>
     </div>
 `,
@@ -58,7 +58,6 @@ export class PropComponent implements OnInit {
         return this.parents;
     }
     getPath(prop : any) {
-        // console.log(this.getPropertyType(prop,this.props));
         let propName =  this.getPropertyName(prop, this.props);
         if(propName == undefined){
             propName='';
@@ -69,7 +68,6 @@ export class PropComponent implements OnInit {
         else return this.parents + propName;
     }
     hasParents():boolean{
-    //   console.log("from parents: " + this.parents);
       return this.parents != undefined;
     }
     isArray():boolean{
@@ -84,11 +82,9 @@ export class PropComponent implements OnInit {
         return parseFloat(input);
     }
     getPropertyType(prop: string, object: any): string {
-        // console.log(object[prop as keyof typeof object]);
         return object[prop as keyof typeof object].type;
     }
     getPropertyName(prop: string, object: any): string {
-        // console.log(object[prop as keyof typeof object]);
         if(object[prop as keyof typeof object].hasOwnProperty("name")) return object[prop as keyof typeof object].name;
         else {
             return prop;
@@ -98,7 +94,6 @@ export class PropComponent implements OnInit {
 
     }
     hasItems(prop: string, object: any): boolean {
-        // console.log(object[prop as keyof typeof object].hasOwnProperty('items'));
         return object[prop as keyof typeof object].hasOwnProperty('items');
     }
     getRef(prop: string, object: any): string {
@@ -108,7 +103,6 @@ export class PropComponent implements OnInit {
         for (const prop in this.props) {
             this.propKeys.push(prop);
         }
-        // console.log(this.props)
     }
     title = 'jsonTalkSoft';
 }

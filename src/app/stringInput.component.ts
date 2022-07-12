@@ -93,7 +93,6 @@ export class StringInputComponent implements OnInit {
         return search;
     }
     ngOnInit(): void {
-        // console.log(this.props[this.prop]);
         this.hasEnum = this.props[this.prop].hasOwnProperty("enum");
         if (this.hasEnum) {
             this.options = this.props[this.prop].enum;

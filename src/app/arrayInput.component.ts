@@ -51,28 +51,28 @@ import { MoveCardComponent } from './moveCard.component';
  passing undefined into new referances 
 */
 export class ArrayInputComponent implements OnInit {
-    @Input() route! : String;
-    @Input() prop! : any;
-    @Input() props! : Object;
-    @Input() index! : any;
-    @Input() ref : string | undefined;
-    @Input() name! : string;
+    @Input() route!: String;
+    @Input() prop!: any;
+    @Input() props!: Object;
+    @Input() index!: any;
+    @Input() ref: string | undefined;
+    @Input() name!: string;
     constructor(private dialogService: NbDialogService) {
         this.index = 0;
     }
-    hasRef() : boolean{
+    hasRef(): boolean {
         return this.ref != undefined;
     }
-    hasNoRef() : boolean{
+    hasNoRef(): boolean {
         return (this.ref == undefined);
     }
-    getItemTitle(prop: string,object:any) : string{
-        const ret = this.getRef(prop,object).split("/").pop();
-        if(ret == undefined) return "Item";
+    getItemTitle(prop: string, object: any): string {
+        const ret = this.getRef(prop, object).split("/").pop();
+        if (ret == undefined) return "Item";
         return `${ret} `;
     }
-    getRefTitle() : string{
-        if(this.ref == undefined) return "item";
+    getRefTitle(): string {
+        if (this.ref == undefined) return "item";
         return this.ref.split("/").pop() || "deafult";
     }
     getPath(prop : any, index : number) {
@@ -80,26 +80,26 @@ export class ArrayInputComponent implements OnInit {
         if(propName == undefined){
             propName='';
         } else {
-            propName = "." +propName
+            propName = "." + propName
         }
         if(this.getPropertyType(prop,this.props) == 'array') return this.route + propName+`[${index}]`;
         else return this.route + propName;
     }
-    hasParents():boolean{
-      return this.route != undefined;
+    hasParents(): boolean {
+        return this.route != undefined;
     }
     isEmpty(){
         if(this.getData() == undefined) return true;
         return this.getData().length == 0;
     }
-    toNum(input : string): number{
+    toNum(input: string): number {
         return parseFloat(input);
     }
     getPropertyType(prop: string, object: any): string {
         return object[prop as keyof typeof object].type;
     }
     getPropertyName(prop: string, object: any): string {
-        if(object[prop as keyof typeof object].hasOwnProperty("name")) return object[prop as keyof typeof object].name;
+        if (object[prop as keyof typeof object].hasOwnProperty("name")) return object[prop as keyof typeof object].name;
         else {
             return prop;
         };
@@ -108,67 +108,65 @@ export class ArrayInputComponent implements OnInit {
         return object[prop as keyof typeof object].hasOwnProperty('items');
     }
     getRef(prop: string, object: any): string {
-        if(object[prop as keyof typeof object].hasOwnProperty('items')) return object[prop as keyof typeof object].items.$ref;
+        if (object[prop as keyof typeof object].hasOwnProperty('items')) return object[prop as keyof typeof object].items.$ref;
         else return "";
     }
-    getData() : Object[]{
-            let currentRoute = this.route + "." + this.getPropertyName(this.prop,this.props);
-            const routes = currentRoute.split("."); // establishes levels of nesting 
-            let currentLocation = data;
-            for(const route of routes){ 
-                currentLocation = this.dig(route, currentLocation); 
-            }
-            // @ts-ignore
-            return currentLocation;
+    getData(): Object[] {
+        let currentRoute = this.route + "." + this.getPropertyName(this.prop, this.props);
+        const routes = currentRoute.split("."); // establishes levels of nesting 
+        let currentLocation = data;
+        for (const route of routes) {
+            currentLocation = this.dig(route, currentLocation);
+        }
+        // @ts-ignore
+        return currentLocation;
     }
-    getRefToObject(ref : string) : Object {
+    getRefToObject(ref: string): Object {
         // @ts-ignore
         const def = ref.split("/").pop();
-        console.log(def);
         // @ts-ignore
-        const defy = schema.definitions[def]; 
-        console.log(defy);
+        const defy = schema.definitions[def];
         const ret = {};
-        let fill = (propertyTag : object, object: object) => {
+        let fill = (propertyTag: object, object: object) => {
             let property = object[propertyTag as keyof typeof object];
             // @ts-ignore
-                switch(property.type){
-                    case "array":
-                            console.log("adding array")
-                            // @ts-ignore
-                            ret[propertyTag] = [];
-                        break;
-                        case "string":
-                            console.log("adding string")
-                            // @ts-ignore
-                            ret[propertyTag] = ""
-                        break;
-                        case "boolean":
-                            console.log("adding bool")
-                            // @ts-ignore
-                            ret[propertyTag] = false;
-                        break;
-                }
-                console.log(ret);
+            switch (property.type) {
+                case "array":
+                    console.log("adding array")
+                    // @ts-ignore
+                    ret[propertyTag] = [];
+                    break;
+                case "string":
+                    console.log("adding string")
+                    // @ts-ignore
+                    ret[propertyTag] = ""
+                    break;
+                case "boolean":
+                    console.log("adding bool")
+                    // @ts-ignore
+                    ret[propertyTag] = false;
+                    break;
+            }
+            console.log(ret);
         }
-        if(defy.hasOwnProperty("oneOf")){
-            for(let property in defy.oneOf[0].properties){
+        if (defy.hasOwnProperty("oneOf")) {
+            for (let property in defy.oneOf[0].properties) {
                 // @ts-ignore
-                fill(property,defy.oneOf[0].properties);
+                fill(property, defy.oneOf[0].properties);
             }
         }
-            for(let property in defy.properties){
-                // @ts-ignore
-                fill(property, defy.properties);
-            }  
-            console.log(ret);
+        for (let property in defy.properties) {
+            // @ts-ignore
+            fill(property, defy.properties);
+        }
+        console.log(ret);
         return ret;
     }
-    capFirstLetter(input : string) :string{ 
+    capFirstLetter(input: string): string {
         return input.charAt(0).toUpperCase() + input.slice(1);
     }
-    appendRef() : void {
-        if(this.ref == undefined){
+    appendRef(): void {
+        if (this.ref == undefined) {
             // this pulls the ref from "items". If it doesn't have 
             // items property then just make it an empty string
             // TO-DO make it so this checks the data type of the property and add default from there
@@ -185,33 +183,32 @@ export class ArrayInputComponent implements OnInit {
             console.log(this.getRefToObject(this.ref));
         }
     }
-    removeRef(index : number) : void {
-        const dataArray = this.ref == undefined ? this.getData():this.getDataRef()
-        dataArray.splice(index,1);
+    removeRef(index: number): void {
+        const dataArray = this.ref == undefined ? this.getData() : this.getDataRef()
+        dataArray.splice(index, 1);
     }
     open(index) {
         this.dialogService.open(MoveCardComponent)
-        .onClose.subscribe(position => {
-            const dataArray = this.ref == undefined ? this.getData():this.getDataRef()
-            position = JSON.parse(position) - 1;
-            if(position > dataArray.length) return;
-            const [copy] =  dataArray.splice(index,1);
-            dataArray.splice(position,0,copy); //insert
-        });
+            .onClose.subscribe(position => {
+                const dataArray = this.ref == undefined ? this.getData() : this.getDataRef()
+                position = JSON.parse(position) - 1;
+                if (position > dataArray.length) return;
+                const [copy] = dataArray.splice(index, 1);
+                dataArray.splice(position, 0, copy); //insert
+            });
     }
-    moveRef(index : number) : void {
+    moveRef(index: number): void {
         this.open(index);
     }
-    getDataRef() : Object[]{
-            // @ts-ignore
-            return data[this.route];  
+    getDataRef(): Object[] {
+        // @ts-ignore
+        return data[this.route];
     }
-    dig(route : string, input:any){
-        if(!route.includes("["))
-        { 
-            try{
+    dig(route: string, input: any) {
+        if (!route.includes("[")) {
+            try {
                 return input[route];
-            } catch(e){
+            } catch (e) {
                 return "route does not exist"
             }
         }
@@ -221,7 +218,7 @@ export class ArrayInputComponent implements OnInit {
         const level2 = level1.slice(1);
         const indicies = level2.map((index) => parseFloat(index.split("]")[0]));
         let search = input[routeRoot];
-        for(const index of indicies){
+        for (const index of indicies) {
             search = search[index];
         }
         return search;
