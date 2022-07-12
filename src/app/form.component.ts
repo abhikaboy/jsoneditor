@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, OnInit } from '@angular/core';
+import { validateAdditionalItems } from 'ajv/dist/vocabularies/applicator/additionalItems';
 import { schema } from './jsonfiles/schema';
 @Component({
     selector: 'form',
@@ -30,15 +31,12 @@ export class FormComponent implements OnInit {
     data: any[] = [];
     definitions: {} = {};
     constructor() {
-        // console.log(schema);
-        // console.log(schema.properties);
         for (const property in schema.properties) {
-            // console.log(property);
             this.data.push({ ...schema.properties[property as keyof typeof schema.properties], name: property });
         }
     }
     ngOnInit(): void {
-        // console.log(this.data);
+        
     }
     title = 'jsonTalkSoft';
 }

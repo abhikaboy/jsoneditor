@@ -17,22 +17,22 @@ import { DropdownComponent } from './dropdown.component';
     </div>
     <div *ngFor="let prop of propKeys">
         <div *ngIf='hasParents()'>
-        <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline" style="display:inline">
-            <div *ngSwitchCase="'array'">
-                    <arrayInput [name] ='getPropertyName(prop, props)' route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
-                    </arrayInput>
+            <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline" style="display:inline">
+                <div *ngSwitchCase="'array'">
+                        <arrayInput [name] ='getPropertyName(prop, props)' route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
+                        </arrayInput>
+                </div>
+                <div *ngSwitchCase="'string'" style="display:inline" id="inline">
+                        <p id="inline">{{getPropertyName(prop, props)}}: </p>
+                        <stringInput route={{getPath(prop)}} [prop]='getPropfromKeys(prop,propKeys)' [prop] = 'prop' [props] = 'props'>
+                        </stringInput>
+                </div>
+                <div *ngSwitchCase="'boolean'" style="display:inline"> 
+                        <p id="inline">{{getPropertyName(prop, props)}}: </p>
+                        <boolInput route={{getPath(prop)}} [props] = 'props'>
+                        </boolInput>
+                </div>
             </div>
-            <div *ngSwitchCase="'string'" style="display:inline" id="inline">
-                    <p id="inline">{{getPropertyName(prop, props)}}: </p>
-                    <stringInput route={{getPath(prop)}} [prop]='getPropfromKeys(prop,propKeys)' [prop] = 'prop' [props] = 'props'>
-                    </stringInput>
-            </div>
-            <div *ngSwitchCase="'boolean'" style="display:inline"> 
-                    <p id="inline">{{getPropertyName(prop, props)}}: </p>
-                    <boolInput route={{getPath(prop)}} [props] = 'props'>
-                    </boolInput>
-            </div>
-</div>
         </div>
     </div>
 `,

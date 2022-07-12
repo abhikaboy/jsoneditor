@@ -47,7 +47,7 @@ import { MoveCardComponent } from './moveCard.component';
     BooleanInputComponent,
     ArrayInputComponent,
     ReviewCardComponent,
-    MoveCardComponent
+    MoveCardComponent,
   ],
   imports: [
     BrowserModule,

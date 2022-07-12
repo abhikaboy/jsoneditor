@@ -4,9 +4,11 @@ import { schema } from './jsonfiles/schema';
 import { NbDialogService } from '@nebular/theme';
 
 // @ts-ignore
-import { Validator } from 'schema-validator';
 import { FormComponent } from './form.component';
+import jsv, { JsonSchemaValidator } from 'JSV';
 import { ReviewCardComponent } from './reviewCard';
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,15 +18,14 @@ export class AppComponent {
   logData = () => {
     console.log(data);
   }
-  getData(){
+  getData() {
     console.log("data getting");
     return data;
-  } 
-  validate = () => {
-    this.open(false);
-    console.log(data);
   }
-    constructor(private dialogService: NbDialogService) {
+  validate = () => {
+    
+  }
+  constructor(private dialogService: NbDialogService) {
   }
 
   open(hasScroll: boolean) {

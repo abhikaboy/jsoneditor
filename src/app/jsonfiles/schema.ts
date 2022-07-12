@@ -1,3 +1,5 @@
+import { JSONSchemaType } from "ajv";
+
 export const schema = {
   "$schema": "http://json-schema.org/draft-07/schema",
   "title": "CallScriptTemplate",
@@ -106,7 +108,7 @@ export const schema = {
               "pattern": "(^(:PROVIDER|:LOCATION|:APPT_TYPE|:CALLER_ID|:ADDRESS|:CALLBACK_NUM|:TRANSFER_NUM|:CUSTOM1|:CUSTOM2|:CUSTOM3|:RECIP_FNAME|:APPT_DATE_ONLY|:APPT_TIME_ONLY|:BROADCAST|:ARRIVAL_TIME)$|(^\\d+(,\\d+)*$))"
             },
             "label": {
-              "label": "schema label 0",
+              "label": "Reference",
             }
           }
         },
@@ -125,8 +127,8 @@ export const schema = {
               "type": "string",
               "pattern": "(^(:CALLER_ID|:CALLBACK_NUM|:TRANSFER_NUM)$|(^[0-9]+$))"
             },
-            "label":{
-              "label": "schema label 1",
+            "label": {
+              "label": "Generic",
             }
           }
         }
@@ -161,7 +163,7 @@ export const schema = {
               "type": "boolean",
               "description": "The value of the conditionType variable"
             },
-            "label":{
+            "label": {
               "label": "booleanw",
             }
           }
@@ -190,7 +192,7 @@ export const schema = {
                 "OPTOUT"
               ]
             },
-            "label":{
+            "label": {
               "label": "enumbig",
             }
           }
@@ -244,3 +246,5 @@ export const schema = {
     }
   }
 }
+
+

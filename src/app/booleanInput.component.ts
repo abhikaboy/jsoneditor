@@ -31,7 +31,6 @@ export class BooleanInputComponent implements OnInit {
         }
         // @ts-ignore
         temp[routes[routes.length - 1]] = this.checked;
-        console.log(data);
     }
     getRouteArray() {
         const preRoutes = this.route.split(".");

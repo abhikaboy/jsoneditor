@@ -35,7 +35,6 @@ export class MoveCardComponent implements OnInit {
         console.log("wheeew");
     }
     ngOnInit(): void {
-        // console.log(this.data);
     }
     title = 'jsonTalkSoft';
 }
