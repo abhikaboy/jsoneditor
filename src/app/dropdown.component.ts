@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, OnInit, Input } from '@angular/core';
-import { data } from './jsonfiles/data';
+import { data } from './jsonfiles/data2';
 
 @Component({
     selector: 'dropdown',

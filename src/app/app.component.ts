@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { data } from './jsonfiles/data';
-import { schema } from './jsonfiles/schema';
+import { data } from './jsonfiles/data2';
+import { schema } from './jsonfiles/schema2';
 import { NbDialogService } from '@nebular/theme';
 
 // @ts-ignore
@@ -13,6 +13,8 @@ import { ReviewCardComponent } from './reviewCard';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  schemaTitle = schema.title;
+  schemaDescription = schema.description;
   logData = () => {
     console.log(data);
   }

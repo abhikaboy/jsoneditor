@@ -2,8 +2,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { data } from './jsonfiles/data';
-import { schema } from './jsonfiles/schema';
+import { data } from './jsonfiles/data2';
+import { schema } from './jsonfiles/schema2';
 import { NbDialogService } from '@nebular/theme';
 import { MoveCardComponent } from './moveCard.component';
 @Component({
@@ -13,15 +13,17 @@ import { MoveCardComponent } from './moveCard.component';
                     <p style="display: inline;">{{name}}: </p> <button nbButton outline status="success" size="tiny" (click)="appendRef()">+</button>
                 </div>
                 <nb-accordion *ngIf='hasNoRef()'>
-                            <nb-accordion-item  *ngFor='let i of getData(); let index = index'>
-                                <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (index + 1))}}</nb-accordion-item-header>
+                            <nb-accordion-item  *ngFor='let i of getData(); let ind = index'>
+                                <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (ind + 1))}}</nb-accordion-item-header>
                                 <nb-accordion-item-body>
-                                    <button nbButton status="danger" size="small" (click)='removeRef(index)'>Remove</button>
-                                    <button nbButton status="info" size="small" (click)='moveRef(index)'>Move</button>
-                                    <div *ngIf='hasItems(prop,props)'>
-                                        <ref [ref]='getRef(prop,props)' parents={{getPath(prop)}}>
-                                        </ref>
+                                    <button nbButton status="danger" size="small" (click)='removeRef(ind)'>Remove</button>
+                                    <button nbButton status="info" size="small" (click)='moveRef(ind)'>Move</button>
+                                    <div *ngIf='hasItems(prop,props); else showProp'>
+                                        <ref [ref]='getRef(prop,props)'  parents={{getPath(prop,ind)}}> </ref>
                                     </div>
+                                    <ng-template #showProp>
+                                        <!-- <prop [props]={{generatePropCard()}} index="index" parents={{this.route}}> </prop> -->
+                                    </ng-template>
                                 </nb-accordion-item-body>
                             </nb-accordion-item>
                                 <nb-accordion-item *ngIf='isEmpty()' >
@@ -73,20 +75,21 @@ export class ArrayInputComponent implements OnInit {
         if(this.ref == undefined) return "item";
         return this.ref.split("/").pop() || "deafult";
     }
-    getPath(prop : any) {
+    getPath(prop : any, index : number) {
         let propName =  this.getPropertyName(prop, this.props);
         if(propName == undefined){
             propName='';
         } else {
             propName = "." +propName
         }
-        if(this.getPropertyType(prop,this.props) == 'array') return this.route + propName+`[${this.index}]`;
+        if(this.getPropertyType(prop,this.props) == 'array') return this.route + propName+`[${index}]`;
         else return this.route + propName;
     }
     hasParents():boolean{
       return this.route != undefined;
     }
     isEmpty(){
+        if(this.getData() == undefined) return true;
         return this.getData().length == 0;
     }
     toNum(input : string): number{
@@ -169,11 +172,17 @@ export class ArrayInputComponent implements OnInit {
             // this pulls the ref from "items". If it doesn't have 
             // items property then just make it an empty string
             // TO-DO make it so this checks the data type of the property and add default from there
+            console.log(this.getData());
             this.getData().push(this.getRef(this.prop,this.props));
         } else{ 
-            // has the reference property lowkey
+            // has the reference property 
             // @ts-ignore
             this.getDataRef().push(this.getRefToObject(this.ref));
+            console.log("get data ref:");
+            console.log(this.getDataRef())
+            console.log("get ref to object:");
+
+            console.log(this.getRefToObject(this.ref));
         }
     }
     removeRef(index : number) : void {

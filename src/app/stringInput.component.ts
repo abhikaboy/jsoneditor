@@ -2,8 +2,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { data } from './jsonfiles/data';
-import { schema } from './jsonfiles/schema';
+import { data } from './jsonfiles/data2';
+import { schema } from './jsonfiles/schema2';
 @Component({
     selector: 'stringInput',
     template: `

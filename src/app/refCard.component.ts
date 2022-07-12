@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { schema } from './jsonfiles/schema';
+import { schema } from './jsonfiles/schema2';
 
 @Component({
   selector: 'ref',
@@ -69,7 +69,7 @@ export class RefComponent implements OnInit {
   }
   ngOnInit(): void {
     // console.log(this.ref)
-    // console.log(this.parents)
+    console.log(this.index);
     // @ts-ignore
     const path: string[] = this.ref.split("/");
     this.definitionName = path.pop();

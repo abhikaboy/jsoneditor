@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, OnInit } from '@angular/core';
-import { data } from './jsonfiles/data';
-import { schema } from './jsonfiles/schema';
+import { data } from './jsonfiles/data2';
+import { schema } from './jsonfiles/schema2';
 import { NbDialogRef } from '@nebular/theme';
 
 @Component({

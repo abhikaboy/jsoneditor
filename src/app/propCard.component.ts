@@ -3,7 +3,7 @@
 import { ConvertPropertyBindingResult } from '@angular/compiler/src/compiler_util/expression_converter';
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { NbChatOptions } from '@nebular/theme';
-import { schema } from './jsonfiles/schema';
+import { schema } from './jsonfiles/schema2';
 import { DropdownComponent } from './dropdown.component';
 @Component({
     selector: 'prop',

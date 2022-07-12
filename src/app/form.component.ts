@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, OnInit } from '@angular/core';
-import { schema } from './jsonfiles/schema';
+import { schema } from './jsonfiles/schema2';
 @Component({
     selector: 'form',
     template: `
