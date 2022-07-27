@@ -3,7 +3,11 @@
   <nb-layout-column>
     <nb-card>
       <nb-card-body>
-        <form></form>
+          <nb-select placeholder="Schema Selector" [(selected)]="selectedItem" (selectedChange)="this.writeChange($event)">
+            <nb-option *ngFor="let schema of this.schemas" value={{schema.schema}}>{{schema.name}}</nb-option>
+          </nb-select>
+          <button nbButton status="info" ghost (click)="openInput()">Manually Input Data</button>
+        <form [changeForce]="update"></form>
         <button hero nbButton status="success" id="save" (click)="validate()">Save</button>
         <button hero nbButton status="danger" id="save">Cancel Changes</button>
       </nb-card-body>

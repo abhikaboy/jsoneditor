@@ -20,7 +20,7 @@ import {
   NbAccordionComponent,
   NbDialogModule,
   NbAccordionModule,
-  NbStepperComponent
+  NbStepperComponent,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppRoutingModule } from './app-routing.module';
@@ -35,6 +35,7 @@ import { ArrayInputComponent } from './arrayInput.component';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReviewCardComponent } from './reviewCard';
 import { MoveCardComponent } from './moveCard.component';
+import { InputCardComponent } from './inputCard.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { MoveCardComponent } from './moveCard.component';
     ArrayInputComponent,
     ReviewCardComponent,
     MoveCardComponent,
+    InputCardComponent,
   ],
   imports: [
     BrowserModule,

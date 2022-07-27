@@ -13,13 +13,17 @@ import { DropdownComponent } from './dropdown.component';
             <div *ngIf='isArray()'>
             <arrayInput name="list" [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
             </arrayInput>
-        </div>
+            </div>
+            <div *ngIf='isObject()'>
+                
+            </div>
+
     </div>
     <div *ngFor="let prop of propKeys">
         <div *ngIf='hasParents()'>
             <div  class="spacing" [ngSwitch]='getPropertyType(prop, props)' id="inline" style="display:inline">
                 <div *ngSwitchCase="'array'">
-                        <arrayInput [name] ='getPropertyName(prop, props)' route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
+                        <arrayInput [name] ='getPropertyName(prop, props)' [ref]='getArrayRef(prop,props)' route={{this.parents}} [prop]='prop' [props]='props' index={{index}}>
                         </arrayInput>
                 </div>
                 <div *ngSwitchCase="'string'" style="display:inline" id="inline">
@@ -48,6 +52,7 @@ export class PropComponent implements OnInit {
     @Input() index: number | undefined | string;
     @Input() ref: string | undefined;
     @Input() type: string | undefined;
+    @Input() solo: string | undefined;
     propKeys: string[] = [];
     options: string[] = [];
     
@@ -57,6 +62,11 @@ export class PropComponent implements OnInit {
     getPathArray(){
         return this.parents;
     }
+    getArrayRef(prop,props){
+        const obj = this.getPropfromKeys(prop,props);
+        if(obj.hasOwnProperty("items")) return obj.items.$ref;
+        else return undefined;
+    }
     getPath(prop : any) {
         let propName =  this.getPropertyName(prop, this.props);
         if(propName == undefined){
@@ -64,6 +74,7 @@ export class PropComponent implements OnInit {
         } else {
             propName = "." +propName
         }
+        if(this.solo=="true"){ console.log(this.parents + " lol");return this.parents}
         if(this.getPropertyType(prop,this.props) == 'array') return this.parents + propName+`[${this.index}]`;
         else return this.parents + propName;
     }
@@ -72,7 +83,13 @@ export class PropComponent implements OnInit {
     }
     isArray():boolean{
         if(this.type == undefined) return false;
+        if(this.type != "array") return false;
         return this.type == "array" || this.hasParents();
+    }
+    isObject():boolean{
+        if(this.type == undefined) return false;
+        if(this.type != "object") return false;
+        return this.type == "object" || this.hasParents();
     }
 
     constructor() {

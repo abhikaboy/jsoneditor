@@ -7,11 +7,12 @@ import { NbDialogRef } from '@nebular/theme';
 // let {data} = dataJSON;
 
 @Component({
-    selector: 'movePrompt',
+    selector: 'manualInput',
     template: `
         <nb-card status="info">
             <nb-card-body>
-                <input nbInput placeholder="Position"  [(ngModel)]="position" (input)="this.logChange($event)">
+                <textarea nbInput placeholder="data"  [(ngModel)]="dataInput" (input)="this.logChange($event)">
+                </textarea>
             </nb-card-body>
             <nb-card-footer style="textAlign:center">
                 <button nbButton status="success" style="width:100%" (click)="save()">Save</button>
@@ -22,19 +23,21 @@ import { NbDialogRef } from '@nebular/theme';
 `,
     styleUrls: ['./app.component.scss']
 })
-export class MoveCardComponent implements OnInit {
-    data = dataJSON.data;
-    position = "";
+export class InputCardComponent implements OnInit {
+    dataInput = "";
     // @ts-ignore
     constructor(protected dialogRef: NbDialogRef) {
     }
     logChange(event : Event){
         // @ts-ignore
-        console.log(this.position);
+        console.log(this.data);
     }
     save(){
-        this.dialogRef.close(this.position);
+        // @ts-ignore
+        dataJSON["data"] = JSON.parse(this.dataInput);
+        this.dialogRef.close(this.dataInput);
         console.log("wheeew");
+        console.log(dataJSON);
     }
     ngOnInit(): void {
     }

@@ -2,13 +2,14 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { data } from './jsonfiles/data2';
+import { dataJSON } from './jsonfiles/data2';
 import { schema } from './jsonfiles/schema2';
+// let {data} = dataJSON;
 @Component({
     selector: 'stringInput',
     template: `
         <div *ngIf="!hasEnum; else dropdown">    
-            <input nbInput [value]="getData()" (input)="this.writeChange($event)" />
+            <input nbInput [value]="getData()" [(ngModel)]="input" (input)="this.writeChange($event)" />
         </div>
         <ng-template #dropdown>
             <dropdown [options]="options" [selectedItem]="getData()" route={{this.route}}></dropdown>
@@ -17,6 +18,8 @@ import { schema } from './jsonfiles/schema2';
     styleUrls: ['./app.component.scss']
 })
 export class StringInputComponent implements OnInit {
+
+    data = dataJSON.data;
     @Input() route!: String;
     @Input() prop: any;
     @Input() props: any;
@@ -26,13 +29,8 @@ export class StringInputComponent implements OnInit {
     constructor() {
     }
     writeChange(change: any) {
-        if (change.data == null) {
-            this.input = this.input.substring(0, this.input.length - 1);
-        } else {
-            this.input += change.data;
-        }
         let routes = this.getRouteArray();
-        let temp = data;
+        let temp = dataJSON.data;
 
         for (let i = 0; i < routes.length - 1; i++) {
             if (temp.hasOwnProperty(routes[i])) {
@@ -44,7 +42,7 @@ export class StringInputComponent implements OnInit {
         }
         // @ts-ignore
         temp[routes[routes.length - 1]] = this.input;
-        console.log(data);
+        console.log(dataJSON.data);
     }
     getRouteArray() {
         const preRoutes = this.route.split(".");
@@ -65,10 +63,15 @@ export class StringInputComponent implements OnInit {
         return routes;
     }
     getData() {
+        console.log("mid");
         const routes = this.route.split("."); // establishes levels of nesting 
-        let currentLocation = data;
+        let currentLocation = dataJSON.data;
         for (const route of routes) {
             currentLocation = this.dig(route, currentLocation);
+        }
+        if(currentLocation == undefined) {
+            console.log(this.route);
+            console.log(routes);
         }
         return currentLocation;
     }
@@ -97,6 +100,8 @@ export class StringInputComponent implements OnInit {
         if (this.hasEnum) {
             this.options = this.props[this.prop].enum;
         }
+        // @ts-ignore
+        this.input=this.getData();
     }
     title = 'jsonTalkSoft';
 }

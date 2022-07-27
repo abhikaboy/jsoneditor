@@ -2,7 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { data } from './jsonfiles/data2';
+import { dataJSON } from './jsonfiles/data2';
 import { schema } from './jsonfiles/schema2';
 import { NbDialogService } from '@nebular/theme';
 import { MoveCardComponent } from './moveCard.component';
@@ -14,28 +14,36 @@ import { MoveCardComponent } from './moveCard.component';
                 </div>
                 <nb-accordion *ngIf='hasNoRef()'>
                             <nb-accordion-item  *ngFor='let i of getData(); let ind = index'>
-                                <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (ind + 1))}}</nb-accordion-item-header>
+                                <nb-accordion-item-header>{{capFirstLetter(getItemTitle(prop,props) + (ind + 1))}}
+                                    <button nbButton status="danger" size="small" (click)='removeRef(ind)' style="margin-left:3%">Remove</button>
+                                    <button nbButton status="info" size="small" (click)='move(ind,-1)' style="margin-left:0.2%">Up</button>
+                                    <button nbButton status="info" size="small" (click)='move(ind,1)' style="margin-left:0.2%">Down</button>
+                                </nb-accordion-item-header>
                                 <nb-accordion-item-body>
-                                    <button nbButton status="danger" size="small" (click)='removeRef(ind)'>Remove</button>
-                                    <button nbButton status="info" size="small" (click)='moveRef(ind)'>Move</button>
                                     <div *ngIf='hasItems(prop,props); else showProp'>
+                                        <h1>outside</h1>
                                         <ref [ref]='getRef(prop,props)'  parents={{getPath(prop,ind)}}> </ref>
                                     </div>
                                     <ng-template #showProp>
-                                        <!-- <prop [props]={{generatePropCard()}} index="index" parents={{this.route}}> </prop> -->
+                                        <h2>prop card</h2>
+
+                                        <prop [props]=generatePropCard() index="index" parents={{this.route}}> </prop>
                                     </ng-template>
                                 </nb-accordion-item-body>
                             </nb-accordion-item>
                                 <nb-accordion-item *ngIf='isEmpty()' >
+                                        <h1>outsid2e</h1>
                                     <nb-accordion-item-header>Empty</nb-accordion-item-header>
                             </nb-accordion-item>
                     </nb-accordion>
                     <nb-accordion *ngIf='hasRef()'>
                         <nb-accordion-item *ngFor='let item of getDataRef(); let i = index'>
-                            <nb-accordion-item-header>{{capFirstLetter(this.getRefTitle()+ " " + (i+1))}}</nb-accordion-item-header>
+                            <nb-accordion-item-header>{{capFirstLetter(this.getRefTitle()+ " " + (i+1))}}
+                                    <button nbButton status="danger" size="small" (click)='removeRef(index)' style="margin-left:3%">Remove</button>
+                                    <button nbButton status="info" size="small" (click)='move(index,-1)' style="margin-left:0.2%">Up</button>
+                                    <button nbButton status="info" size="small" (click)='move(index,1)' style="margin-left:0.2%">Down</button>
+                                </nb-accordion-item-header>
                                 <nb-accordion-item-body>
-                                    <button nbButton status="danger" size="small" (click)='removeRef(index)'> Remove </button>
-                                    <button nbButton status="info" size="small" (click)='moveRef(index)'>Move</button>
                                     <div>
                                         <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
                                         </ref>
@@ -51,20 +59,30 @@ import { MoveCardComponent } from './moveCard.component';
  passing undefined into new referances 
 */
 export class ArrayInputComponent implements OnInit {
+    
     @Input() route!: String;
     @Input() prop!: any;
     @Input() props!: Object;
     @Input() index!: any;
     @Input() ref: string | undefined;
     @Input() name!: string;
+    data = dataJSON.data;
+
     constructor(private dialogService: NbDialogService) {
         this.index = 0;
     }
     hasRef(): boolean {
+        console.log(this.ref);
         return this.ref != undefined;
     }
     hasNoRef(): boolean {
         return (this.ref == undefined);
+    }
+    generatePropCard(){ 
+        console.log("array dont know what to do");
+        return { 
+
+        }
     }
     getItemTitle(prop: string, object: any): string {
         const ret = this.getRef(prop, object).split("/").pop();
@@ -89,6 +107,7 @@ export class ArrayInputComponent implements OnInit {
         return this.route != undefined;
     }
     isEmpty(){
+        console.log(this.getData());
         if(this.getData() == undefined) return true;
         return this.getData().length == 0;
     }
@@ -114,7 +133,9 @@ export class ArrayInputComponent implements OnInit {
     getData(): Object[] {
         let currentRoute = this.route + "." + this.getPropertyName(this.prop, this.props);
         const routes = currentRoute.split("."); // establishes levels of nesting 
-        let currentLocation = data;
+        console.log(routes);
+        // console.log(routes);
+        let currentLocation = this.data;
         for (const route of routes) {
             currentLocation = this.dig(route, currentLocation);
         }
@@ -166,12 +187,18 @@ export class ArrayInputComponent implements OnInit {
         return input.charAt(0).toUpperCase() + input.slice(1);
     }
     appendRef(): void {
+        console.log(dataJSON)
         if (this.ref == undefined) {
+            console.log(this.getRef(this.prop,this.props));
             // this pulls the ref from "items". If it doesn't have 
             // items property then just make it an empty string
             // TO-DO make it so this checks the data type of the property and add default from there
             console.log(this.getData());
-            this.getData().push(this.getRef(this.prop,this.props));
+            if(this.getRef(this.prop,this.props) != undefined){
+                this.getData().push(this.getRef(this.prop,this.props));
+            } else {
+                this.getData().push({});
+            }
         } else{ 
             // has the reference property 
             // @ts-ignore
@@ -187,22 +214,17 @@ export class ArrayInputComponent implements OnInit {
         const dataArray = this.ref == undefined ? this.getData() : this.getDataRef()
         dataArray.splice(index, 1);
     }
-    open(index) {
-        this.dialogService.open(MoveCardComponent)
-            .onClose.subscribe(position => {
+    move(index,amount) {
                 const dataArray = this.ref == undefined ? this.getData() : this.getDataRef()
-                position = JSON.parse(position) - 1;
-                if (position > dataArray.length) return;
+                let position = index + amount;
+                if (position > dataArray.length || position < 0) return;
                 const [copy] = dataArray.splice(index, 1);
                 dataArray.splice(position, 0, copy); //insert
-            });
     }
-    moveRef(index: number): void {
-        this.open(index);
-    }
+    
     getDataRef(): Object[] {
         // @ts-ignore
-        return data[this.route];
+        return this.data[this.route];
     }
     dig(route: string, input: any) {
         if (!route.includes("[")) {

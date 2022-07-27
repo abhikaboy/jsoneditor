@@ -1,8 +1,10 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { data } from './jsonfiles/data2';
+import { DartTargetLanguage } from 'quicktype-core';
+import { dataJSON } from './jsonfiles/data2';
 import { schema } from './jsonfiles/schema2';
+// let {data} = dataJSON;
 @Component({
     selector: 'boolInput',
     template: `
@@ -12,6 +14,7 @@ import { schema } from './jsonfiles/schema2';
     styleUrls: ['./app.component.scss']
 })
 export class BooleanInputComponent implements OnInit {
+    data = dataJSON.data;
     @Input() route!: String;
     @Input() props!: Object;
 
@@ -19,7 +22,7 @@ export class BooleanInputComponent implements OnInit {
     toggle(checked: boolean) {
         this.checked = checked;
         let routes = this.getRouteArray();
-        let temp = data;
+        let temp = dataJSON.data
 
         for (let i = 0; i < routes.length - 1; i++) {
             if (temp.hasOwnProperty(routes[i])) {
@@ -52,7 +55,7 @@ export class BooleanInputComponent implements OnInit {
     }
     getData() {
         const routes = this.route.split("."); // establishes levels of nesting 
-        let currentLocation = data;
+        let currentLocation = dataJSON.data;
         for (const route of routes) {
             currentLocation = this.dig(route, currentLocation);
         }

@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, OnInit, Input } from '@angular/core';
-import { data } from './jsonfiles/data2';
+import { dataJSON } from './jsonfiles/data2';
 
 @Component({
     selector: 'dropdown',
@@ -16,6 +16,7 @@ import { data } from './jsonfiles/data2';
     styleUrls: ['./app.component.scss']
 })
 export class DropdownComponent implements OnInit {
+    data = dataJSON.data;
     @Input() options!: string[];
     @Input() selectedItem!: any;
     @Input() route!: any
@@ -24,7 +25,7 @@ export class DropdownComponent implements OnInit {
     }
     writeChange(change: any) {
         let routes = this.getRouteArray();
-        let temp = data;
+        let temp = dataJSON.data;
 
         for (let i = 0; i < routes.length - 1; i++) {
             if (temp.hasOwnProperty(routes[i])) {
