@@ -7,7 +7,7 @@ import { quicktype, InputData, jsonInputForTargetLanguage, JSONSchemaInput, Fetc
     selector: 'form',
     template: `
         <ul style="list-style-type:none;">
-        <button nbButton (click)="refresh()">refresh</button>
+        <button nbButton (click)="refresh()" ghost>refresh</button>
             <li *ngFor="let item of data">
                 <nb-card status="success">
                     <nb-card-header style="text-align:center;font-size:1.2em">

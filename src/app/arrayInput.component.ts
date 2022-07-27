@@ -39,9 +39,9 @@ import { MoveCardComponent } from './moveCard.component';
                     <nb-accordion *ngIf='hasRef()'>
                         <nb-accordion-item *ngFor='let item of getDataRef(); let i = index'>
                             <nb-accordion-item-header>{{capFirstLetter(this.getRefTitle()+ " " + (i+1))}}
-                                    <button nbButton status="danger" size="small" (click)='removeRef(index)' style="margin-left:3%">Remove</button>
-                                    <button nbButton status="info" size="small" (click)='move(index,-1)' style="margin-left:0.2%">Up</button>
-                                    <button nbButton status="info" size="small" (click)='move(index,1)' style="margin-left:0.2%">Down</button>
+                                    <button nbButton ghost status="danger" size="small" (click)='removeRef(index)' style="margin-left:3%">Remove</button>
+                                    <button nbButton ghost status="info" size="small" (click)='move(index,-1)' style="margin-left:0.2%">Up</button>
+                                    <button nbButton ghost status="info" size="small" (click)='move(index,1)' style="margin-left:0.2%">Down</button>
                                 </nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <div>

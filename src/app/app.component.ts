@@ -25,6 +25,11 @@ export class AppComponent {
   logData = () => {
     console.log(data);
   }
+  isDataEmpty(){
+    console.log("data check");
+    console.log(dataJSON.data)
+    return dataJSON.data == {};
+  }
   getData() {
     console.log("data getting");
     return data;
