@@ -21,7 +21,7 @@ let { data } = dataJSON;
 export class AppComponent {
   schemaTitle = schema.title;
   schemaDescription = schema.description;
-  selectedSchemaName = {};
+  selectedSchema = {};
   selectedItem = {};
   update = 0;
   schemas = schemas;
@@ -55,10 +55,9 @@ export class AppComponent {
     this.dialogService.open(InputCardComponent);
   }
   schemaChange(event) {
-    this.selectedSchemaName = event;
-    this.selectedItem = this.schemaHash.get(event);
+    this.selectedItem = event;
+    this.selectedSchema = this.schemaHash.get(event);
     console.log(this.selectedItem)
-    console.log(this.selectedSchemaName)
   }
   ngOnInit() {
     for (let i = 0; i < this.schemas.length; i++) {
