@@ -49,7 +49,7 @@ export class RefComponent implements OnInit {
     if (this.index != undefined) return this.parents + `[${this.index}]`;
     return this.parents;
   }
-  changeIndex(index: number){
+  changeIndex(index: number) {
     this.oneOfType = index;
   }
   getOneOf() {

@@ -18,7 +18,6 @@ import { schema } from './jsonfiles/schema2';
     styleUrls: ['./app.component.scss']
 })
 export class StringInputComponent implements OnInit {
-
     data = dataJSON.data;
     @Input() route!: String;
     @Input() prop: any;
@@ -42,7 +41,7 @@ export class StringInputComponent implements OnInit {
         }
         // @ts-ignore
         temp[routes[routes.length - 1]] = this.input;
-        console.log(dataJSON.data);
+        // console.log(dataJSON.data);
     }
     getRouteArray() {
         const preRoutes = this.route.split(".");
@@ -63,15 +62,15 @@ export class StringInputComponent implements OnInit {
         return routes;
     }
     getData() {
-        console.log("mid");
+        // console.log("mid");
         const routes = this.route.split("."); // establishes levels of nesting 
         let currentLocation = dataJSON.data;
         for (const route of routes) {
             currentLocation = this.dig(route, currentLocation);
         }
         if(currentLocation == undefined) {
-            console.log(this.route);
-            console.log(routes);
+            // console.log(this.route);
+            // console.log(routes);
         }
         return currentLocation;
     }

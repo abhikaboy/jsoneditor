@@ -72,7 +72,7 @@ export class ArrayInputComponent implements OnInit {
         this.index = 0;
     }
     hasRef(): boolean {
-        console.log(this.ref);
+        // console.log(this.ref);
         return this.ref != undefined;
     }
     hasNoRef(): boolean {
@@ -133,7 +133,6 @@ export class ArrayInputComponent implements OnInit {
     getData(): Object[] {
         let currentRoute = this.route + "." + this.getPropertyName(this.prop, this.props);
         const routes = currentRoute.split("."); // establishes levels of nesting 
-        console.log(routes);
         // console.log(routes);
         let currentLocation = this.data;
         for (const route of routes) {
@@ -193,7 +192,7 @@ export class ArrayInputComponent implements OnInit {
             // this pulls the ref from "items". If it doesn't have 
             // items property then just make it an empty string
             // TO-DO make it so this checks the data type of the property and add default from there
-            console.log(this.getData());
+            // console.log(this.xgetData());
             if(this.getRef(this.prop,this.props) != undefined){
                 this.getData().push(this.getRef(this.prop,this.props));
             } else {

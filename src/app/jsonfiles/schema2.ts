@@ -136,7 +136,7 @@
 //         },
 
 //       }
-    
+
 //     },
 //     "message_sending_integration": {
 //       "description": "A list of prompts which are to be played in the specified order",
@@ -654,200 +654,200 @@
 //   }
 // }
 let schema = {
-    "$schema": "http://json-schema.org/draft-06/schema#",
-    "$ref": "#/definitions/Welcome",
-    "title":"Welcome",
-    "description": "yoh",
-    "properties": {
-        "steps": {
-            "type":"array",
-            "$ref": "#/definitions/Welcome",
-        }
-    },
-    "definitions": {
-        "Welcome": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "steps": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Step"
-                    }
-                }
-            },
-            "required": [
-                "steps"
-            ],
-            "title": "Welcome"
-        },
-        "Step": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "stepId": {
-                    "type": "string"
-                },
-                "stepName": {
-                    "type": "string"
-                },
-                "modalType": {
-                    "type": "string"
-                },
-                "toInitiateFriendlyName": {
-                    "type": "string"
-                },
-                "completedFriendlyName": {
-                    "type": "string"
-                },
-                "actorId": {
-                    "type": "string"
-                },
-                "patientViewable": {
-                    "type": "boolean"
-                },
-                "onComplete": {
-                    "$ref": "#/definitions/OnComplete"
-                },
-                "patientViewbleAction": {
-                    "type": "string"
-                },
-                "setExpectedSeenMinutesFromNow": {
-                    "type": "integer"
-                },
-                "templates": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Template"
-                    }
-                },
-                "dataSources": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/DataSource"
-                    }
-                },
-                "stepData": {
-                    "$ref": "#/definitions/StepData"
-                },
-                "allowDelete": {
-                    "type": "boolean"
-                },
-                "allowManualCompletion": {
-                    "type": "boolean"
-                },
-                "buttonText": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "actorId",
-                "completedFriendlyName",
-                "modalType",
-                "patientViewable",
-                "stepId",
-                "stepName",
-                "toInitiateFriendlyName"
-            ],
-            "title": "Step"
-        },
-        "DataSource": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "sourceType": {
-                    "type": "string"
-                },
-                "sourceAddress": {
-                    "type": "string"
-                },
-                "target": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "sourceAddress",
-                "sourceType",
-                "target"
-            ],
-            "title": "DataSource"
-        },
-        "OnComplete": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "eventType": {
-                    "type": "string"
-                },
-                "parameters": {
-                    "$ref": "#/definitions/Parameters"
-                }
-            },
-            "required": [
-                "eventType",
-                "parameters"
-            ],
-            "title": "OnComplete"
-        },
-        "Parameters": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "to": {
-                    "type": "string"
-                },
-                "templateName": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "templateName"
-            ],
-            "title": "Parameters"
-        },
-        "StepData": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "paymentIdentifier": {
-                    "type": "string"
-                },
-                "paymentIdentifierLabel": {
-                    "type": "string"
-                },
-                "copayAmountIdentifierLabel": {
-                    "type": "string"
-                },
-                "copayAmountIdentifier": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "copayAmountIdentifier",
-                "copayAmountIdentifierLabel",
-                "paymentIdentifier",
-                "paymentIdentifierLabel"
-            ],
-            "title": "StepData"
-        },
-        "Template": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-                "templateName": {
-                    "type": "string"
-                },
-                "templateFriendlyName": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "templateFriendlyName",
-                "templateName"
-            ],
-            "title": "Template"
-        }
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Welcome",
+  "title": "Welcome",
+  "description": "yoh",
+  "properties": {
+    "steps": {
+      "type": "array",
+      "$ref": "#/definitions/Welcome",
     }
+  },
+  "definitions": {
+    "Welcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Step"
+          }
+        }
+      },
+      "required": [
+        "steps"
+      ],
+      "title": "Welcome"
+    },
+    "Step": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stepId": {
+          "type": "string"
+        },
+        "stepName": {
+          "type": "string"
+        },
+        "modalType": {
+          "type": "string"
+        },
+        "toInitiateFriendlyName": {
+          "type": "string"
+        },
+        "completedFriendlyName": {
+          "type": "string"
+        },
+        "actorId": {
+          "type": "string"
+        },
+        "patientViewable": {
+          "type": "boolean"
+        },
+        "onComplete": {
+          "$ref": "#/definitions/OnComplete"
+        },
+        "patientViewbleAction": {
+          "type": "string"
+        },
+        "setExpectedSeenMinutesFromNow": {
+          "type": "integer"
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Template"
+          }
+        },
+        "dataSources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/DataSource"
+          }
+        },
+        "stepData": {
+          "$ref": "#/definitions/StepData"
+        },
+        "allowDelete": {
+          "type": "boolean"
+        },
+        "allowManualCompletion": {
+          "type": "boolean"
+        },
+        "buttonText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "actorId",
+        "completedFriendlyName",
+        "modalType",
+        "patientViewable",
+        "stepId",
+        "stepName",
+        "toInitiateFriendlyName"
+      ],
+      "title": "Step"
+    },
+    "DataSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceType": {
+          "type": "string"
+        },
+        "sourceAddress": {
+          "type": "string"
+        },
+        "target": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourceAddress",
+        "sourceType",
+        "target"
+      ],
+      "title": "DataSource"
+    },
+    "OnComplete": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "eventType": {
+          "type": "string"
+        },
+        "parameters": {
+          "$ref": "#/definitions/Parameters"
+        }
+      },
+      "required": [
+        "eventType",
+        "parameters"
+      ],
+      "title": "OnComplete"
+    },
+    "Parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "to": {
+          "type": "string"
+        },
+        "templateName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "templateName"
+      ],
+      "title": "Parameters"
+    },
+    "StepData": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "paymentIdentifier": {
+          "type": "string"
+        },
+        "paymentIdentifierLabel": {
+          "type": "string"
+        },
+        "copayAmountIdentifierLabel": {
+          "type": "string"
+        },
+        "copayAmountIdentifier": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "copayAmountIdentifier",
+        "copayAmountIdentifierLabel",
+        "paymentIdentifier",
+        "paymentIdentifierLabel"
+      ],
+      "title": "StepData"
+    },
+    "Template": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "templateName": {
+          "type": "string"
+        },
+        "templateFriendlyName": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "templateFriendlyName",
+        "templateName"
+      ],
+      "title": "Template"
+    }
+  }
 }
 let callScriptSchema = {
   "$schema": "http://json-schema.org/draft-07/schema",
@@ -861,7 +861,7 @@ let callScriptSchema = {
     "steps": {
       "description": "A list of prompts which are to be played in the specified order",
       "type": "array",
-      "minItems": 1,          
+      "minItems": 1,
       "items": {
         "$ref": "#/definitions/step"
       }
@@ -869,13 +869,13 @@ let callScriptSchema = {
   },
   "definitions": {
     "template": {
-      "type":"object",
+      "type": "object",
       "required": [
         "templateName",
         "templateFriendlyName",
       ],
-      "properties" : {
-        "templateName":{
+      "properties": {
+        "templateName": {
           "type": "string",
           "description": "ID name for a template"
         },
@@ -889,11 +889,11 @@ let callScriptSchema = {
       "type": "object",
       "properties": {
         "==": {
-          "type":"array",
+          "type": "array",
           "description": "temp"
         },
         "!=": {
-          "type":"array",
+          "type": "array",
           "description": "temp"
         }
       }
@@ -906,30 +906,30 @@ let callScriptSchema = {
         "target"
       ],
       "properties": {
-        "sourceType":{
+        "sourceType": {
           "type": "string",
           "description": "the type of the source",
-       },
-       "sourceAddress":{
-        "type":"string",
-        "description": "address of the source",
-        "enum": [
-          "visitNumber",
-          "copayAmount"
-        ]
-       },
-       "target":{
-        "type":"string",
-        "description": "target of the source",
-        "enum": [
-          ":PAYMENT_IDENTIFIER",
-          ":COPAY_AMOUNT"
-        ]
-       }
+        },
+        "sourceAddress": {
+          "type": "string",
+          "description": "address of the source",
+          "enum": [
+            "visitNumber",
+            "copayAmount"
+          ]
+        },
+        "target": {
+          "type": "string",
+          "description": "target of the source",
+          "enum": [
+            ":PAYMENT_IDENTIFIER",
+            ":COPAY_AMOUNT"
+          ]
+        }
       }
     },
     "step": {
-      "type":"object",
+      "type": "object",
       "required": [
         "stepId",
         "stepName",
@@ -939,7 +939,7 @@ let callScriptSchema = {
         "actorId",
         "patientViewable",
       ],
-      "properties" : {
+      "properties": {
         "stepId": {
           "type": "string",
           "description": "nae nae"
@@ -970,7 +970,7 @@ let callScriptSchema = {
         },
         "dataSources": {
           "type": "array",
-          "description": "nae nae",          
+          "description": "nae nae",
           "items": {
             "$ref": "#/definitions/dataSource"
           }
@@ -979,20 +979,20 @@ let callScriptSchema = {
           "type": "object",
           "decription": "nae nae",
           "properties": {
-            "paymentIdentifier":{
+            "paymentIdentifier": {
               "type": "string",
               "description": "nae nae"
             },
-            "paymentIdentifierLabel":{
+            "paymentIdentifierLabel": {
               "type": "string",
               "description": "nae nae"
             },
-            "paymecopayAmountIdentifierLabelntIdentifier":{
+            "paymecopayAmountIdentifierLabelntIdentifier": {
               "type": "string",
               "description": "nae nae"
             },
-            "copayAmountIdentifier":{
-              "type":"string",
+            "copayAmountIdentifier": {
+              "type": "string",
               "description": "nae nae"
             },
           }
@@ -1010,30 +1010,30 @@ let callScriptSchema = {
           "description": "lolw"
         },
         "templates": {
-          "type" : "array",
-          "description": "yeyeyey",      
+          "type": "array",
+          "description": "yeyeyey",
           "items": {
             "$ref": "#/definitions/template"
           }
         },
-        "onComplete":{
+        "onComplete": {
           "type": "object",
           "description": "muwahahaha",
           "properties": {
             "eventType": {
-              "type":"string",
+              "type": "string",
               "description": "muwahahaha",
             },
             "parameters": {
-              "type":"object",
+              "type": "object",
               "description": "muwahahaha",
               "properties": {
                 "to": {
-                  "type":"string",
+                  "type": "string",
                   "description": "muwahahaha",
                 },
                 "templateName": {
-                  "type":"string",
+                  "type": "string",
                   "description": "muwahahaha",
                 },
               }
@@ -1045,11 +1045,11 @@ let callScriptSchema = {
 
   }
 }
-export function setSchema(newSchema){
-    schema = newSchema;
+export function setSchema(newSchema) {
+  schema = newSchema;
 }
-export {schema};
-export const schemas = [ 
-    {name: "Callscript", schema: {callScriptSchema}},
-    {name: "ArrivedWorkflow", schema: {schema}},
+export { schema };
+export const schemas = [
+  { name: "Callscript", schema: { callScriptSchema } },
+  { name: "ArrivedWorkflow", schema: { schema } },
 ]
