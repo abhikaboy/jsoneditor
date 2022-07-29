@@ -23,15 +23,15 @@ export class AppComponent {
   update = 0;
   schemas = schemas;
   logData = () => {
-    console.log(data);
+    // console.log(data);
   }
   isDataEmpty(){
-    console.log("data check");
-    console.log(dataJSON.data)
+    // console.log("data check");
+    // console.log(dataJSON.data)
     return dataJSON.data == {};
   }
   getData() {
-    console.log("data getting");
+    // console.log("data getting");
     return data;
   }
   setData(manualData){
@@ -51,20 +51,19 @@ export class AppComponent {
     this.dialogService.open(InputCardComponent);
   }
   writeChange(event) { 
-    console.log(event.title)
+    console.log(event)
+    console.log(this.selectedItem);
   }
   ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
-        console.log(params); // { orderby: "price" }
+        console.log(params); 
         // @ts-ignore
         // const encoded = btoa(JSON.stringify(data));
         // console.log(encoded)
         let dataFromQuery = JSON.parse(atob(params.data));
         dataJSON["data"] = dataFromQuery;
         console.log(dataFromQuery);
-        // this.orderby = params.orderby;
-        // console.log(this.orderby); // price
       }
     );
   }

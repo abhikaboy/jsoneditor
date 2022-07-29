@@ -72,7 +72,7 @@ export class ArrayInputComponent implements OnInit {
         this.index = 0;
     }
     hasRef(): boolean {
-        console.log(this.ref);
+        // console.log(this.ref);
         return this.ref != undefined;
     }
     hasNoRef(): boolean {
@@ -107,7 +107,7 @@ export class ArrayInputComponent implements OnInit {
         return this.route != undefined;
     }
     isEmpty(){
-        console.log(this.getData());
+        // console.log(this.getData());
         if(this.getData() == undefined) return true;
         return this.getData().length == 0;
     }
@@ -133,7 +133,7 @@ export class ArrayInputComponent implements OnInit {
     getData(): Object[] {
         let currentRoute = this.route + "." + this.getPropertyName(this.prop, this.props);
         const routes = currentRoute.split("."); // establishes levels of nesting 
-        console.log(routes);
+        // console.log(routes);
         // console.log(routes);
         let currentLocation = this.data;
         for (const route of routes) {
@@ -153,22 +153,22 @@ export class ArrayInputComponent implements OnInit {
             // @ts-ignore
             switch (property.type) {
                 case "array":
-                    console.log("adding array")
+                    // console.log("adding array")
                     // @ts-ignore
                     ret[propertyTag] = [];
                     break;
                 case "string":
-                    console.log("adding string")
+                    // console.log("adding string")
                     // @ts-ignore
                     ret[propertyTag] = ""
                     break;
                 case "boolean":
-                    console.log("adding bool")
+                    // console.log("adding bool")
                     // @ts-ignore
                     ret[propertyTag] = false;
                     break;
             }
-            console.log(ret);
+            // console.log(ret);
         }
         if (defy.hasOwnProperty("oneOf")) {
             for (let property in defy.oneOf[0].properties) {
@@ -180,16 +180,16 @@ export class ArrayInputComponent implements OnInit {
             // @ts-ignore
             fill(property, defy.properties);
         }
-        console.log(ret);
+        // console.log(ret);
         return ret;
     }
     capFirstLetter(input: string): string {
         return input.charAt(0).toUpperCase() + input.slice(1);
     }
     appendRef(): void {
-        console.log(dataJSON)
+        // console.log(dataJSON)
         if (this.ref == undefined) {
-            console.log(this.getRef(this.prop,this.props));
+            // console.log(this.getRef(this.prop,this.props));
             // this pulls the ref from "items". If it doesn't have 
             // items property then just make it an empty string
             // TO-DO make it so this checks the data type of the property and add default from there
@@ -203,11 +203,11 @@ export class ArrayInputComponent implements OnInit {
             // has the reference property 
             // @ts-ignore
             this.getDataRef().push(this.getRefToObject(this.ref));
-            console.log("get data ref:");
-            console.log(this.getDataRef())
-            console.log("get ref to object:");
+            // console.log("get data ref:");
+            // console.log(this.getDataRef())
+            // console.log("get ref to object:");
 
-            console.log(this.getRefToObject(this.ref));
+            // console.log(this.getRefToObject(this.ref));
         }
     }
     removeRef(index: number): void {

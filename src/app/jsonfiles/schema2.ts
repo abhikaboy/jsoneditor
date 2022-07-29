@@ -653,7 +653,7 @@
 
 //   }
 // }
-let schema = {
+let userSettingsSchema = {
     "$schema": "http://json-schema.org/draft-06/schema#",
     "$ref": "#/definitions/Welcome",
     "title":"Welcome",
@@ -849,6 +849,66 @@ let schema = {
         }
     }
 }
+let tokenExtendersSchema = {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome",
+    "title":"Welcome",
+    "description": "yoh",
+    "properties":{
+      "welcome": {
+        "type":"object",
+        "$ref": "#/definitions/Welcome",
+      },
+    },
+    "definitions": {
+        "Welcome": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "required": {
+                    "type": "boolean"
+                },
+                "minification": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "minification",
+                "required"
+            ],
+            "title": "Welcome"
+        }
+    }
+}
+
+let schema = {
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome",
+    "title":"Welcome",
+    "description": "yoh",
+    "properties":{
+      "welcome": {
+        "type":"object",
+        "$ref": "#/definitions/Welcome",
+      },
+    },
+    "definitions": {
+        "Welcome": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "Portal2Enabled": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "Portal2Enabled"
+            ],
+            "title": "Welcome"
+        }
+    }
+}
+
 let callScriptSchema = {
   "$schema": "http://json-schema.org/draft-07/schema",
   "title": "Checkin Schema Template",
@@ -1051,5 +1111,6 @@ export function setSchema(newSchema){
 export {schema};
 export const schemas = [ 
     {name: "Callscript", schema: {callScriptSchema}},
+    {name: "UserSettings", schema: {userSettingsSchema}},
     {name: "ArrivedWorkflow", schema: {schema}},
 ]
