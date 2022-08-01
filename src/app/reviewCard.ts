@@ -3,7 +3,6 @@
 import { Component, Directive, OnInit } from '@angular/core';
 import { dataJSON } from './jsonfiles/data2';
 import { schema } from './jsonfiles/schema2';
-let {data} = dataJSON;
 import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
@@ -28,23 +27,21 @@ export class ReviewCardComponent implements OnInit {
       if (!result && --remainingAttempts) {
         setTimeout(attempt);
       } else {
-        // Remember to destroy when you're done!
         pending.destroy();
       }
     };
     attempt();
   }
   save = () => {
-    console.log(data);
-    this.copyText(data);
+    const readable = JSON.stringify(dataJSON);
+    this.copyText(readable);
+    console.log(readable);
   }
   getData() {
-    console.log("data getting");
-    console.log(dataJSON);
+    // console.log(dataJSON);
     return dataJSON.data;
   }
   ngOnInit(): void {
-    // console.log(this.data);
   }
   title = 'jsonTalkSoft';
 }
