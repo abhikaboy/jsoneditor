@@ -36,7 +36,6 @@ export class InputCardComponent implements OnInit {
         dataJSON = JSON.parse(this.dataInput).then(
             this.dialogRef.close(this.dataInput)
         );
-        console.log("wheeew");
         console.log(dataJSON);
     }
     ngOnInit(): void {

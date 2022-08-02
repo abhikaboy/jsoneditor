@@ -1045,6 +1045,97 @@ let callScriptSchema = {
 
   }
 }
+let tokenExtenderSchema = {
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Welcome",
+  "description": "yoh",
+  "properties": {
+    "welcome": {
+      "type": "object",
+      "$ref": "#/definitions/Welcome",
+    },
+  },
+  "definitions": {
+    "Welcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "minification": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "minification",
+        "required"
+      ],
+      "title": "Welcome"
+    }
+  }
+}
+let userSettingsSchema = {
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$ref": "#/definitions/Welcome",
+  "title": "Welcome",
+  "description": "yoh",
+  "properties": {
+    "welcome": {
+      "type": "object",
+      "$ref": "#/definitions/Welcome",
+    },
+  },
+  "definitions": {
+    "Welcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "Portal2Enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "Portal2Enabled"
+      ],
+      "title": "Welcome"
+    }
+  }
+}
+let accountProductSchema = {
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "properties": {
+    "welcome": {
+      "type": "object",
+      "$ref": "#/definitions/Welcome",
+    },
+  },
+  "title": "schema",
+  "description": "test",
+  "definitions": {
+    "Welcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "OnDemand": {
+          "type": "boolean"
+        },
+        "2WayText": {
+          "type": "boolean"
+        },
+        "Reschedule": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "2WayText",
+        "OnDemand",
+        "Reschedule"
+      ],
+      "title": "Welcome"
+    }
+  }
+}
 export function setSchema(newSchema) {
   schema = newSchema;
 }
@@ -1052,4 +1143,7 @@ export { schema };
 export const schemas = [
   { name: "Callscript", schema: { callScriptSchema } },
   { name: "ArrivedWorkflow", schema: { schema } },
+  { name: "TokenExtender", schema: { tokenExtenderSchema } },
+  { name: "userSettings", schema: { userSettingsSchema } },
+  { name: "AccountProductSettings", schema: { accountProductSchema } },
 ]
