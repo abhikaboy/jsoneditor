@@ -38,7 +38,6 @@ export class ReviewCardComponent implements OnInit {
     console.log(readable);
   }
   getData() {
-    // console.log(dataJSON);
     return dataJSON.data;
   }
   ngOnInit(): void {

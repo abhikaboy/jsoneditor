@@ -68,7 +68,7 @@ export class StringInputComponent implements OnInit {
         for (const route of routes) {
             currentLocation = this.dig(route, currentLocation);
         }
-        if(currentLocation == undefined) {
+        if (currentLocation == undefined) {
             // console.log(this.route);
             // console.log(routes);
         }
@@ -100,7 +100,7 @@ export class StringInputComponent implements OnInit {
             this.options = this.props[this.prop].enum;
         }
         // @ts-ignore
-        this.input=this.getData();
+        this.input = this.getData();
     }
     title = 'jsonTalkSoft';
 }
