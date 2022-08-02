@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, OnInit } from '@angular/core';
-import { dataJSON } from './jsonfiles/data2';
+import { dataJSON } from './jsonfiles/data';
 import { NbDialogRef } from '@nebular/theme';
 // let {data} = dataJSON;
 

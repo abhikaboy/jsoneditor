@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { schema } from './jsonfiles/schema2';
+import { schema } from './jsonfiles/schemas';
 import { quicktype, InputData, jsonInputForTargetLanguage, JSONSchemaInput, FetchingJSONSchemaStore } from "quicktype-core";
 @Component({
     selector: 'form',

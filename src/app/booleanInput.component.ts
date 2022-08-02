@@ -2,8 +2,8 @@
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { DartTargetLanguage } from 'quicktype-core';
-import { dataJSON } from './jsonfiles/data2';
-import { schema } from './jsonfiles/schema2';
+import { dataJSON } from './jsonfiles/data';
+import { schema } from './jsonfiles/schemas';
 // let {data} = dataJSON;
 @Component({
     selector: 'boolInput',

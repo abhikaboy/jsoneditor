@@ -2,8 +2,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { dataJSON } from './jsonfiles/data2';
-import { schema } from './jsonfiles/schema2';
+import { dataJSON } from './jsonfiles/data';
+import { schema } from './jsonfiles/schemas';
 import { NbDialogService } from '@nebular/theme';
 import { MoveCardComponent } from './moveCard.component';
 @Component({
