@@ -26,8 +26,7 @@ import { MoveCardComponent } from './moveCard.component';
                                     </div>
                                     <ng-template #showProp>
                                         <h2>prop card</h2>
-
-                                        <prop [props]=generatePropCard() index="index" parents={{this.route}}> </prop>
+                                        <prop [props]=generatePropCard() index="index" parents={{this.getPropParents()}}> </prop>
                                     </ng-template>
                                 </nb-accordion-item-body>
                             </nb-accordion-item>
@@ -45,6 +44,7 @@ import { MoveCardComponent } from './moveCard.component';
                                 </nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <div>
+                                        <p>ref card in an array</p>
                                         <ref [ref]='this.ref' index={{$any(i)}} parents={{this.route}}>
                                         </ref>
                                     </div>
@@ -83,6 +83,11 @@ export class ArrayInputComponent implements OnInit {
         return { 
 
         }
+    }
+    getPropParents(){
+        const ret = this.route + "." + this.name;
+        console.log( ret);
+        return ret;
     }
     getItemTitle(prop: string, object: any): string {
         const ret = this.getRef(prop, object).split("/").pop();
@@ -129,6 +134,39 @@ export class ArrayInputComponent implements OnInit {
     getRef(prop: string, object: any): string {
         if (object[prop as keyof typeof object].hasOwnProperty('items')) return object[prop as keyof typeof object].items.$ref;
         else return "";
+    }
+        writeChange(change: any) {
+        let routes = this.getRouteArray();
+        let temp = dataJSON.data;
+
+        for (let i = 0; i < routes.length - 1; i++) {
+            if (temp.hasOwnProperty(routes[i])) {
+                //@ts-ignore
+                temp = temp[routes[i]];
+            } else {
+                console.log("route does not exist");
+            }
+        }
+        // @ts-ignore
+        temp[routes[routes.length - 1]] = this.input;
+    }
+    getRouteArray() {
+        const preRoutes = this.route.split(".");
+        let routes = [];
+        let indSplit = [];
+        for (let route in preRoutes) {
+            let level = preRoutes[route]
+            if (level.includes('[')) {
+                indSplit = level.split('[');
+                for (let str in indSplit) {
+                    indSplit[str] = indSplit[str].replace(']', '');
+                    routes.push(indSplit[str]);
+                }
+            } else {
+                routes.push(level);
+            }
+        }
+        return routes;
     }
     getData(): Object[] {
         let currentRoute = this.route + "." + this.getPropertyName(this.prop, this.props);
@@ -194,11 +232,14 @@ export class ArrayInputComponent implements OnInit {
             // TO-DO make it so this checks the data type of the property and add default from there
             // console.log(this.xgetData());
             if(this.getRef(this.prop,this.props) != undefined){
+                console.log("1");
                 this.getData().push(this.getRef(this.prop,this.props));
             } else {
+                console.log("2");
                 this.getData().push({});
             }
         } else{ 
+                console.log("3");
             // has the reference property 
             // @ts-ignore
             this.getDataRef().push(this.getRefToObject(this.ref));
@@ -223,7 +264,18 @@ export class ArrayInputComponent implements OnInit {
     
     getDataRef(): Object[] {
         // @ts-ignore
-        return this.data[this.route];
+        console.log(this.data[this.route]);
+                let currentRoute = this.route + "." +this.name;
+        let routes = currentRoute.split("."); // establishes levels of nesting
+        let uniqueRoute = new Set(routes);
+        routes = [...uniqueRoute]
+        // console.log(routes);
+        let currentLocation = this.data;
+        for (const route of routes) {
+            currentLocation = this.dig(route, currentLocation);
+        }
+        // @ts-ignore
+        return currentLocation;
     }
     dig(route: string, input: any) {
         if (!route.includes("[")) {

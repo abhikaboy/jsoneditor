@@ -41,7 +41,6 @@ export class StringInputComponent implements OnInit {
         }
         // @ts-ignore
         temp[routes[routes.length - 1]] = this.input;
-        // console.log(dataJSON.data);
     }
     getRouteArray() {
         const preRoutes = this.route.split(".");

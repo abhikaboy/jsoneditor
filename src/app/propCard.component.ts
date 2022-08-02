@@ -11,7 +11,7 @@ import { DropdownComponent } from './dropdown.component';
     <div *ngIf="propKeys.length == 0">
         <!-- This is a reference array -->
             <div *ngIf='isArray()'>
-            <arrayInput name="list" [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
+            <arrayInput [name]='getNameRef()'  [ref]='this.ref' route={{this.parents}} [prop]='' [props]='props' index={{index}}>
             </arrayInput>
             </div>
             <div *ngIf='isObject()'>
@@ -56,6 +56,11 @@ export class PropComponent implements OnInit {
     propKeys: string[] = [];
     options: string[] = [];
     
+    getNameRef(){
+        console.log(this.parents.split("/").slice(-1) )
+        let [ret] = this.parents.split("/").slice(-1) 
+        return ret
+    }
     getPropfromKeys(prop:any, props:any){
         return props[prop];
     }
