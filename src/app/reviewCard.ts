@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, OnInit } from '@angular/core';
-import { dataJSON } from './jsonfiles/data2';
-import { schema } from './jsonfiles/schema2';
+import { dataJSON } from './jsonfiles/data';
+import { schema } from './jsonfiles/schemas';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
@@ -38,7 +38,6 @@ export class ReviewCardComponent implements OnInit {
     console.log(readable);
   }
   getData() {
-    // console.log(dataJSON);
     return dataJSON.data;
   }
   ngOnInit(): void {

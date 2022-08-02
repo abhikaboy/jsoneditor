@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { dataJSON } from './jsonfiles/data2';
-import { schema } from './jsonfiles/schema2';
+import { dataJSON } from './jsonfiles/data';
+import { schema } from './jsonfiles/schemas';
 import { NbDialogService } from '@nebular/theme';
 
 // @ts-ignore
@@ -9,7 +9,7 @@ import jsv, { JsonSchemaValidator } from 'JSV';
 import { ReviewCardComponent } from './reviewCard';
 import { InputCardComponent } from './inputCard.component';
 import { ActivatedRoute } from '@angular/router';
-import { schemas } from "./jsonfiles/schema2"
+import { schemas } from "./jsonfiles/schemas"
 
 let { data } = dataJSON;
 

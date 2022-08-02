@@ -2,8 +2,8 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { dataJSON } from './jsonfiles/data2';
-import { schema } from './jsonfiles/schema2';
+import { dataJSON } from './jsonfiles/data';
+import { schema } from './jsonfiles/schemas';
 // let {data} = dataJSON;
 @Component({
     selector: 'stringInput',
@@ -67,7 +67,7 @@ export class StringInputComponent implements OnInit {
         for (const route of routes) {
             currentLocation = this.dig(route, currentLocation);
         }
-        if(currentLocation == undefined) {
+        if (currentLocation == undefined) {
             // console.log(this.route);
             // console.log(routes);
         }
@@ -99,7 +99,7 @@ export class StringInputComponent implements OnInit {
             this.options = this.props[this.prop].enum;
         }
         // @ts-ignore
-        this.input=this.getData();
+        this.input = this.getData();
     }
     title = 'jsonTalkSoft';
 }

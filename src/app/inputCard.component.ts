@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
 
 import { Component, Directive, OnInit } from '@angular/core';
-import { dataJSON } from './jsonfiles/data2';
-import { schema } from './jsonfiles/schema2';
+import { dataJSON } from './jsonfiles/data';
 import { NbDialogRef } from '@nebular/theme';
 // let {data} = dataJSON;
 
@@ -30,13 +29,13 @@ export class InputCardComponent implements OnInit {
     }
     logChange(event : Event){
         // @ts-ignore
-        console.log(this.data);
+        this.dataInput = event.value;
     }
     save(){
-        // @ts-ignore
-        dataJSON["data"] = JSON.parse(this.dataInput);
-        this.dialogRef.close(this.dataInput);
-        console.log("wheeew");
+        //@ts-ignore
+        dataJSON = JSON.parse(this.dataInput).then(
+            this.dialogRef.close(this.dataInput)
+        );
         console.log(dataJSON);
     }
     ngOnInit(): void {

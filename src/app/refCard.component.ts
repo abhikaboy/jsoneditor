@@ -2,7 +2,7 @@
 
 import { TokenizeResult } from '@angular/compiler/src/ml_parser/lexer';
 import { Component, Directive, Input, OnInit } from '@angular/core';
-import { schema } from './jsonfiles/schema2';
+import { schema } from './jsonfiles/schemas';
 
 @Component({
   selector: 'ref',
