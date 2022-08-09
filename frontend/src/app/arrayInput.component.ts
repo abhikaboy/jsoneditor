@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 
+//hello world
+
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { dataJSON } from './jsonfiles/data';
 import { schema } from './jsonfiles/schemas';
