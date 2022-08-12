@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { dataJSON } from './jsonfiles/data';
 import { schema } from './jsonfiles/schemas';
 import { NbDialogService } from '@nebular/theme';
+import { HttpClient } from '@angular/common/http';
 
 // @ts-ignore
 import { FormComponent } from './form.component';
@@ -10,7 +11,6 @@ import { ReviewCardComponent } from './reviewCard';
 import { InputCardComponent } from './inputCard.component';
 import { ActivatedRoute } from '@angular/router';
 import { schemas } from "./jsonfiles/schemas"
-import { SocketioService } from './socketio.service';
 
 let { data } = dataJSON;
 
@@ -46,7 +46,7 @@ export class AppComponent {
   validate = () => {
     this.open(false)
   }
-  constructor(private dialogService: NbDialogService, private route: ActivatedRoute, private socketService: SocketioService) {
+  constructor(private dialogService: NbDialogService, private route: ActivatedRoute, public http: HttpClient) {
   }
 
   open(hasScroll: boolean) {
@@ -61,11 +61,7 @@ export class AppComponent {
     console.log(this.selectedItem)
   }
 
-ngOnDestroy() {
-  this.socketService.disconnect();
-}
   ngOnInit() {
-        this.socketService.setupSocketConnection();
 
     for (let i = 0; i < this.schemas.length; i++) {
       this.schemaHash.set(schemas[i].name, schemas[i]);
@@ -74,13 +70,25 @@ ngOnDestroy() {
     console.log(this.schemaHash);
     this.route.queryParams
       .subscribe(params => {
+        console.log("parameters")
         console.log(params); 
         // @ts-ignore
         // const encoded = btoa(JSON.stringify(data));
         // console.log(encoded)
-        let dataFromQuery = JSON.parse(atob(params.data));
-        dataJSON["data"] = dataFromQuery;
-        console.log(dataFromQuery);
+        try{
+          this.http.get('http://localhost:3000/data?id=' + params['id']).subscribe((data) => {
+            // @ts-ignore
+            console.log(data);
+            // @ts-ignore
+            let dataFromQuery = JSON.parse(atob(data.data));
+            dataJSON["data"] = dataFromQuery;
+          })
+        } catch(error) {
+          console.log(error);
+        }
+        // let dataFromQuery = JSON.parse(atob(params.data));
+        // dataJSON["data"] = dataFromQuery;
+        // console.log(dataFromQuery);
       }
       );
   }

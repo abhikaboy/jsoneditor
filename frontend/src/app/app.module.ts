@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   NbThemeModule, 
@@ -36,8 +37,6 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { ReviewCardComponent } from './reviewCard';
 import { MoveCardComponent } from './moveCard.component';
 import { InputCardComponent } from './inputCard.component';
-import { SocketioService } from './socketio.service';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -73,10 +72,9 @@ import { SocketioService } from './socketio.service';
     NbStepperModule,
     NgxJsonViewerModule,
     NbDialogModule.forRoot(),
-
-
+    HttpClientModule,
   ],
-  providers: [SocketioService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
