@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Get started quickly with Express.",
   "sourceType": "module",
+  "type": "module",
   "main": "src/app.js",
   "scripts": {
     "start": "nodemon --exec babel-node src/app.js",

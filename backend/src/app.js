@@ -20,9 +20,6 @@ const DocumentSchema = {
 	},
 	primaryKey: '_id',
 };
-app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
 app.get('/data', (req, res) => {
 	const { id } = req.query;
 	const documents = realm.objects('Document');
@@ -52,6 +49,21 @@ app.post('/data', (req, res) => {
 		});
 	});
 	res.send('success');
+});
+app.get('/polyfills.8320e857ed655cc7.js', (req, res) => {
+	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/polyfills.8320e857ed655cc7.js")
+});
+app.get('/main.bb7d5f6b9eab4dd9.js', (req, res) => {
+	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/main.bb7d5f6b9eab4dd9.js")
+});
+app.get('/runtime.777f0d0da344fedd.js', (req, res) => {
+	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/runtime.777f0d0da344fedd.js")
+});
+app.get('/styles.bef8f1cd7a2c82a5.css', (req, res) => {
+	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/styles.bef8f1cd7a2c82a5.css")
+});
+app.get('/', (req, res) => {
+	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/index.html")
 });
 app.listen(3000, async () => {
 	console.log(`Example app listening on port ${3000}!`);
