@@ -70,25 +70,24 @@ export class AppComponent {
     console.log(this.schemaHash);
     this.route.queryParams
       .subscribe(params => {
-        console.log("parameters")
-        console.log(params); 
-        // @ts-ignore
-        // const encoded = btoa(JSON.stringify(data));
-        // console.log(encoded)
-        try{
-          this.http.get('http://localhost:3000/data?id=' + params['id']).subscribe((data) => {
-            // @ts-ignore
-            console.log(data);
-            // @ts-ignore
-            let dataFromQuery = JSON.parse(atob(data.data));
-            dataJSON["data"] = dataFromQuery;
-          })
-        } catch(error) {
-          console.log(error);
+        if (params['id']) {
+          console.log("parameters")
+          console.log(params); 
+          // @ts-ignore
+          // const encoded = btoa(JSON.stringify(data));
+          // console.log(encoded)
+          try{
+            this.http.get('http://localhost:3000/data?id=' + params['id']).subscribe((data) => {
+              // @ts-ignore
+              console.log(data);
+              // @ts-ignore
+              let dataFromQuery = JSON.parse(atob(data.data));
+              dataJSON["data"] = dataFromQuery;
+            })
+          } catch(error) {
+            console.log(error);
+          }
         }
-        // let dataFromQuery = JSON.parse(atob(params.data));
-        // dataJSON["data"] = dataFromQuery;
-        // console.log(dataFromQuery);
       }
       );
   }

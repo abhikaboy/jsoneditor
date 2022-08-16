@@ -40,13 +40,20 @@ app.post('/data', (req, res) => {
 	console.log(id);
 	console.log(data);
 	console.log(schema);
-	// write data to realm with id tag
+	const [matchingDocument] = realm.objects('Document').filtered(`_id = '${id}'`);
+		// write data to realm with id tag
+	console.log(matchingDocument);	
 	realm.write(() => {
-		realm.create('Document', {
-			_id: id,
-			data: data,
-			schema: schema,
-		});
+		if (matchingDocument === undefined) {
+			realm.create('Document', {
+				_id: id,
+				data: data,
+				schema: schema,
+			});
+		} else {
+			matchingDocument.data = data;
+			matchingDocument.schema = schema;
+		}
 	});
 	res.send('success');
 });
