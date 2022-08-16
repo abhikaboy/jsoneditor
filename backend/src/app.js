@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static(process.cwd()+"/frontend/dist/json-talk-soft/"));
 let realm;
 const DocumentSchema = {
 	name: 'Document',
@@ -49,18 +49,6 @@ app.post('/data', (req, res) => {
 		});
 	});
 	res.send('success');
-});
-app.get('/polyfills.8320e857ed655cc7.js', (req, res) => {
-	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/polyfills.8320e857ed655cc7.js")
-});
-app.get('/main.bb7d5f6b9eab4dd9.js', (req, res) => {
-	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/main.bb7d5f6b9eab4dd9.js")
-});
-app.get('/runtime.777f0d0da344fedd.js', (req, res) => {
-	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/runtime.777f0d0da344fedd.js")
-});
-app.get('/styles.bef8f1cd7a2c82a5.css', (req, res) => {
-	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/styles.bef8f1cd7a2c82a5.css")
 });
 app.get('/', (req, res) => {
 	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/index.html")
