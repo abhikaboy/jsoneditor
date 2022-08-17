@@ -5,7 +5,7 @@ import Realm from 'realm';
 
 const app = express();
 
-// Apply middlware for CORS and JSON endpoing
+// Apply middlware for CORS and JSON endpoint
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,9 +20,9 @@ const DocumentSchema = {
 	},
 	primaryKey: '_id',
 };
-app.get('/', (req, res) => {
-	res.send('Hello World!');
-});
+// app.get('/', (req, res) => {
+// 	res.send('Hello World!');
+// });
 app.get('/data', (req, res) => {
 	const { id } = req.query;
 	const documents = realm.objects('Document');
