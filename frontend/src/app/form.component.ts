@@ -2,7 +2,10 @@
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { schema } from './jsonfiles/schemas';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import { quicktype, InputData, jsonInputForTargetLanguage, JSONSchemaInput, FetchingJSONSchemaStore } from "quicktype-core";
+import { dataJSON } from './jsonfiles/data';
 @Component({
     selector: 'form',
     template: `
@@ -46,11 +49,11 @@ export class FormComponent implements OnInit {
         }
     }
     ngOnInit(): void {
-        
+
     }
     itemMagic(item) {
         let ret = {}
-        ret[item.name] = {...item};
+        ret[item.name] = { ...item };
         return ret;
     }
     refresh() {

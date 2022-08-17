@@ -5,7 +5,7 @@ import Realm from 'realm';
 
 const app = express();
 
-// Apply middlware for CORS and JSON endpoing
+// Apply middlware for CORS and JSON endpoint
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

@@ -26,7 +26,6 @@ export class AppComponent {
   selectedItem = {};
   update = 0;
   schemas = schemas;
-  schemaHash = new Map();
 
   logData = () => {
     // console.log(data);
@@ -55,38 +54,27 @@ export class AppComponent {
   openInput() {
     this.dialogService.open(InputCardComponent);
   }
-  schemaChange(event) {
-    this.selectedItem = event;
-    this.selectedSchema = this.schemaHash.get(event);
-    console.log(this.selectedItem)
-  }
 
   ngOnInit() {
-
-    for (let i = 0; i < this.schemas.length; i++) {
-      this.schemaHash.set(schemas[i].name, schemas[i]);
-      console.log(this.schemaHash.get(schemas[i].name));
-    }
-    console.log(this.schemaHash);
     this.route.queryParams
       .subscribe(params => {
-        if (params['id']) {
-          console.log("parameters")
-          console.log(params); 
-          // @ts-ignore
-          // const encoded = btoa(JSON.stringify(data));
-          // console.log(encoded)
-          try{
-            this.http.get('http://localhost:3000/data?id=' + params['id']).subscribe((data) => {
-              // @ts-ignore
-              console.log(data);
-              // @ts-ignore
-              let dataFromQuery = JSON.parse(atob(data.data));
-              dataJSON["data"] = dataFromQuery;
-            })
-          } catch(error) {
-            console.log(error);
-          }
+        console.log("parameters")
+        console.log(params);
+
+        try {
+          this.http.get('http://localhost:3000/data?id=' + '7'/*params['id']*/).subscribe((data) => {
+            // @ts-ignore
+            console.log(data);
+            // @ts-ignore
+            let dataFromQuery = JSON.parse(atob(data.data));
+            dataJSON["data"] = dataFromQuery;
+            //@ts-ignore
+            let schemaFromQuery = JSON.parse(atob(data.schema));
+            this.selectedSchema = schemaFromQuery
+            console.log(this.selectedSchema);
+          })
+        } catch (error) {
+          console.log(error);
         }
       }
       );
