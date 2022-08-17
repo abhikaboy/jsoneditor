@@ -76,9 +76,6 @@ export class AppComponent {
         } catch (error) {
           console.log(error);
         }
-        // let dataFromQuery = JSON.parse(atob(params.data));
-        // dataJSON["data"] = dataFromQuery;
-        // console.log(dataFromQuery);
       }
       );
   }

@@ -9,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(express.static(process.cwd()+"/frontend/dist/json-talk-soft/"));
 let realm;
 const DocumentSchema = {
 	name: 'Document',
@@ -20,9 +20,6 @@ const DocumentSchema = {
 	},
 	primaryKey: '_id',
 };
-// app.get('/', (req, res) => {
-// 	res.send('Hello World!');
-// });
 app.get('/data', (req, res) => {
 	const { id } = req.query;
 	const documents = realm.objects('Document');
@@ -43,15 +40,25 @@ app.post('/data', (req, res) => {
 	console.log(id);
 	console.log(data);
 	console.log(schema);
-	// write data to realm with id tag
+	const [matchingDocument] = realm.objects('Document').filtered(`_id = '${id}'`);
+		// write data to realm with id tag
+	console.log(matchingDocument);	
 	realm.write(() => {
-		realm.create('Document', {
-			_id: id,
-			data: data,
-			schema: schema,
-		});
+		if (matchingDocument === undefined) {
+			realm.create('Document', {
+				_id: id,
+				data: data,
+				schema: schema,
+			});
+		} else {
+			matchingDocument.data = data;
+			matchingDocument.schema = schema;
+		}
 	});
 	res.send('success');
+});
+app.get('/', (req, res) => {
+	res.sendFile(process.cwd()+"/frontend/dist/json-talk-soft/index.html")
 });
 app.listen(3000, async () => {
 	console.log(`Example app listening on port ${3000}!`);
