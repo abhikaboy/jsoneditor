@@ -4,11 +4,6 @@
     <nb-card>
       <nb-card-body>
         <!-- <div *ngIf="isDataEmpty()"> -->
-        <nb-select placeholder="Schema Selector" [(selected)]="selectedItem"
-          (selectedChange)="this.schemaChange($event)">
-          <nb-select-label>{{ selectedItem }}</nb-select-label>
-          <nb-option *ngFor="let schema of this.schemas" value={{schema.name}}>{{schema.name}}</nb-option>
-        </nb-select>
         <button nbButton status="info" ghost (click)="openInput()">Manually Input Data</button>
         <!-- </div> -->
         <form [changeForce]="update"></form>
