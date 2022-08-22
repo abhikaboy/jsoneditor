@@ -45,13 +45,13 @@ app.post('/data', (req, res) => {
 	console.log(schema);
 	// write data to realm with id tag
 	realm.write(() => {
-		realm.create('Document', {
+		const document = realm.create('Document', {
 			_id: id,
 			data: data,
 			schema: schema,
 		});
+		res.send(document._id);
 	});
-	res.send('success');
 });
 app.listen(3000, async () => {
 	console.log(`Example app listening on port ${3000}!`);

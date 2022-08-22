@@ -23,17 +23,14 @@ import { MoveCardComponent } from './moveCard.component';
                                 </nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <div *ngIf='hasItems(prop,props); else showProp'>
-                                        <h1>THIS IS A REFERENCE</h1>
                                         <ref [ref]='getRef(prop,props)'  parents={{getPath(prop,ind)}}> </ref>
                                     </div>
                                     <ng-template #showProp>
-                                        <h2>prop card</h2>
                                         <prop [props]=generatePropCard() index="index" parents={{this.getPropParents()}}> </prop>
                                     </ng-template>
                                 </nb-accordion-item-body>
                             </nb-accordion-item>
                                 <nb-accordion-item *ngIf='isEmpty()' >
-                                        <h1>outsid2e</h1>
                                     <nb-accordion-item-header>Empty</nb-accordion-item-header>
                             </nb-accordion-item>
                     </nb-accordion>
@@ -46,7 +43,6 @@ import { MoveCardComponent } from './moveCard.component';
                                 </nb-accordion-item-header>
                                 <nb-accordion-item-body>
                                     <div>
-                                        <p>ref card in an array</p>
                                         <ref [ref]='this.ref' index={{$any(i)}} parents={{this.getRefParents()}}>
                                         </ref>
                                     </div>

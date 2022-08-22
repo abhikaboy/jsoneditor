@@ -1,197 +1,209 @@
+// let schema = {
+//   "$schema": "http://json-schema.org/draft-06/schema#",
+//   "$ref": "#/definitions/Welcome",
+//   "title": "Welcome",
+//   "description": "yoh",
+//   "properties": {
+//     "steps": {
+//       "type": "array",
+//       "$ref": "#/definitions/Welcome",
+//     }
+//   },
+//   "definitions": {
+//     "Welcome": {
+//       "type": "object",
+//       "additionalProperties": false,
+//       "properties": {
+//         "steps": {
+//           "type": "array",
+//           "items": {
+//             "$ref": "#/definitions/Step"
+//           }
+//         }
+//       },
+//       "required": [
+//         "steps"
+//       ],
+//       "title": "Welcome"
+//     },
+//     "Step": {
+//       "type": "object",
+//       "additionalProperties": false,
+//       "properties": {
+//         "stepId": {
+//           "type": "string"
+//         },
+//         "stepName": {
+//           "type": "string"
+//         },
+//         "modalType": {
+//           "type": "string"
+//         },
+//         "toInitiateFriendlyName": {
+//           "type": "string"
+//         },
+//         "completedFriendlyName": {
+//           "type": "string"
+//         },
+//         "actorId": {
+//           "type": "string"
+//         },
+//         "patientViewable": {
+//           "type": "boolean"
+//         },
+//         "onComplete": {
+//           "$ref": "#/definitions/OnComplete"
+//         },
+//         "patientViewbleAction": {
+//           "type": "string"
+//         },
+//         "setExpectedSeenMinutesFromNow": {
+//           "type": "integer"
+//         },
+//         "templates": {
+//           "type": "array",
+//           "items": {
+//             "$ref": "#/definitions/Template"
+//           }
+//         },
+//         "dataSources": {
+//           "type": "array",
+//           "items": {
+//             "$ref": "#/definitions/DataSource"
+//           }
+//         },
+//         "stepData": {
+//           "$ref": "#/definitions/StepData"
+//         },
+//         "allowDelete": {
+//           "type": "boolean"
+//         },
+//         "allowManualCompletion": {
+//           "type": "boolean"
+//         },
+//         "buttonText": {
+//           "type": "string"
+//         }
+//       },
+//       "required": [
+//         "actorId",
+//         "completedFriendlyName",
+//         "modalType",
+//         "patientViewable",
+//         "stepId",
+//         "stepName",
+//         "toInitiateFriendlyName"
+//       ],
+//       "title": "Step"
+//     },
+//     "DataSource": {
+//       "type": "object",
+//       "additionalProperties": false,
+//       "properties": {
+//         "sourceType": {
+//           "type": "string"
+//         },
+//         "sourceAddress": {
+//           "type": "string"
+//         },
+//         "target": {
+//           "type": "string"
+//         }
+//       },
+//       "required": [
+//         "sourceAddress",
+//         "sourceType",
+//         "target"
+//       ],
+//       "title": "DataSource"
+//     },
+//     "OnComplete": {
+//       "type": "object",
+//       "additionalProperties": false,
+//       "properties": {
+//         "eventType": {
+//           "type": "string"
+//         },
+//         "parameters": {
+//           "$ref": "#/definitions/Parameters"
+//         }
+//       },
+//       "required": [
+//         "eventType",
+//         "parameters"
+//       ],
+//       "title": "OnComplete"
+//     },
+//     "Parameters": {
+//       "type": "object",
+//       "additionalProperties": false,
+//       "properties": {
+//         "to": {
+//           "type": "string"
+//         },
+//         "templateName": {
+//           "type": "string"
+//         }
+//       },
+//       "required": [
+//         "templateName"
+//       ],
+//       "title": "Parameters"
+//     },
+//     "StepData": {
+//       "type": "object",
+//       "additionalProperties": false,
+//       "properties": {
+//         "paymentIdentifier": {
+//           "type": "string"
+//         },
+//         "paymentIdentifierLabel": {
+//           "type": "string"
+//         },
+//         "copayAmountIdentifierLabel": {
+//           "type": "string"
+//         },
+//         "copayAmountIdentifier": {
+//           "type": "string"
+//         }
+//       },
+//       "required": [
+//         "copayAmountIdentifier",
+//         "copayAmountIdentifierLabel",
+//         "paymentIdentifier",
+//         "paymentIdentifierLabel"
+//       ],
+//       "title": "StepData"
+//     },
+//     "Template": {
+//       "type": "object",
+//       "additionalProperties": false,
+//       "properties": {
+//         "templateName": {
+//           "type": "string"
+//         },
+//         "templateFriendlyName": {
+//           "type": "string"
+//         }
+//       },
+//       "required": [
+//         "templateFriendlyName",
+//         "templateName"
+//       ],
+//       "title": "Template"
+//     }
+//   }
+// }
 let schema = {
-  "$schema": "http://json-schema.org/draft-06/schema#",
-  "$ref": "#/definitions/Welcome",
-  "title": "Welcome",
+    "title": "Welcome",
   "description": "yoh",
   "properties": {
-    "steps": {
-      "type": "array",
-      "$ref": "#/definitions/Welcome",
+    "empty": {
+      "type": "string",
+      "$ref": "#/definitions/Empty",
     }
   },
   "definitions": {
-    "Welcome": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "steps": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Step"
-          }
-        }
-      },
-      "required": [
-        "steps"
-      ],
-      "title": "Welcome"
-    },
-    "Step": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "stepId": {
-          "type": "string"
-        },
-        "stepName": {
-          "type": "string"
-        },
-        "modalType": {
-          "type": "string"
-        },
-        "toInitiateFriendlyName": {
-          "type": "string"
-        },
-        "completedFriendlyName": {
-          "type": "string"
-        },
-        "actorId": {
-          "type": "string"
-        },
-        "patientViewable": {
-          "type": "boolean"
-        },
-        "onComplete": {
-          "$ref": "#/definitions/OnComplete"
-        },
-        "patientViewbleAction": {
-          "type": "string"
-        },
-        "setExpectedSeenMinutesFromNow": {
-          "type": "integer"
-        },
-        "templates": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Template"
-          }
-        },
-        "dataSources": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DataSource"
-          }
-        },
-        "stepData": {
-          "$ref": "#/definitions/StepData"
-        },
-        "allowDelete": {
-          "type": "boolean"
-        },
-        "allowManualCompletion": {
-          "type": "boolean"
-        },
-        "buttonText": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "actorId",
-        "completedFriendlyName",
-        "modalType",
-        "patientViewable",
-        "stepId",
-        "stepName",
-        "toInitiateFriendlyName"
-      ],
-      "title": "Step"
-    },
-    "DataSource": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "sourceType": {
-          "type": "string"
-        },
-        "sourceAddress": {
-          "type": "string"
-        },
-        "target": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "sourceAddress",
-        "sourceType",
-        "target"
-      ],
-      "title": "DataSource"
-    },
-    "OnComplete": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "eventType": {
-          "type": "string"
-        },
-        "parameters": {
-          "$ref": "#/definitions/Parameters"
-        }
-      },
-      "required": [
-        "eventType",
-        "parameters"
-      ],
-      "title": "OnComplete"
-    },
-    "Parameters": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "to": {
-          "type": "string"
-        },
-        "templateName": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "templateName"
-      ],
-      "title": "Parameters"
-    },
-    "StepData": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "paymentIdentifier": {
-          "type": "string"
-        },
-        "paymentIdentifierLabel": {
-          "type": "string"
-        },
-        "copayAmountIdentifierLabel": {
-          "type": "string"
-        },
-        "copayAmountIdentifier": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "copayAmountIdentifier",
-        "copayAmountIdentifierLabel",
-        "paymentIdentifier",
-        "paymentIdentifierLabel"
-      ],
-      "title": "StepData"
-    },
-    "Template": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "templateName": {
-          "type": "string"
-        },
-        "templateFriendlyName": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "templateFriendlyName",
-        "templateName"
-      ],
-      "title": "Template"
-    }
   }
 }
 let callScriptSchema = {

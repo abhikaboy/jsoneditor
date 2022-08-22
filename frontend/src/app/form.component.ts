@@ -3,6 +3,7 @@
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { schema } from './jsonfiles/schemas';
 import { quicktype, InputData, jsonInputForTargetLanguage, JSONSchemaInput, FetchingJSONSchemaStore } from "quicktype-core";
+import { dataJSON } from './jsonfiles/data';
 @Component({
     selector: 'form',
     template: `
@@ -46,7 +47,7 @@ export class FormComponent implements OnInit {
         }
     }
     ngOnInit(): void {
-        
+        setTimeout(this.refresh,2000);
     }
     itemMagic(item) {
         let ret = {}
@@ -56,10 +57,14 @@ export class FormComponent implements OnInit {
     refresh() {
         this.changeForce++;
         console.log("super good");
+        console.log(schema);
+        console.log(dataJSON.data)
+        // @ts-ignore
         this.data = [];
         for (const property in schema.properties) {
-            this.data.push({ ...schema.properties[property as keyof typeof schema.properties], name: property });
+            this.data.push({ ...schema.properties[property as keyof typeof schema.properties], name: property })
         }
+        console.log(this.data)
     }
     title = 'jsonTalkSoft';
 }

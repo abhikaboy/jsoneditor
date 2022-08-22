@@ -1,0 +1,34 @@
+{
+    "intake_form":
+    {
+        "apiKey": "xxxxxxxxxxxxxxxxxxxxxxx",
+        "bearerValue": "1111",
+        "environment": "dev",
+        "intakeOption": true,
+        "checkinOption": false
+    },
+    "convapiOrgId": "62acb9684845db6680231ebe",
+    "convapiOrgTags":
+    [
+        {
+            "name": "TalksoftClientId",
+            "value": "700720"
+        }
+    ],
+    "convapiOrgSecret": "xxxxxxxxxxxxxxxxxxxxxxxx",
+    "payment_config_json":
+    {
+        "appName": "Consumer",
+        "userName": "e4665734-3685-43f2-99f3-09a41b16706b",
+        "clientPass": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        "environment": "stage",
+        "orgSiteName": "arrived",
+        "connectionId": "4b51b497-5bfa-4a7d-865e-21fa59d3ea38",
+        "paymentProvider": "PersonaPay",
+        "paymentSystemClientId": "2808"
+    },
+    "message_sending_integration":
+    [
+        "PatientAccess"
+    ]
+}

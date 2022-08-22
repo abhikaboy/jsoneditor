@@ -10,7 +10,8 @@ import jsv, { JsonSchemaValidator } from 'JSV';
 import { ReviewCardComponent } from './reviewCard';
 import { InputCardComponent } from './inputCard.component';
 import { ActivatedRoute } from '@angular/router';
-import { schemas } from "./jsonfiles/schemas"
+import { schemas, setSchema } from "./jsonfiles/schemas"
+// import { setSchema } from './jsonfiles/schema2';
 
 let { data } = dataJSON;
 
@@ -81,7 +82,14 @@ export class AppComponent {
             console.log(data);
             // @ts-ignore
             let dataFromQuery = JSON.parse(atob(data.data));
-            dataJSON["data"] = dataFromQuery;
+            dataJSON["data"] = dataFromQuery.data;
+            console.log("data changed")
+            
+            // @ts-ignore
+            let schemaFromQuery = JSON.parse(atob(data.schema));
+            setSchema(schemaFromQuery);
+            console.log("schema changed")
+
           })
         } catch(error) {
           console.log(error);
