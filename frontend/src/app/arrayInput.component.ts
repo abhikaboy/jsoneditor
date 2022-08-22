@@ -5,7 +5,7 @@
 
 import { Component, Directive, Input, OnInit } from '@angular/core';
 import { dataJSON } from './jsonfiles/data';
-import { schema } from './jsonfiles/schemas';
+import { schema} from './jsonfiles/schemas';
 import { NbDialogService } from '@nebular/theme';
 import { MoveCardComponent } from './moveCard.component';
 @Component({
